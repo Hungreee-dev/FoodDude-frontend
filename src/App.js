@@ -1,54 +1,73 @@
-import React from 'react';
-import {Switch, Route} from 'react-router-dom';
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import Index from './components/Index';
-import Offers from './components/Offers';
-import MyAccount from './components/MyAccount';
-import List from './components/List';
-import NotFound from './components/NotFound';
-import Thanks from './components/Thanks';
-import Extra from './components/Extra';
-import Login from './components/Login';
-import Register from './components/Register';
-import TrackOrder from './components/TrackOrder';
-import Invoice from './components/Invoice';
-import Checkout from './components/Checkout';
-import Detail from './components/Detail';
+import React,{ Suspense, lazy } from 'react';
+import {Switch, Route,Router} from 'react-router-dom';
+import { createBrowserHistory } from "history";
+
+//Context
+import {AuthProvider} from './contexts/AuthContext';
+
+
+
+//styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'react-select2-wrapper/css/select2.css';
 import './App.css';
 
-class App extends React.Component  {
-  render() {
+
+//Routes
+const Header = lazy(()=>import('./components/common/Header')) ;
+const Footer = lazy(()=>import('./components/common/Footer')) ;
+const Index = lazy(()=>import('./components/Index')) ;
+const Offers = lazy(()=>import('./components/Offers'));
+const MyAccount = lazy(()=>import('./components/MyAccount'));
+const List = lazy(()=>import('./components/List'));
+const NotFound = lazy(()=>import('./components/NotFound'));
+const Thanks = lazy(()=>import('./components/Thanks'));
+const Extra = lazy(()=>import('./components/Extra'));
+const Login = lazy(()=>import('./components/Login'));
+const Register = lazy(()=>import('./components/Register'));
+const TrackOrder = lazy(()=>import('./components/TrackOrder'));
+const Invoice = lazy(()=>import('./components/Invoice'));
+const Checkout = lazy(()=>import('./components/Checkout'));
+const Detail = lazy(()=>import('./components/Detail'));
+
+
+function App(props)  {
+  var hist = createBrowserHistory();
     return (
       <>
+      <Router history={hist}>
+          <Suspense fallback={<div>Loading...</div>}>
           {
-            (this.props.location.pathname!=='/login' && this.props.location.pathname!=='/register') ? <Header/>:''
+            (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Header/>:''
           }
-          <Switch>
-            <Route path="/" exact component={Index} />
-            <Route path="/offers" exact component={Offers} />
-            <Route path="/listing" exact component={List} />
-            <Route path="/myaccount" component={MyAccount} />
-            <Route path="/404" exact component={NotFound} />
-            <Route path="/extra" exact component={Extra} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/register" exact component={Register} />
-            <Route path="/track-order" exact component={TrackOrder} />
-            <Route path="/invoice" exact component={Invoice} />
-            <Route path="/checkout" exact component={Checkout} />
-            <Route path="/thanks" exact component={Thanks} />
-            <Route path="/detail" exact component={Detail} />
-            <Route exact component={NotFound} />
-          </Switch>
+            <AuthProvider>
+              <Switch>
+                <Route path="/" exact component={Index} />
+                <Route path="/offers" exact component={Offers} />
+                <Route path="/listing" exact component={List} />
+                <Route path="/myaccount" component={MyAccount} />
+                <Route path="/404" exact component={NotFound} />
+                <Route path="/extra" exact component={Extra} />
+                <Route path="/login" exact component={Login} />
+                <Route path="/register" exact component={Register} />
+                <Route path="/track-order" exact component={TrackOrder} />
+                <Route path="/invoice" exact component={Invoice} />
+                <Route path="/checkout" exact component={Checkout} />
+                <Route path="/thanks" exact component={Thanks} />
+                <Route path="/detail" exact component={Detail} />
+                <Route exact component={NotFound} />
+              </Switch>
+            </AuthProvider>
+          
           {
-            (this.props.location.pathname!=='/login' && this.props.location.pathname!=='/register') ? <Footer/>:''
+            (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Footer/>:''
           }
+          </Suspense>
+          </Router>
       </>
     );
   }
-}
+
 
 export default App;

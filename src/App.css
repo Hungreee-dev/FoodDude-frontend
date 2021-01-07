@@ -111,7 +111,7 @@ img{
     min-height: 100vh;
 }
 .bg-image {
-    background-image: url('/img/login-bg.png');
+    /* background-image: url('/img/login-bg.png'); */
     background-size: cover;
     background-position: center;
 }
@@ -372,7 +372,7 @@ img{
     border-color: #f32129 !important;
 }
 .btn-outline-danger {
-    color: #f32129 !important;
+    color: #ffffff !important;
     border-color: #f32129 !important;
 }
 .btn-outline-danger:hover {
@@ -392,7 +392,7 @@ img{
     border-color: #ff3008 !important;
 }
 .btn-outline-primary {
-    color: #ff3008 !important;
+    color: #ffffff !important;
     border-color: #ff3008 !important;
 }
 .btn-outline-primary:hover,
