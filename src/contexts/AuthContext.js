@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth,googleProvider} from '../firebase'
+import {useHistory} from 'react-router-dom'
+
 
 const AuthContext = React.createContext()
 
@@ -10,7 +12,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
-
+  const history = useHistory()
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password)
   }
@@ -38,6 +40,7 @@ export function AuthProvider({ children }) {
  const signInWithGoogle = () => {
   auth.signInWithPopup(googleProvider).then((res) => {
     setCurrentUser(res.user)
+    history.push('/')
   }).catch((error) => {
     console.log(error.message)
   })

@@ -57,6 +57,9 @@ class MyAccount extends React.Component {
                           <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/addresses"><i className="icofont-location-pin"></i> Addresses</NavLink>
                           </li>
+                          <li className="nav-item">
+                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/logout"><i className="icofont-location-pin"></i> Logout</NavLink>
+                          </li>
                        </ul>
                     </div>
                  </Col>

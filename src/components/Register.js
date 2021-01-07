@@ -32,7 +32,7 @@ async function handleSubmit(e) {
       setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
       history.push("/")
-    } catch {
+    } catch(err) {
       setError("Failed to create an account")
     }
 

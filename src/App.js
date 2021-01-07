@@ -4,7 +4,7 @@ import { createBrowserHistory } from "history";
 
 //Context
 import {AuthProvider} from './contexts/AuthContext';
-
+import PrivateRoute from './PrivateRoute';
 
 
 //styles
@@ -38,31 +38,33 @@ function App(props)  {
       <>
       <Router history={hist}>
           <Suspense fallback={<div>Loading...</div>}>
+          <AuthProvider>
           {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Header/>:''
           }
-            <AuthProvider>
+            
               <Switch>
                 <Route path="/" exact component={Index} />
-                <Route path="/offers" exact component={Offers} />
+                <PrivateRoute path="/offers" exact component={Offers} />
                 <Route path="/listing" exact component={List} />
-                <Route path="/myaccount" component={MyAccount} />
+                <PrivateRoute path="/myaccount" component={MyAccount} />
                 <Route path="/404" exact component={NotFound} />
                 <Route path="/extra" exact component={Extra} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/register" exact component={Register} />
                 <Route path="/track-order" exact component={TrackOrder} />
                 <Route path="/invoice" exact component={Invoice} />
-                <Route path="/checkout" exact component={Checkout} />
-                <Route path="/thanks" exact component={Thanks} />
+                <PrivateRoute path="/checkout" exact component={Checkout} />
+                <PrivateRoute path="/thanks" exact component={Thanks} />
                 <Route path="/detail" exact component={Detail} />
                 <Route exact component={NotFound} />
               </Switch>
-            </AuthProvider>
+           
           
           {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Footer/>:''
           }
+           </AuthProvider>
           </Suspense>
           </Router>
       </>
