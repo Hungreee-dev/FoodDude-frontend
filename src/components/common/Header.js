@@ -5,11 +5,15 @@ import DropDownTitle from '../common/DropDownTitle';
 import CartDropdownHeader from '../cart/CartDropdownHeader';
 import CartDropdownItem from '../cart/CartDropdownItem';
 import Icofont from 'react-icofont';
+import SignOutModal from '../modals/SignOutModal'
+
+import {useAuth} from '../../contexts/AuthContext';
 
 function Header (props) {
+  const { currentUser } = useAuth();	
   const node = React.useRef()
   const  [isNavExpanded,setNavExpanded] = React.useState(false)
-	   
+  const [showSignOutModal,setSignOutModal]=React.useState(false)	   
     const setIsNavExpanded = () => {
      setNavExpanded(true) 
     }
@@ -39,26 +43,36 @@ function Header (props) {
 	// componentWillUnmount() {
 	//     document.removeEventListener('click', this.handleClick, false);
 	// }
+
+	const hideSignOutModal=()=>{
+       setSignOutModal(false)
+	}
 	
     	return (
     		<div ref={node}>
 			<Navbar onToggle={setIsNavExpanded}
            expanded={isNavExpanded} bg='light' expand='lg' className="navbar-light osahan-nav shadow-lg">
 			   <Container>
-			      <Navbar.Brand to="/"><Image src="/img/logo.png" alt='' /></Navbar.Brand>
+			      <Navbar.Brand to="/"><Image src="/img/logo-fd-round.png" alt='' height='60px' /></Navbar.Brand>
 			      <Navbar.Toggle/>
 			      <Navbar.Collapse id="navbarNavDropdown">
 			         <Nav activeKey={0} className="ml-auto" onSelect={closeMenu}>
 						<Nav.Link eventKey={0} as={NavLink} activeclassname="active" exact to="/">
 			               Home <span className="sr-only">(current)</span>
 			            </Nav.Link>
-			            <Nav.Link eventKey={1} as={NavLink} activeclassname="active" to="/offers">
+						{ //This is the Offers Nav-Link-- Commented Out
+						/* <Nav.Link eventKey={1} as={NavLink} activeclassname="active" to="/offers">
              				<Icofont icon='sale-discount'/> Offers <Badge variant="danger">New</Badge>
-			            </Nav.Link>
+			            </Nav.Link> */}
+						{!currentUser?<Nav.Link eventKey={2} as={NavLink} activeclassname="active" to="/login">
+							<Icofont icon='login'/> Sign In
+						</Nav.Link>:null}
+						
 			            <NavDropdown title="Restaurants" alignRight className="border-0">
-			            	<NavDropdown.Item eventKey={2.1} as={NavLink} activeclassname="active" to="/listing">Listing</NavDropdown.Item>
+							{ // This is the Listing Nav-Link Commented out
+							/* <NavDropdown.Item eventKey={2.1} as={NavLink} activeclassname="active" to="/listing">Listing</NavDropdown.Item> */}
 			            	<NavDropdown.Item eventKey={2.2} as={NavLink} activeclassname="active" to="/detail">Detail + Cart</NavDropdown.Item>
-			            	<NavDropdown.Item eventKey={2.3} as={NavLink} activeclassname="active" to="/checkout">Checkout</NavDropdown.Item>
+			            	{currentUser?<NavDropdown.Item eventKey={2.3} as={NavLink} activeclassname="active" to="/checkout">Checkout</NavDropdown.Item>:null}
 			            </NavDropdown>
 			            <NavDropdown title="Pages" alignRight>
 			            	<NavDropdown.Item eventKey={3.1} as={NavLink} activeclassname="active" to="/track-order">Track Order</NavDropdown.Item>
@@ -69,24 +83,24 @@ function Header (props) {
 			            	<NavDropdown.Item eventKey={3.6} as={NavLink} activeclassname="active" to="/extra">Extra</NavDropdown.Item>
 
 			            </NavDropdown>
-			            <NavDropdown alignRight
-			            	title={
-			            		<DropDownTitle 
-			            			className='d-inline-block' 
-			            			image="img/user/4.png"
-			            			imageAlt='user'
-			            			imageClass="nav-osahan-pic rounded-pill"
-			            			title='My Account'
-			            		/>
-			            	}
-			            >
+				{	currentUser?	<NavDropdown alignRight
+							title={
+								<DropDownTitle 
+									className='d-inline-block' 
+									image="img/user/4.png"
+									imageAlt='user'
+									imageClass="nav-osahan-pic rounded-pill"
+									title='My Account'
+								/>
+							}
+						>
 							<NavDropdown.Item eventKey={4.1} as={NavLink} activeclassname="active" to="/myaccount/orders"><Icofont icon='food-cart'/> Orders</NavDropdown.Item>
 							<NavDropdown.Item eventKey={4.2} as={NavLink} activeclassname="active" to="/myaccount/offers"><Icofont icon='sale-discount'/> Offers</NavDropdown.Item>
 							<NavDropdown.Item eventKey={4.3} as={NavLink} activeclassname="active" to="/myaccount/favourites"><Icofont icon='heart'/> Favourites</NavDropdown.Item>
 							<NavDropdown.Item eventKey={4.4} as={NavLink} activeclassname="active" to="/myaccount/payments"><Icofont icon='credit-card'/> Payments</NavDropdown.Item>
 							<NavDropdown.Item eventKey={4.5} as={NavLink} activeclassname="active" to="/myaccount/addresses"><Icofont icon='location-pin'/> Addresses</NavDropdown.Item>
-			            </NavDropdown>
-			            <NavDropdown activeclassname="active" alignRight className="dropdown-cart" 
+						</NavDropdown>:null}
+			           { currentUser?<NavDropdown activeclassname="active" alignRight className="dropdown-cart" 
 			            	title={
 			            		<DropDownTitle 
 			            			className='d-inline-block' 
@@ -150,11 +164,15 @@ function Header (props) {
 			                     <NavDropdown.Item eventKey={5.1} as={Link} className="btn btn-success btn-block py-3 text-white text-center dropdown-item" to="/checkout"> Checkout</NavDropdown.Item>
 			                  </div>
 			                </div>
-			            </NavDropdown>
+			            </NavDropdown>:null}
+						{currentUser?<Nav.Link eventKey={2} as={NavLink}  to="/" onClick={()=>{setSignOutModal(true)}}>
+								 <Icofont icon='login'/> Sign Out
+						</Nav.Link>:null}
 			         </Nav>
 			      </Navbar.Collapse>
 			   </Container>
 			</Navbar>
+			<SignOutModal show={showSignOutModal} onHide={hideSignOutModal}/>
 			</div>
 		);
 	}

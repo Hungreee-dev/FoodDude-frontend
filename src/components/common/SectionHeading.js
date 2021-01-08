@@ -5,7 +5,7 @@ class SectionHeading extends React.Component {
 	render() {
     	return (
             <div className={`section-header ${this.props.alignClass}`}>
-               <h2>{this.props.heading}</h2>
+               <h1 style={{fontWeight:'700'}}>{this.props.heading}</h1>
                {this.props.subHeading ? (
                		<p>{this.props.subHeading}</p>
                		):''

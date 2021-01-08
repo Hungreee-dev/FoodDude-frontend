@@ -14,6 +14,10 @@ function Index(props){
     		<>
     			<TopSearch />
 				<section className="section pt-5 pb-5 bg-white homepage-add-section food-background" >
+				<SectionHeading
+						heading='Our Motto'
+						subHeading=''
+					/>
 					<Container>
 						<Row>
 							<Col md={4} xs={6}>
@@ -52,7 +56,7 @@ function Index(props){
 					</Container>
 				</section>
 
-			    <section className="section pt-5 pb-5 products-section food-background">
+			    <section className="section pt-5 pb-5 products-section">
 			         <Container>
 			         	<SectionHeading 
 			         		heading='Popular Dishes For You'
