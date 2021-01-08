@@ -6,46 +6,49 @@ import CartDropdownHeader from '../cart/CartDropdownHeader';
 import CartDropdownItem from '../cart/CartDropdownItem';
 import Icofont from 'react-icofont';
 
-class Header extends React.Component {
-	constructor(props) {
-	    super(props);
-	    this.state = {
-	      isNavExpanded: false
-	    };
-	}
-    setIsNavExpanded = (isNavExpanded) => {
-      this.setState({ isNavExpanded: isNavExpanded });
+function Header (props) {
+  const node = React.useRef()
+  const  [isNavExpanded,setNavExpanded] = React.useState(false)
+	   
+    const setIsNavExpanded = () => {
+     setNavExpanded(true) 
     }
-    closeMenu = () => {
-      this.setState({ isNavExpanded: false });
+   const closeMenu = () => {
+      setNavExpanded(false)
     }
 
-    handleClick = (e) => {
-      if (this.node.contains(e.target)) {
+    const handleClick = (e) => {
+      if (node.contains(e.target)) {
         // if clicked inside menu do something
       } else {
         // If clicked outside menu, close the navbar.
-        this.setState({ isNavExpanded: false });
+       setNavExpanded(false)
       }
     }
-  
-	componentDidMount() {
-	    document.addEventListener('click', this.handleClick, false);      
-	}
+  React.useEffect(()=>{
+	document.addEventListener('click', handleClick, false);
 
-	componentWillUnmount() {
-	    document.removeEventListener('click', this.handleClick, false);
-	}
-	render() {
+	return(
+		document.removeEventListener('click', handleClick, false)
+	)
+  })
+	// componentDidMount() {
+	//     document.addEventListener('click', this.handleClick, false);      
+	// }
+
+	// componentWillUnmount() {
+	//     document.removeEventListener('click', this.handleClick, false);
+	// }
+	
     	return (
-    		<div ref={node => this.node = node}>
-			<Navbar onToggle={this.setIsNavExpanded}
-           expanded={this.state.isNavExpanded} color="light" expand='lg' className="navbar-light osahan-nav shadow-sm">
+    		<div ref={node}>
+			<Navbar onToggle={setIsNavExpanded}
+           expanded={isNavExpanded} bg='light' expand='lg' className="navbar-light osahan-nav shadow-lg">
 			   <Container>
 			      <Navbar.Brand to="/"><Image src="/img/logo.png" alt='' /></Navbar.Brand>
 			      <Navbar.Toggle/>
 			      <Navbar.Collapse id="navbarNavDropdown">
-			         <Nav activeKey={0} className="ml-auto" onSelect={this.closeMenu}>
+			         <Nav activeKey={0} className="ml-auto" onSelect={closeMenu}>
 						<Nav.Link eventKey={0} as={NavLink} activeclassname="active" exact to="/">
 			               Home <span className="sr-only">(current)</span>
 			            </Nav.Link>
@@ -155,6 +158,6 @@ class Header extends React.Component {
 			</div>
 		);
 	}
-}
+
 
 export default Header;
