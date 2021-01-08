@@ -1,0 +1,1 @@
+exports.BaseUrl='https://fooddude.herokuapp.com'
