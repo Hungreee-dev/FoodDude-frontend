@@ -4,10 +4,11 @@ import {Row,Col,Container,Form,Button,Alert} from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import FontAwesome from './common/FontAwesome';
 //import { auth} from '../firebase'
-
+import axios from 'axios'
 
 function Register(props) {
-
+const nameRef=useRef();
+const phoneRef=useRef();
 const emailRef = useRef();
 const passwordRef = useRef();
 const passwordConfirmRef = useRef();
@@ -22,7 +23,7 @@ const history = useHistory()
 
 async function handleSubmit(e) {
     e.preventDefault()
-
+    //const UserDetails={ }
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match")
     }
@@ -30,9 +31,23 @@ async function handleSubmit(e) {
     try {
       setError("")
       setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+	 const result=  await signup(emailRef.current.value, passwordRef.current.value)
+	 const token = await result.user.getIdToken()
+	 const res=await fetch(`http://localhost:3030/api/users/new`,{
+        method:"post",
+        headers:{'Content-Type':"application/json",Authorization:token},
+        body:JSON.stringify({
+			name:nameRef.current.value,
+			phone:phoneRef.current.value,
+			email:result.user.email,
+			uid:result.user.uid
+      }) 
+    }) 
+	if(res)
+	history.push("/myaccount")
+	 
     } catch(err) {
+		console.log(err)
       setError("Failed to create an account")
     }
 
@@ -52,7 +67,15 @@ async function handleSubmit(e) {
 	                           <h3 className="login-heading mb-4"><img class="mr-3" src="/img/logo-fd-round.png" alt="logo"></img>New Buddy!</h3>
 							   {error && <Alert variant="danger">{error}</Alert>}
 	                           <Form onSubmit={handleSubmit}> 
-	                              <div className="form-label-group">
+							      <div className="form-label-group">
+	                                 <Form.Control type="text" id="inputName" placeholder="Name" ref={nameRef} />
+	                                 <Form.Label htmlFor="inputName">Name </Form.Label>
+	                              </div>
+								  <div className="form-label-group">
+	                                 <Form.Control type="text" id="inputPhone" placeholder="Phone No." ref={phoneRef} />
+	                                 <Form.Label htmlFor="inputPhone">Phone No. </Form.Label>
+	                              </div>
+								  <div className="form-label-group">
 	                                 <Form.Control type="email" id="inputEmail" placeholder="Email address" ref={emailRef} />
 	                                 <Form.Label htmlFor="inputEmail">Email address </Form.Label>
 	                              </div>

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth,googleProvider} from '../firebase'
 import {useHistory} from 'react-router-dom'
-
+import axios from 'axios';
 
 const AuthContext = React.createContext()
 
@@ -13,12 +13,22 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
   const history = useHistory()
-  function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password).then(users=>console.log(users))
+  function signup(email, password,name,phone) {
+    return (
+    auth.createUserWithEmailAndPassword(email, password)
+  //   .then(user=>{
+  //     axios.post(`http://localhost:3030/api/users/new`,{
+  //       name:name,
+  //       phone:phone,
+  //       email:user.email,
+  //       uid:user.uid
+	// 	  })
+  //   }).then(response=>console.log(response))
+      )
   }
 
   function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password)
+    return auth.signInWithEmailAndPassword(email, password).then(users=>console.log(users))
   }
 
   function logout() {
