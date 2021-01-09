@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
+import axios from 'axios';
 import {Row,Col,Container,Form,Button} from 'react-bootstrap';
 // import Select2 from 'react-select2-wrapper';
 // import Icofont from 'react-icofont';
@@ -7,8 +8,45 @@ import OwlCarousel from 'react-owl-carousel3';
 import ProductBox from './ProductBox';
 
 import CategoriesCarousel from '../common/CategoriesCarousel';
+import {BaseUrl} from '../../BaseUrl'
+
 
 function TopSearch (props){
+ const pincodeRef=React.useRef()
+ const [pincode,setPincode]=React.useState('')
+ const [sendingData,setSendingData]=React.useState(false)
+ const [resData,setResData]=React.useState(null)
+
+ React.useEffect(()=>{
+if(sendingData){
+	try{
+		const fetchData= async ()=>{
+		  const result= await axios.post(`${BaseUrl}/api/pincode/check`,{
+			  Pincode:pincode
+		  }) ;
+		  
+		  if(result.data){
+		 setResData(result.data)
+		}
+		
+		  else {
+		   console.log("error")
+		  } 
+	  }
+		fetchData()
+		setSendingData(false)
+		
+	  }catch(err){
+		  console.log(err);
+		}
+	  
+}
+ })
+
+ function handleSubmit(){
+	 setPincode(pincodeRef.current.value)
+	 setSendingData(true)
+ }
 
 	
     	return (
@@ -26,7 +64,7 @@ function TopSearch (props){
 	                     <h5 className="mb-5  font-weight-normal" style={{color:'white',marginTop:'20px'}}>Get the top mouthwatering dishes, based on trends</h5>
 	                  </div>
 	                  <div className="homepage-search-form">
-	                     <Form className="form-noborder">
+	                     <Form className="form-noborder" >
 	                        <div className="form-row">
 	                           {/* <Form.Group className='col-lg-3 col-md-3 col-sm-12'>
 	                              <div className="location-dropdown">
@@ -46,15 +84,15 @@ function TopSearch (props){
 	                              </div>
 	                           </Form.Group> */}
 	                           <Form.Group className='col-lg-7 col-md-7 col-sm-12'>
-	                              <Form.Control type="text" placeholder="Pincode " size='lg' />
+	                              <Form.Control type="number" as="input" placeholder="Pincode " size='lg' ref={pincodeRef} />
 	                              {/* <Link className="locate-me" to="#"><Icofont icon='ui-pointer'/> Locate Me</Link> */}
 	                           </Form.Group>
 	                           <Form.Group className='col-lg-2 col-md-2 col-sm-12'>
-	                              <Button  className="btn btn-primary btn-block btn-lg ">Check</Button>
+	                              <Button disabled={sendingData} onClick={handleSubmit} className="btn btn-primary btn-block btn-lg ">Check</Button>
 	                           </Form.Group>
 	                        </div>
 	                     </Form>
-						 <h7 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}>Enter your pincode to check if we deliver there</h7>
+						 {!resData?<h7 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}>Enter your pincode to check if we deliver there</h7>:resData.success?<h7 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}>Yoooohoooo!! We deliver here. Start Ordering Dude!</h7>:<h7 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}>Ahhh Damn!! We will reach out there soon. Not delivering there as of now :(</h7>}
 	                  </div>
 	                  <h6 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}s>E.g. Beverages, Pizzas, Chines,Indian...</h6>
 	                  <CategoriesCarousel />

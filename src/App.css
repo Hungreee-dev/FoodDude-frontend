@@ -1517,3 +1517,9 @@ p{
 /* Extra large devices (large desktops, 1200px and up) */
  @media (min-width: 1200px) {
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

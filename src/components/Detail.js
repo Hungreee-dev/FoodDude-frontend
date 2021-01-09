@@ -63,6 +63,8 @@ let MenuData=<></>
 							<QuickBite 
 							id={1}
 							title={data.Name}
+							showBadge={true}
+							badgeVariant={data.Veg?'danger':'success'}
 							price={data.Price}
 							priceUnit='₹'
 							getValue={getQty}
