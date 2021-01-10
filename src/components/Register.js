@@ -3,7 +3,7 @@ import {Link,useHistory} from 'react-router-dom';
 import {Row,Col,Container,Form,Button,Alert} from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import FontAwesome from './common/FontAwesome';
-//import { auth} from '../firebase'
+import { auth,googleProvider} from '../firebase'
 import axios from 'axios'
 
 function Register(props) {
@@ -12,7 +12,7 @@ const phoneRef=useRef();
 const emailRef = useRef();
 const passwordRef = useRef();
 const passwordConfirmRef = useRef();
-const {signup,currentUser,signInWithGoogle}=useAuth();
+const {signup,currentUser,setCurrentUser}=useAuth();
 const [error, setError] = useState("")
 const [loading, setLoading] = useState(false)
 const history = useHistory()
@@ -43,8 +43,11 @@ async function handleSubmit(e) {
 			uid:result.user.uid
       }) 
     }) 
-	if(res)
-	history.push("/myaccount")
+	if(res){
+		history.push("/myaccount")
+		const userData={name:nameRef.current.value,phone:phoneRef.current.value,email:result.user.email,uid:result.user.uid,token:token}
+		 localStorage.setItem('userData',JSON.stringify(userData))
+	}
 	 
     } catch(err) {
 		console.log(err)
@@ -53,6 +56,28 @@ async function handleSubmit(e) {
 
     setLoading(false)
   }
+
+  const signInWithGoogle = () => {
+	auth.signInWithPopup(googleProvider).then((res) => {
+	  setCurrentUser(res.user)
+	  res.user.getIdToken().then(token=>{
+		axios.post(`http://localhost:3030/api/users/new`,{
+		name:res.user.displayName,
+			  phone:res.user.phoneNumber,
+			  email:res.user.email,
+			  uid:res.user.uid
+	  },{
+		headers:{Authorization:token}
+	  }).catch(err=>console.log(err))
+	  const userData={name:res.user.displayName,phone:res.user.phoneNumber,email:res.user.email,uid:res.user.uid,token:token}
+	 localStorage.setItem('userData',JSON.stringify(userData))  
+	} )
+	  history.push('/')
+	}).catch((error) => {
+	  console.log(error.message)
+	})
+  }
+
 
 
     	return (

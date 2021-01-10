@@ -56,7 +56,7 @@ function Index(props){
 					</Container>
 				</section>
 
-			    <section className="section pt-5 pb-5 products-section">
+			    {/* <section className="section pt-5 pb-5 products-section">
 			         <Container>
 			         	<SectionHeading 
 			         		heading='Popular Dishes For You'
@@ -137,17 +137,17 @@ function Index(props){
 			               </Col>
 			            </Row>
 			         </Container>
-			    </section>
-			    <section className="section pt-5 pb-5 bg-white becomemember-section border-bottom food-background">
+			    </section> */}
+			    <section className="section pt-5 pb-5 bg-white becomemember-section border-bottom food-background" style={{marginTop:'-70px'}}>
 			         <Container>
 			         	<SectionHeading 
-			         		heading='Become a Member'
-			         		subHeading='Lorem Ipsum is simply dummy text of'
+			         		heading='Join The Family'
+			         		subHeading=''
 			         	/>
 			            <Row>
 			               <Col sm={12} className="text-center">
-			                  <Link to="register" className="btn btn-success btn-lg">
-			                  	Create an Account <FontAwesome icon='chevron-circle-right' />
+			                  <Link to="/detail" className="btn btn-success btn-lg">
+			                  	Check Menu <FontAwesome icon='chevron-circle-right' />
 			                  </Link>
 			               </Col>
 			            </Row>

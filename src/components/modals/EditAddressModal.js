@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form,InputGroup,Modal,ButtonToolbar,Button,ToggleButton,ToggleButtonGroup} from 'react-bootstrap';
 
-export default function AddAddressModal(props) {
+export default function EditAddressModal(props) {
 const housenoRef=React.useRef()
 const line1Ref=React.useRef()
 const line2Ref=React.useRef()
@@ -22,21 +22,21 @@ const handleSubmit=async (e)=>{
    }
 
     try {	
-	 const res=await fetch(`http://localhost:3030/api/users/address/add`,{
+	 const res=await fetch(`http://localhost:3030/api/users/address/edit`,{
         method:"post",
         headers:{'Content-Type':"application/json",Authorization:token},
         body:JSON.stringify({
 			address:address,
-			uid:uid
+            uid:uid,
+            addressId:props.addressId
       }) 
     }) 
 	if(res){
-		props.isUpdated(Math.random())
-		props.onHide()
+        props.isUpdated(Math.random())
+        props.onHide()
 	}
     } catch(err) {
 		console.log(err)
-     
     }
 }
    
@@ -48,7 +48,7 @@ const handleSubmit=async (e)=>{
 		        centered
 		   	  >
 			  <Modal.Header closeButton={true}>
-			    <Modal.Title as='h5' id="add-address">Add Delivery Address</Modal.Title>
+			    <Modal.Title as='h5' id="add-address">Edit Address</Modal.Title>
 			  </Modal.Header>
 
 			  <Modal.Body>
@@ -91,23 +91,6 @@ const handleSubmit=async (e)=>{
                    </InputGroup>
                 </Form.Group>
                 
-                
-                {/* <Form.Group className="mb-0 col-md-12">
-                   <Form.Label>Nickname</Form.Label>
-                   <ButtonToolbar>
-                      <ToggleButtonGroup className="d-flex w-100" type="radio" name="options" defaultValue={1}>
-    							    <ToggleButton variant='info' value={1}>
-    							      Home
-    							    </ToggleButton>
-    							    <ToggleButton variant='info' value={2}>
-    							      Work
-    							    </ToggleButton>
-    							    <ToggleButton variant='info' value={3}>
-    							      Other
-    							    </ToggleButton>
-        					    </ToggleButtonGroup>
-    						  </ButtonToolbar>
-                </Form.Group> */}
              </div>
           </Form>      
 			  </Modal.Body>

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth,googleProvider} from '../firebase'
+import { auth} from '../firebase'
 import {useHistory} from 'react-router-dom'
-import axios from 'axios';
+//import axios from 'axios';
 
 const AuthContext = React.createContext()
 
@@ -13,22 +13,14 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
   const history = useHistory()
-  function signup(email, password,name,phone) {
+  function signup(email, password) {
     return (
     auth.createUserWithEmailAndPassword(email, password)
-  //   .then(user=>{
-  //     axios.post(`http://localhost:3030/api/users/new`,{
-  //       name:name,
-  //       phone:phone,
-  //       email:user.email,
-  //       uid:user.uid
-	// 	  })
-  //   }).then(response=>console.log(response))
       )
   }
 
   function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password).then(users=>console.log(users))
+    return auth.signInWithEmailAndPassword(email, password)
   }
 
   function logout() {
@@ -47,14 +39,7 @@ export function AuthProvider({ children }) {
     return currentUser.updatePassword(password)
   }
 
- const signInWithGoogle = () => {
-  auth.signInWithPopup(googleProvider).then((res) => {
-    setCurrentUser(res.user)
-    history.push('/')
-  }).catch((error) => {
-    console.log(error.message)
-  })
-}
+ 
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -73,7 +58,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
-    signInWithGoogle
+    setCurrentUser
   }
 
   return (

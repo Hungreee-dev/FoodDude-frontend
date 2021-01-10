@@ -11,10 +11,7 @@ class CouponCard extends React.Component {
 	             <div className="card-body">
 	             	{(this.props.logoImage || this.props.couponCode)?
 		                (<h5 className="card-title">
-		                	{this.props.logoImage?
-		                		<Image src={this.props.logoImage} alt={this.props.imageAlt} className={this.props.imageclassName} /> 
-		                		:""
-		                	}
+		                	
 		                	{this.props.couponCode?
 		                		this.props.couponCode
 		                		:""
@@ -33,10 +30,7 @@ class CouponCard extends React.Component {
 	                	<Button variant="link" className="card-btn mr-3 p-0">{this.props.copyBtnText}</Button>
 	                	:""
 	                }
-	                {this.props.moreLinkText?
-	                	<Link to={this.props.morelinkUrl} className="card-link">{this.props.moreLinkText}</Link>
-	                	:""
-	                }
+	                
 	             </div>
 	        </div>
     	);

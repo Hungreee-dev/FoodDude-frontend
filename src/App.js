@@ -39,10 +39,10 @@ function App(props)  {
       <Router history={hist}>
           <Suspense fallback={<div>Loading...</div>}>
           <AuthProvider>
-          {
+          {/* {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Header/>:''
-          }
-            
+          } */}
+          <Header/>
               <Switch>
                 <Route path="/" exact component={Index} />
                 <PrivateRoute path="/offers" exact component={Offers} />
@@ -59,11 +59,11 @@ function App(props)  {
                 <Route path="/detail" exact component={Detail} />
                 <Route exact component={NotFound} />
               </Switch>
-           
+           <Footer/>
           
-          {
+          {/* {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Footer/>:''
-          }
+          } */}
            </AuthProvider>
           </Suspense>
           </Router>

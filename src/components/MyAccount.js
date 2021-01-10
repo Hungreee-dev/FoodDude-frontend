@@ -9,21 +9,17 @@ import Payments from './myaccount/Payments';
 import Addresses from './myaccount/Addresses';
 import EditProfileModal from './modals/EditProfileModal';
 
-class MyAccount extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+function MyAccount(props) {
+ const [editProfile,showEditProfile]=React.useState(false)
+ const userData=JSON.parse(localStorage.getItem('userData'))
 
-    this.state = {
-      showEditProfile: false
-    };
-  }
-  hideEditProfile = () => this.setState({ showEditProfile: false });
+ const hideEditProfile = () => showEditProfile(false);
 
-	render() {
+	
     	return (
     		<>
-        <EditProfileModal show={this.state.showEditProfile} onHide={this.hideEditProfile}/>
-        <section className="section pt-4 pb-4 osahan-account-page">
+        <EditProfileModal show={editProfile} onHide={hideEditProfile}/>
+        <section className="section pt-4 pb-4 osahan-account-page food-background">
            <Container>
               <Row>
                  <Col md={3}>
@@ -31,13 +27,13 @@ class MyAccount extends React.Component {
                        <div className="border-bottom p-4">
                           <div className="osahan-user text-center">
                              <div className="osahan-user-media">
-                                <Image className="mb-3 rounded-pill shadow-sm mt-1" src="/img/user/4.png" alt="gurdeep singh osahan" />
-                                <div className="osahan-user-media-body">
-                                   <h6 className="mb-2">Gurdeep Singh</h6>
-                                   <p className="mb-1">+91 85680-79956</p>
-                                   <p>iamosahan@gmail.com</p>
-                                   <p className="mb-0 text-black font-weight-bold"><Link to='#' onClick={() => this.setState({ showEditProfile: true })} className="text-primary mr-3"><i className="icofont-ui-edit"></i> EDIT</Link></p>
-                                </div>
+                               <h5><u>Your Details</u></h5>
+                               {userData? <div className="osahan-user-media-body" style={{marginTop:'30px'}}>
+                                   <h6 className="mb-2">{userData.name?userData.name:null}</h6>
+                                   <p className="mb-1">{userData.phone?userData.phone:null}</p>
+                                   <p>{userData.email?userData.email:null}</p>
+                                   <p className="mb-0 text-black font-weight-bold"><Link to='#' onClick={() => showEditProfile(true)} className="text-primary mr-3"><i className="icofont-ui-edit"></i> EDIT</Link></p>
+                                </div>:null}
                              </div>
                           </div>
                        </div>
@@ -57,9 +53,6 @@ class MyAccount extends React.Component {
                           <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/addresses"><i className="icofont-location-pin"></i> Addresses</NavLink>
                           </li>
-                          <li className="nav-item">
-                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/logout"><i className="icofont-location-pin"></i> Logout</NavLink>
-                          </li>
                        </ul>
                     </div>
                  </Col>
@@ -78,7 +71,7 @@ class MyAccount extends React.Component {
     		</>
     	);
     }
-}
+
 
 
 export default MyAccount;

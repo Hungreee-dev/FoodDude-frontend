@@ -2,16 +2,14 @@ import React from 'react';
 import axios from 'axios'
 import {Link} from 'react-router-dom';
 import {Row,Col,Container,Form,InputGroup,Button,Tab,Nav,Image,Badge} from 'react-bootstrap';
-import ItemsCarousel from './common/ItemsCarousel';
+import ItemsCarousel from '../common/ItemsCarousel';
 import GalleryCarousel from './common/GalleryCarousel';
-import CheckoutItem from './common/CheckoutItem';
-import BestSeller from './common/BestSeller';
-import QuickBite from './common/QuickBite';
-import StarRating from './common/StarRating';
-import RatingBar from './common/RatingBar';
-import Review from './common/Review';
+import CheckoutItem from '../common/CheckoutItem';
+import BestSeller from '../common/BestSeller';
+import QuickBite from '../common/QuickBite';
+
 import Icofont from 'react-icofont';
-import {BaseUrl} from '../BaseUrl'
+import {BaseUrl} from '../../BaseUrl'
 function Detail(props) {
 
 const [menu,setMenu]=React.useState([]);

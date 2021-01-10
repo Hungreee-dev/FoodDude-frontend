@@ -3,11 +3,34 @@ import {Link,useHistory} from 'react-router-dom';
 import {useAuth} from '../contexts/AuthContext';
 import {Row,Col,Container,Form,Button,Alert} from 'react-bootstrap';
 import FontAwesome from './common/FontAwesome';
+import { auth,googleProvider} from '../firebase'
+import axios from 'axios'
+import {BaseUrl} from '../BaseUrl'
+
+
+const asyncLocalStorage = {
+    setItem: function (key, value) {
+        return Promise.resolve().then(function () {
+            localStorage.setItem(key, value);
+        });
+    },
+    getItem: function (key) {
+        return Promise.resolve().then(function () {
+            return localStorage.getItem(key);
+        });
+    }
+};
+
+
+
+
+
+
 
 function Login (props) {
 	const emailRef = useRef()
 	const passwordRef = useRef()
-	const { login,currentUser,signInWithGoogle} = useAuth()
+	const { login,currentUser,setCurrentUser} = useAuth()
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
 	const history = useHistory()
@@ -18,7 +41,16 @@ function Login (props) {
 	  try {
 		setError("")
 		setLoading(true)
-		await login(emailRef.current.value, passwordRef.current.value)
+		const result = await login(emailRef.current.value, passwordRef.current.value)
+		const token = await result.user.getIdToken()
+		console.log(token)
+        const res= await axios.post(`${BaseUrl}/api/user/getDetails`,{
+			uid:result.user.uid
+		},{
+			headers:{Authorization:token}
+		})
+		const userData={name:res.data.name,phone:res.data.phone,email:emailRef.current.value,uid:result.user.uid,token:token}
+		 asyncLocalStorage.setItem('userData',JSON.stringify(userData))
 		history.push('/')
 	  } catch {
 		setError("Failed to log in")
@@ -26,6 +58,20 @@ function Login (props) {
   
 	  setLoading(false)
 	}
+
+
+	const signInWithGoogle = () => {
+		auth.signInWithPopup(googleProvider).then((res) => {
+		  setCurrentUser(res.user)
+		  res.user.getIdToken().then(token=>{
+		  const userData={name:res.user.displayName,phone:res.user.phoneNumber,email:res.user.email,uid:res.user.uid,token:token}
+		  asyncLocalStorage.setItem('userData',JSON.stringify(userData)) 
+		})
+		  history.push('/')
+		}).catch((error) => {
+		  console.log(error.message)
+		})
+	  }
     	return (
     	  <Container fluid className='bg-white'>
 	         <Row>
@@ -46,13 +92,7 @@ function Login (props) {
 	                                 <Form.Control type="password" id="inputPassword" placeholder="Password" ref={passwordRef} />
 	                                 <Form.Label htmlFor="inputPassword">Password</Form.Label>
 	                              </div>
-	                              {/* <Form.Check  
-	                              	className='mb-3'
-							        custom
-							        type="checkbox"
-							        id="custom-checkbox"
-							        label="Remember password"
-							      /> */}
+	                              
 	                              <Button type="submit" disabled={loading} className="btn btn-lg btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2" style={{marginTop:'30px'}}>Sign in</Button>
 	                              <div className="text-center pt-3">
 	                                 Don’t have an account? <Link className="font-weight-bold" to="/register">Sign Up</Link>

@@ -1,19 +1,22 @@
 import React from 'react';
-import {NavLink,Link} from 'react-router-dom';
+import axios from 'axios'
+import {NavLink,Link,useHistory} from 'react-router-dom';
 import {Navbar,Nav,Container,NavDropdown,Image,Badge} from 'react-bootstrap';
 import DropDownTitle from '../common/DropDownTitle';
-import CartDropdownHeader from '../cart/CartDropdownHeader';
-import CartDropdownItem from '../cart/CartDropdownItem';
+import Cart from '../cart/Cart'
 import Icofont from 'react-icofont';
-import SignOutModal from '../modals/SignOutModal'
 
 import {useAuth} from '../../contexts/AuthContext';
 
 function Header (props) {
-  const { currentUser } = useAuth();	
   const node = React.useRef()
   const  [isNavExpanded,setNavExpanded] = React.useState(false)
-  const [showSignOutModal,setSignOutModal]=React.useState(false)	   
+  const {logout,currentUser} = useAuth();
+  const history= useHistory(); 
+  const [error, setError] = React.useState("")
+  const userData=JSON.parse(localStorage.getItem('userData'))
+
+//   const [showSignOutModal,setSignOutModal]=React.useState(false)	   
     const setIsNavExpanded = () => {
      setNavExpanded(true) 
     }
@@ -36,18 +39,23 @@ function Header (props) {
 		document.removeEventListener('click', handleClick, false)
 	)
   })
-	// componentDidMount() {
-	//     document.addEventListener('click', this.handleClick, false);      
-	// }
 
-	// componentWillUnmount() {
-	//     document.removeEventListener('click', this.handleClick, false);
-	// }
 
-	const hideSignOutModal=()=>{
-       setSignOutModal(false)
-	}
+  
+
+
 	
+	async function handleLogout() {
+		setError("")
+		try {
+		  await logout()
+		  await localStorage.clear()
+		  props.onHide()
+		  history.push("/")
+		} catch {
+		  setError("Failed to log out")
+		}
+	  }
     	return (
     		<div ref={node}>
 			<Navbar onToggle={setIsNavExpanded}
@@ -100,79 +108,15 @@ function Header (props) {
 							<NavDropdown.Item eventKey={4.4} as={NavLink} activeclassname="active" to="/myaccount/payments"><Icofont icon='credit-card'/> Payments</NavDropdown.Item>
 							<NavDropdown.Item eventKey={4.5} as={NavLink} activeclassname="active" to="/myaccount/addresses"><Icofont icon='location-pin'/> Addresses</NavDropdown.Item>
 						</NavDropdown>:null}
-			           { currentUser?<NavDropdown activeclassname="active" alignRight className="dropdown-cart" 
-			            	title={
-			            		<DropDownTitle 
-			            			className='d-inline-block' 
-			            			faIcon='shopping-basket'
-			            			iconClass='mr-1'
-			            			title='Cart'
-			            			badgeClass='ml-1'
-			            			badgeVariant='success'
-			            			badgeValue={5}
-			            		/>
-			            	}
-			            >
-
-			                <div className="dropdown-cart-top shadow-sm">
-			               	  {
-			               	  	<CartDropdownHeader 
-			               	  		className="dropdown-cart-top-header p-4" 
-			               	  		title="Gus's World Famous Chicken"
-			               	  		subTitle="310 S Front St, Memphis, USA"
-			               	  		image="img/cart.jpg"
-			               	  		imageClass="img-fluid mr-3"
-			               	  		imageAlt="osahan"
-			               	  		NavLinkUrl="#"
-			               	  		NavLinkText="View Full Menu"
-			               	    />
-			               	  } 
-			                  <div className="dropdown-cart-top-body border-top p-4">
-			                     <CartDropdownItem 
-			                     	icoIcon='ui-press'
-			                     	iconClass='text-success food-item'
-			                     	title='Corn & Peas Salad x 1'
-			                     	price='$209'
-			                     />
-
-			                     <CartDropdownItem 
-			                     	icoIcon='ui-press'
-			                     	iconClass='text-success food-item'
-			                     	title='Veg Seekh Sub 6" (15 cm) x 1'
-			                     	price='$133'
-			                     />
-
-			                     <CartDropdownItem 
-			                     	icoIcon='ui-press'
-			                     	iconClass='text-danger food-item'
-			                     	title='Chicken Tikka Sub 12" (30 cm) x 1'
-			                     	price='$314'
-			                     />
-
-			                     <CartDropdownItem 
-			                     	icoIcon='ui-press'
-			                     	iconClass='text-success food-item'
-			                     	title='Corn & Peas Salad x 1 '
-			                     	price='$209'
-			                     />
-			                  </div>
-			                  <div className="dropdown-cart-top-footer border-top p-4">
-			                     <p className="mb-0 font-weight-bold text-secondary">Sub Total <span className="float-right text-dark">$499</span></p>
-			                     <small className="text-info">Extra charges may apply</small>  
-			                  </div>
-			                  <div className="dropdown-cart-top-footer border-top p-2">
-			                     <NavDropdown.Item eventKey={5.1} as={Link} className="btn btn-success btn-block py-3 text-white text-center dropdown-item" to="/checkout"> Checkout</NavDropdown.Item>
-			                  </div>
-			                </div>
-			            </NavDropdown>:null}
-						{currentUser?<Nav.Link eventKey={2} as={NavLink}  to="/" onClick={()=>{setSignOutModal(true)}}>
+			           { currentUser?<Cart/>:null}
+						{currentUser?<Nav.Link eventKey={2} as={NavLink}  to="/" onClick={handleLogout}>
 								 <Icofont icon='login'/> Sign Out
 						</Nav.Link>:null}
 			         </Nav>
 			      </Navbar.Collapse>
 			   </Container>
 			</Navbar>
-			<SignOutModal show={showSignOutModal} onHide={hideSignOutModal}/>
+			{/* <SignOutModal show={showSignOutModal} onHide={hideSignOutModal}/> */}
 			</div>
 		);
 	}

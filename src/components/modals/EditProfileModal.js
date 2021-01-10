@@ -1,13 +1,13 @@
 import React from 'react';
 import {Form,Modal,Button} from 'react-bootstrap';
 
-class EditProfileModal extends React.Component {
+function EditProfileModal(props) {
 
-	render() {
+	
     	return (
 	        <Modal 
-	        	show={this.props.show} 
-	        	onHide={this.props.onHide}
+	        	show={props.show} 
+	        	onHide={props.onHide}
 		        size="sm"
 		        centered
 		   	  >
@@ -37,11 +37,11 @@ class EditProfileModal extends React.Component {
 			  </Modal.Body>
 
 			  <Modal.Footer>
-			    <Button type='button' onClick={this.props.onHide} variant="outline-primary" className="d-flex w-50 text-center justify-content-center">CANCEL</Button>
+			    <Button type='button' onClick={props.onHide} variant="outline-primary" className="d-flex w-50 text-center justify-content-center">CANCEL</Button>
 			    <Button type='button' variant="primary" className='d-flex w-50 text-center justify-content-center'>UPDTAE</Button>
 			  </Modal.Footer>
 			</Modal>
     	);
     }
-}
+
 export default EditProfileModal;

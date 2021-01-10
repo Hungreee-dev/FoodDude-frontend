@@ -6,7 +6,7 @@ class CartDropdownHeader extends React.Component {
 	render() {
 		return (
 
-			<div className={this.props.className}>
+			<div className={this.props.className} style={{marginBottom:'-30px'}}>
 				{
 					this.props.image?
 					<img alt="" src={this.props.image} className={this.props.imageClass} />:''
