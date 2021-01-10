@@ -175,7 +175,7 @@ let MenuData=<></>
 			                          
 			                              {MenuData}
 			                          
-			                           <Row>
+			                           {/* <Row>
 			                              <h5 className="mb-4 mt-3 col-md-12">Starters <small className="h6 text-black-50">3 ITEMS</small></h5>
 			                              <Col md={12}>
 			                                 <div className="bg-white rounded border shadow-sm mb-4">
@@ -274,7 +274,7 @@ let MenuData=<></>
 											   	/>
 			                                 </div>
 			                              </Col>
-			                           </Row>
+			                           </Row> */}
 						</Col>
 		               <Col md={4}>
 		               <div className="bg-white rounded shadow-sm text-white mb-4 p-4 clearfix restaurant-detailed-earn-pts card-icon-overlap">
