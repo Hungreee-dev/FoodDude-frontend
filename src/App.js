@@ -34,6 +34,8 @@ const Detail = lazy(()=>import('./components/Detail'));
 
 function App(props)  {
   var hist = createBrowserHistory();
+
+  const [cartUpdated,setCartUpdated]=React.useState()
     return (
       <>
       <Router history={hist}>
@@ -42,7 +44,7 @@ function App(props)  {
           {/* {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Header/>:''
           } */}
-          <Header/>
+          <Header cartUpdated={cartUpdated}/>
               <Switch>
                 <Route path="/" exact component={Index} />
                 <PrivateRoute path="/offers" exact component={Offers} />
@@ -56,7 +58,7 @@ function App(props)  {
                 <Route path="/invoice" exact component={Invoice} />
                 <PrivateRoute path="/checkout" exact component={Checkout} />
                 <PrivateRoute path="/thanks" exact component={Thanks} />
-                <Route path="/detail" exact component={Detail} />
+                <Route path="/detail" exact  render={(props)=>(<Detail {...props} cartUpdated={cartUpdated} setCartUpdated={setCartUpdated} />)} />
                 <Route exact component={NotFound} />
               </Switch>
            <Footer/>

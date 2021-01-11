@@ -7,9 +7,7 @@ import GalleryCarousel from './common/GalleryCarousel';
 import CheckoutItem from './common/CheckoutItem';
 import BestSeller from './common/BestSeller';
 import QuickBite from './common/QuickBite';
-import StarRating from './common/StarRating';
-import RatingBar from './common/RatingBar';
-import Review from './common/Review';
+import Cart from './Order/Cart'
 import Icofont from 'react-icofont';
 import {BaseUrl} from '../BaseUrl'
 function Detail(props) {
@@ -17,6 +15,7 @@ function Detail(props) {
 const [menu,setMenu]=React.useState([]);
 const [category,setCategory]=React.useState([])
 const [recievedData,setRecievedData]=React.useState(false)
+const {uid,token}=JSON.parse(localStorage.getItem('userData'));
 React.useEffect(()=>{
     try{
     const fetchData= async ()=>{
@@ -42,9 +41,25 @@ React.useEffect(()=>{
   
   },[]);
 
-  const getQty = ({id,quantity}) => {
-	//console.log(id);
-	//console.log(quantity);
+  const getQty = async ({id,quantity,price}) => {
+
+   const item={
+	   name:id,
+	   quantity:quantity,
+	   price:price
+   }
+	 
+	const result = await axios.post(`http://localhost:3030/api/users/cart/add`,{
+		item:item,
+		uid:uid
+	},{
+		headers:{
+			Authorization:token
+		}
+	})
+	if(result){
+		props.setCartUpdated(Math.random())
+	}
 }
 const getStarValue = ({value}) => {
 	console.log(value);
@@ -54,14 +69,14 @@ const getStarValue = ({value}) => {
 let MenuData=<></>
 	if(recievedData){
 		const headings = [...new Set(category)]
-		console.log(headings)
+		
 		  MenuData = headings.map((item)=>{
 				 const DishData =[]
 				 for(let data of menu){
 					 if(data.Category===item){
 						 DishData.push(
 							<QuickBite 
-							id={1}
+							id={data.Name}
 							title={data.Name}
 							showBadge={true}
 							badgeVariant={data.Veg?'danger':'success'}
@@ -78,7 +93,7 @@ let MenuData=<></>
 					<Col md={12}>
 					<div className="bg-white rounded border shadow-sm">
 						{DishData.map(item1=>{
-							console.log('hi')
+							
 							return item1
 						})}
 						</div>
@@ -102,7 +117,7 @@ let MenuData=<></>
 		            <Row>
 		  
 						<Col md={8}>
-						<h5 className="mb-4">Recommended</h5>
+						{/* <h5 className="mb-4">Recommended</h5>
 		                              <Form className="explore-outlets-search mb-4">
 		                                 <InputGroup>
 		                                    <Form.Control type="text" placeholder="Search for dishes..." />
@@ -112,7 +127,7 @@ let MenuData=<></>
 		                                       </Button>
 		                                    </InputGroup.Append>
 		                                 </InputGroup>
-		                              </Form>
+		                              </Form> */}
 		                              <h6 className="mb-3">Most Popular  <Badge variant="success">	<Icofont icon="tags" /> 15% Off All Items </Badge></h6>
 		                        	  <ItemsCarousel />
 
@@ -287,84 +302,7 @@ let MenuData=<></>
 		                        <Icofont icon="sale-discount" />
 		                     </div>
 		                </div>
-		               	<div className="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
-	                     
-                           <h5 className="mb-1 text-white">Your Order
-                           </h5>
-                           <p className="mb-4 text-white">6 Items</p>
-	                     <div className="bg-white rounded shadow-sm mb-2">
-	                     	<CheckoutItem 
-	                     		itemName="Chicken Tikka Sub"
-								price={314}
-								priceUnit="$"
-								id={1}
-								qty={2}
-								show={true}
-								minValue={0}
-								maxValue={7}
-								getValue={getQty}
-	                     	 />
-	                     	<CheckoutItem 
-	                     		itemName="Cheese corn Roll"
-								price={260}
-								priceUnit="$"
-								id={2}
-								qty={1}
-								show={true}
-								minValue={0}
-								maxValue={7}
-								getValue={getQty}
-	                     	 />
-	                     	<CheckoutItem 
-	                     		itemName="Mixed Veg"
-								price={122}
-								priceUnit="$"
-								id={3}
-								qty={1}
-								show={true}
-								minValue={0}
-								maxValue={7}
-								getValue={getQty}
-	                     	 />
-	                     	<CheckoutItem 
-	                     		itemName="Black Dal Makhani"
-								price={652}
-								priceUnit="$"
-								id={1}
-								qty={1}
-								show={true}
-								minValue={0}
-								maxValue={7}
-								getValue={getQty}
-	                     	 />
-	                     	<CheckoutItem 
-	                     		itemName="Mixed Veg"
-								price={122}
-								priceUnit="$"
-								id={4}
-								qty={1}
-								show={true}
-								minValue={0}
-								maxValue={7}
-								getValue={getQty}
-	                     	 />
-		                     
-	              		 </div>
-	                     <div className="mb-2 bg-white rounded p-2 clearfix">
-	                        <Image fluid className="float-left" src="/img/wallet-icon.png" />
-	                        <h6 className="font-weight-bold text-right mb-2">Subtotal : <span className="text-danger">$456.4</span></h6>
-	                        <p className="seven-color mb-1 text-right">Extra charges may apply</p>
-	                        <p className="text-black mb-0 text-right">You have saved $955 on the bill</p>
-	                     </div>
-                     	 <Link to="/checkout" className="btn btn-success btn-block btn-lg">Checkout
-                     	 <Icofont icon="long-arrow-right" /></Link>
-					      <div className="pt-2"></div>
-		                  <div className="alert alert-success" role="alert">
-		                     You have saved <strong>$1,884</strong> on the bill
-		                  </div>
-		   				  <div className="pt-2"></div>
-		   				  
-		   				</div>
+		               	<Cart cartUpdated={props.cartUpdated} setCartUpdated={props.setCartUpdated}/>
 		               </Col>
 					</Row>
 				</Container>

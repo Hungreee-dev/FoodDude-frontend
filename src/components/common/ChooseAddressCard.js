@@ -4,23 +4,23 @@ import {Card,Media} from 'react-bootstrap';
 import Icofont from 'react-icofont';
 import PropTypes from 'prop-types'; 
 
-class ChooseAddressCard extends React.Component {
+function ChooseAddressCard(props) {
 
-	render() {
+	
     	return (
-        <Card className={"bg-white addresses-item mb-4 " + (this.props.boxClass)}>
+        <Card className={"bg-white addresses-item mb-4 " + (props.boxClass)}>
             <div className="gold-members p-4">
                <Media>
-                  <div className="mr-3"><Icofont icon={this.props.icoIcon} className={this.props.iconclassName} /></div>
+                  <div className="mr-3"><Icofont icon={props.icoIcon} className={props.iconclassName} /></div>
                   <div className="media-body">
-                     <h6 className="mb-1 text-secondary">{this.props.title}</h6>
-                     <p className="text-black">{this.props.address}
+                     <h6 className="mb-1 text-secondary">{props.title}</h6>
+                     <p className="text-black">{props.address}
                      </p>
                      <p className="mb-0 text-black font-weight-bold">
-                     	{this.props.type==="hasAddress"?
-	                        (<><Link className="btn btn-sm btn-success mr-2" to="#" onClick={this.props.onDeliverHereClick}> DELIVER HERE </Link>
+                     	{props.type==="hasAddress"?
+	                        (<><Link className="btn btn-sm btn-success mr-2" to="#" onClick={props.onDeliverHereClick}> DELIVER HERE </Link>
 	                        <span>30MIN</span></>)
-	                        :<Link className="btn btn-sm btn-primary mr-2" to="#" onClick={this.props.onAddNewClick}> ADD NEW ADDRESS </Link>
+	                        :<Link className="btn btn-sm btn-primary mr-2" to="#" onClick={props.onAddNewClick}> ADD NEW ADDRESS </Link>
                      	}
                      </p>
                   </div>
@@ -29,7 +29,7 @@ class ChooseAddressCard extends React.Component {
         </Card>
     	);
     }
-}
+
 
 ChooseAddressCard.propTypes = {
   title: PropTypes.string.isRequired,
