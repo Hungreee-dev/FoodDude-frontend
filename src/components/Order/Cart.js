@@ -12,7 +12,7 @@ function Cart(props) {
     const [totalPrice,setTotalPrice]=React.useState(0)
     const [recievedData,setRecievedData]=React.useState(false);
     const [cartItem,setCartItem]=React.useState()
-    const {uid,token}=JSON.parse(localStorage.getItem('userData'));
+    
     React.useEffect(()=>{
       try{
      if(userData)	{	
@@ -81,10 +81,10 @@ function Cart(props) {
     
    const result = await axios.post(`http://localhost:3030/api/users/cart/add`,{
      item:item,
-     uid:uid
+     uid:userData.uid
    },{
      headers:{
-       Authorization:token
+       Authorization:userData.token
      }
    })
    if(result){

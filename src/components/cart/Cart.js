@@ -15,6 +15,7 @@ export default function Cart(props){
   React.useEffect(()=>{
 	try{
    if(userData)	{	
+       setTotalPrice(0)
 	const fetchData= async ()=>{
 	  const result= await axios.post(`http://localhost:3030/api/users/cart/get`,{
 		  uid:userData.uid
@@ -44,7 +45,7 @@ export default function Cart(props){
 	  console.log(err);
 	}
   
-  },[]);
+  },[props.cartUpdated]);
 
  return(
     <NavDropdown activeclassname="active" alignRight className="dropdown-cart" 

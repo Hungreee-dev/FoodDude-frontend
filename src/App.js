@@ -36,6 +36,7 @@ function App(props)  {
   var hist = createBrowserHistory();
 
   const [cartUpdated,setCartUpdated]=React.useState()
+  
     return (
       <>
       <Router history={hist}>
@@ -56,7 +57,7 @@ function App(props)  {
                 <Route path="/register" exact component={Register} />
                 <Route path="/track-order" exact component={TrackOrder} />
                 <Route path="/invoice" exact component={Invoice} />
-                <PrivateRoute path="/checkout" exact component={Checkout} />
+                <Route path="/checkout"  render={(props)=> (<Checkout {...props} cartUpdated={cartUpdated} setCartUpdated={setCartUpdated} />)} />
                 <PrivateRoute path="/thanks" exact component={Thanks} />
                 <Route path="/detail" exact  render={(props)=>(<Detail {...props} cartUpdated={cartUpdated} setCartUpdated={setCartUpdated} />)} />
                 <Route exact component={NotFound} />

@@ -108,7 +108,7 @@ function Header (props) {
 							<NavDropdown.Item eventKey={4.4} as={NavLink} activeclassname="active" to="/myaccount/payments"><Icofont icon='credit-card'/> Payments</NavDropdown.Item>
 							<NavDropdown.Item eventKey={4.5} as={NavLink} activeclassname="active" to="/myaccount/addresses"><Icofont icon='location-pin'/> Addresses</NavDropdown.Item>
 						</NavDropdown>:null}
-			           { currentUser?<Cart/>:null}
+			           { currentUser?<Cart cartUpdated={props.cartUpdated}/>:null}
 						{currentUser?<Nav.Link eventKey={2} as={NavLink}  to="/" onClick={handleLogout}>
 								 <Icofont icon='login'/> Sign Out
 						</Nav.Link>:null}

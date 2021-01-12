@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 
 function ChooseAddressCard(props) {
 
-	
+	const [focus,setFocus]=React.useState(false)
     	return (
-        <Card className={"bg-white addresses-item mb-4 " + (props.boxClass)}>
+        <Card className={" addresses-item mb-4 " + (props.boxclassName)} style={{background:focus&&'#cdffba'}}>
             <div className="gold-members p-4">
                <Media>
                   <div className="mr-3"><Icofont icon={props.icoIcon} className={props.iconclassName} /></div>
@@ -18,8 +18,9 @@ function ChooseAddressCard(props) {
                      </p>
                      <p className="mb-0 text-black font-weight-bold">
                      	{props.type==="hasAddress"?
-	                        (<><Link className="btn btn-sm btn-success mr-2" to="#" onClick={props.onDeliverHereClick}> DELIVER HERE </Link>
-	                        <span>30MIN</span></>)
+	                        (<><Link className="btn btn-sm btn-success mr-2" to="#" onClick={()=>{setFocus(!focus)
+                              props.onDeliverHereClick()}}> DELIVER HERE </Link>
+	                        </>)
 	                        :<Link className="btn btn-sm btn-primary mr-2" to="#" onClick={props.onAddNewClick}> ADD NEW ADDRESS </Link>
                      	}
                      </p>
