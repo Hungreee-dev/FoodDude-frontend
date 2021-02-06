@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 import CheckoutItem from '../common/CheckoutItem';
 import Icofont from 'react-icofont';
-
+import {BaseUrl2} from '../../BaseUrl'
 import {useAuth} from '../../contexts/AuthContext'
 //import {BaseUrl} from '../BaseUrl'
 function Cart(props) {
@@ -21,7 +21,7 @@ function Cart(props) {
      if(userData)	{	
       setTotalPrice(0) 
       const fetchData= async ()=>{
-        const result= await axios.post(`http://localhost:3030/api/users/cart/get`,{
+        const result= await axios.post(`${BaseUrl2}/api/users/cart/get`,{
             uid:userData.uid
         },{
             headers:{Authorization:userData.token}
@@ -82,7 +82,7 @@ function Cart(props) {
       price:price
     }
     
-   const result = await axios.post(`http://localhost:3030/api/users/cart/add`,{
+   const result = await axios.post(`${BaseUrl2}/api/users/cart/add`,{
      item:item,
      uid:userData.uid
    },{

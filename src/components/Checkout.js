@@ -8,7 +8,7 @@ import CheckoutItem from './common/CheckoutItem';
 import AddAddressModal from './modals/AddAddressModal';
 import Icofont from 'react-icofont';
 import {useAuth} from '../contexts/AuthContext'
-import {BaseUrl} from '../BaseUrl'
+import {BaseUrl,BaseUrl2} from '../BaseUrl'
 import Header from './common/Header'
 import Footer from './common/Footer'
 function loadScript(src) {
@@ -84,7 +84,7 @@ function Checkout(props) {
 				const newdate=new Date();
 				axios.post(`${BaseUrl}/api/order/add`, {
 					userId: uid,
-					address:orderData.addressData,
+					Address:orderData.addressData,
 					items:orderData.cartData,
 					billing:{
 						promoCode:'',
@@ -106,12 +106,12 @@ function Checkout(props) {
 						history.push('/thanks')
 					}
 				}).catch(err=>{console.log(err.response)})
-				axios.post(`http://localhost:3030/api/users/cart/delete`, {
+				axios.post(`${BaseUrl2}api/users/cart/delete`, {
 					uid: uid
 				}, {
 					headers: { Authorization: token }
 				}).catch(err=>{console.log(err.response)})	
-				axios.post(`http://localhost:3030/api/users/add-order-id`, {
+				axios.post(`${BaseUrl2}/api/users/add-order-id`, {
 					uid: uid,
 					orderId:response.razorpay_order_id
 				}, {
@@ -138,7 +138,7 @@ function Checkout(props) {
 	React.useEffect(()=>{
 	  try{
 	  const fetchData= async ()=>{
-		const result= await axios.post(`http://localhost:3030/api/users/address/get-all`,{
+		const result= await axios.post(`${BaseUrl2}/api/users/address/get-all`,{
 			uid:uid
 		},{
 			headers:{Authorization:token}
@@ -169,7 +169,7 @@ function Checkout(props) {
 	   if(uid)	{	
 		setTotalPrice(0) 
 		const fetchData= async ()=>{
-		  const result= await axios.post(`http://localhost:3030/api/users/cart/get`,{
+		  const result= await axios.post(`${BaseUrl2}/api/users/cart/get`,{
 			  uid:uid
 		  },{
 			  headers:{Authorization:token}
@@ -210,7 +210,7 @@ function Checkout(props) {
 		return (
 		 <CheckoutItem 
 		   itemName={`${item.name}`}
-		  price={item.price}
+		  price={item.price+49}
 		  priceUnit="₹"
 		  id={item.name}
 		  qty={item.quantity}
@@ -232,7 +232,7 @@ function Checkout(props) {
 		price:price
 	  }
 	  
-	 const result = await axios.post(`http://localhost:3030/api/users/cart/add`,{
+	 const result = await axios.post(`${BaseUrl2}/api/users/cart/add`,{
 	   item:item,
 	   uid:uid
 	 },{
@@ -255,7 +255,7 @@ function Checkout(props) {
 	  const promocodeString=promocodeRef.current.value
 	const fetchData= async ()=>{
 		try{
-		const result= await axios.post(`http://localhost:3030/api/promocode/check-promocode`,{
+		const result= await axios.post(`${BaseUrl2}/api/promocode/check-promocode`,{
 		  uid:uid,
 		  promocode:promocodeString.toUpperCase()
 	  },{
@@ -466,13 +466,13 @@ function Checkout(props) {
                            <span className="float-right text-dark">₹49</span>
                            
                         </p>
-                        <p className="mb-1 text-success">Total Discount 
+                        {/* <p className="mb-1 text-success">Total Discount 
                            <span className="float-right text-success">$1884</span>
-                        </p>
+                        </p> */}
                         <hr />
-                        <h6 className="font-weight-bold mb-0">TO PAY  <span className="float-right">₹{totalPrice}</span></h6>
+                        <h6 className="font-weight-bold mb-0">TO PAY  <span className="float-right">₹{totalPrice+49}</span></h6>
                      </div>
-                 	<Button variant='success' onClick={()=>{displayRazorpay()}} className="btn btn-block btn-lg">PAY ₹{totalPrice}
+                 	<Button variant='success' onClick={()=>{displayRazorpay()}} className="btn btn-block btn-lg">PAY ₹{totalPrice+49}
                  	<Icofont icon="long-arrow-right" /></Button>
 	   				</div>
 				      {/* <div className="pt-2"></div>

@@ -5,7 +5,7 @@ import AddAddressModal from '../modals/AddAddressModal';
 import DeleteAddressModal from '../modals/DeleteAddressModal';
 import EditAddressModal from '../modals/EditAddressModal'
 import AddressCard from '../common/AddressCard';
-
+import {BaseUrl2} from '../../BaseUrl'
 function Addresses() {
 	const [addressModal,showAddressModal]=React.useState(false)
 	const [editModal,showEditModal]=React.useState(false)
@@ -21,7 +21,7 @@ function Addresses() {
 	  try{
 		  console.log(uid)
 	  const fetchData= async ()=>{
-		const result= await axios.post(`http://localhost:3030/api/users/address/get-all`,{
+		const result= await axios.post(`${BaseUrl2}/api/users/address/get-all`,{
 			uid:uid
 		},{
 			headers:{Authorization:token}
