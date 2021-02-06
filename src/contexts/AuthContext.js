@@ -13,6 +13,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
   const history = useHistory()
+  const [cartUpdated,setCartUpdated]=React.useState()
   function signup(email, password) {
     return (
     auth.createUserWithEmailAndPassword(email, password)
@@ -39,7 +40,10 @@ export function AuthProvider({ children }) {
     return currentUser.updatePassword(password)
   }
 
- 
+ function updateCart(){
+   setCartUpdated(Math.random())
+   console.log('hi')
+ }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -52,13 +56,15 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    cartUpdated,
     login,
     signup,
     logout,
     resetPassword,
     updateEmail,
     updatePassword,
-    setCurrentUser
+    setCurrentUser,
+    updateCart
   }
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Card,Media} from 'react-bootstrap';
+import {Card,Media,Button} from 'react-bootstrap';
 import Icofont from 'react-icofont';
 import PropTypes from 'prop-types'; 
 
@@ -16,14 +16,14 @@ function ChooseAddressCard(props) {
                      <h6 className="mb-1 text-secondary">{props.title}</h6>
                      <p className="text-black">{props.address}
                      </p>
-                     <p className="mb-0 text-black font-weight-bold">
+                     {/* <p className="mb-0 text-black font-weight-bold">
                      	{props.type==="hasAddress"?
-	                        (<><Link className="btn btn-sm btn-success mr-2" to="#" onClick={()=>{setFocus(!focus)
-                              props.onDeliverHereClick()}}> DELIVER HERE </Link>
+	                        (<><Button  variant="success" disabled={props.disableIt} className="btn btn-md btn-success mr-2" to="#" onClick={()=>{setFocus(!focus)
+                              props.onDeliverHereClick()}}> DELIVER HERE </Button>
 	                        </>)
 	                        :<Link className="btn btn-sm btn-primary mr-2" to="#" onClick={props.onAddNewClick}> ADD NEW ADDRESS </Link>
                      	}
-                     </p>
+                     </p> */}
                   </div>
                </Media>
             </div>

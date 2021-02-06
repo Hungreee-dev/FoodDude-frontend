@@ -35,17 +35,18 @@ const Detail = lazy(()=>import('./components/Detail'));
 function App(props)  {
   var hist = createBrowserHistory();
 
-  const [cartUpdated,setCartUpdated]=React.useState()
+  
   
     return (
       <>
+      <AuthProvider>
       <Router history={hist}>
           <Suspense fallback={<div>Loading...</div>}>
-          <AuthProvider>
+          
           {/* {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Header/>:''
           } */}
-          <Header cartUpdated={cartUpdated}/>
+          <Header />
               <Switch>
                 <Route path="/" exact component={Index} />
                 <PrivateRoute path="/offers" exact component={Offers} />
@@ -57,9 +58,9 @@ function App(props)  {
                 <Route path="/register" exact component={Register} />
                 <Route path="/track-order" exact component={TrackOrder} />
                 <Route path="/invoice" exact component={Invoice} />
-                <Route path="/checkout"  render={(props)=> (<Checkout {...props} cartUpdated={cartUpdated} setCartUpdated={setCartUpdated} />)} />
+                <PrivateRoute path="/checkout"  component={Checkout} />
                 <PrivateRoute path="/thanks" exact component={Thanks} />
-                <Route path="/detail" exact  render={(props)=>(<Detail {...props} cartUpdated={cartUpdated} setCartUpdated={setCartUpdated} />)} />
+                <PrivateRoute path="/detail" exact  component={Detail} />
                 <Route exact component={NotFound} />
               </Switch>
            <Footer/>
@@ -67,9 +68,10 @@ function App(props)  {
           {/* {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Footer/>:''
           } */}
-           </AuthProvider>
+           
           </Suspense>
           </Router>
+          </AuthProvider>
       </>
     );
   }

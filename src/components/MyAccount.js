@@ -44,12 +44,12 @@ function MyAccount(props) {
                           <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/offers"><i className="icofont-sale-discount"></i> Offers</NavLink>
                           </li>
-                          <li className="nav-item">
+                          {/* <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/favourites"><i className="icofont-heart"></i> Favourites</NavLink>
                           </li>
                           <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/payments"><i className="icofont-credit-card"></i> Payments</NavLink>
-                          </li>
+                          </li> */}
                           <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/addresses"><i className="icofont-location-pin"></i> Addresses</NavLink>
                           </li>

@@ -5,19 +5,20 @@ import {NavDropdown} from 'react-bootstrap';
 import DropDownTitle from '../common/DropDownTitle';
 import CartDropdownHeader from '../cart/CartDropdownHeader';
 import CartDropdownItem from '../cart/CartDropdownItem';
-
-
-
+import {useAuth} from '../../contexts/AuthContext';
+import {BaseUrl2} from '../../BaseUrl'
 export default function Cart(props){
     const userData=JSON.parse(localStorage.getItem('userData'))
   const [cartData,setCartData]=React.useState([])
+  const {cartUpdated} = useAuth();
   const [totalPrice,setTotalPrice]=React.useState(0)
   React.useEffect(()=>{
 	try{
    if(userData)	{	
+       console.log('ohnnooo')
        setTotalPrice(0)
 	const fetchData= async ()=>{
-	  const result= await axios.post(`http://localhost:3030/api/users/cart/get`,{
+	  const result= await axios.post(`${BaseUrl2}/api/users/cart/get`,{
 		  uid:userData.uid
 	  },{
 		  headers:{Authorization:userData.token}
@@ -44,7 +45,6 @@ export default function Cart(props){
   }catch(err){
 	  console.log(err);
 	}
-  
   },[props.cartUpdated]);
 
  return(

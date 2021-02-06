@@ -9,7 +9,7 @@ class CardItem extends React.Component {
     	return (
     		<div className="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                <div className="list-card-image">
-               	  {this.props.rating ? (
+               	  {/* {this.props.rating ? (
 	                  <div className="star position-absolute">
                   		<Badge variant="success">
 	                  		<Icofont icon='star'/> {this.props.rating}
@@ -17,19 +17,19 @@ class CardItem extends React.Component {
 	              	  </div>
 	              	  )
 	              	  :""
-	              }
-                  <div className={`favourite-heart position-absolute ${this.props.favIcoIconColor}`}>
+	              } */}
+                  {/* <div className={`favourite-heart position-absolute ${this.props.favIcoIconColor}`}>
                   	<Link to={this.props.linkUrl}>
                   		<Icofont icon='heart'/>
                   	</Link>
-                  </div>
-                  {this.props.showPromoted ? (
+                  </div> */}
+                  {/* {this.props.showPromoted ? (
 	                  <div className="member-plan position-absolute">
 	                  	<Badge variant={this.props.promotedVariant}>Promoted</Badge>
 	                  </div>
 	                  )
                   	  :""
-                  }
+                  } */}
                   <Link to={this.props.linkUrl}>
                   	<Image src={this.props.image} className={this.props.imageClass} alt={this.props.imageAlt} />
                   </Link>
@@ -42,7 +42,7 @@ class CardItem extends React.Component {
 	                     )
 	                     :''
 	                 }
-	                 {(this.props.time || this.props.price)? (
+	                 {/* {(this.props.time || this.props.price)? (
 	                     <p className="text-gray mb-3 time">
 	                     	{this.props.time ? (
 		                     	<span className="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2">
@@ -58,15 +58,15 @@ class CardItem extends React.Component {
 	                     	}
 	                     </p>
 	                   	):''
-	                 }
+	                 } */}
                   </div>
-                  {this.props.offerText ? (
+                  {/* {this.props.offerText ? (
 	                  <div className="list-card-badge">
 	                     <Badge variant={this.props.offerColor}>OFFER</Badge> <small>{this.props.offerText}</small>
 	                  </div>
 	                  )
 	                  :""
-	              }
+	              } */}
                </div>
             </div>
 		);

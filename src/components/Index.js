@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel3';
 import TopSearch from './home/TopSearch';
 import ProductBox from './home/ProductBox';
+import Header from './common/Header'
 import CardItem from './common/CardItem';
 import SectionHeading from './common/SectionHeading';
 import FontAwesome from './common/FontAwesome';
@@ -12,6 +13,7 @@ function Index(props){
 	
     	return (
     		<>
+			
     			<TopSearch />
 				<section className="section pt-5 pb-5 bg-white homepage-add-section food-background" >
 				<SectionHeading
@@ -20,8 +22,8 @@ function Index(props){
 					/>
 					<Container>
 						<Row>
-							<Col md={4} xs={6}>
-								<blockquote class="blockquote blockquote-custom bg-white p-5 shadow rounded">
+							<Col md={4} xs={6} >
+								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{background:'#f0f0f0'}} >
 									<div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
 									<h4 className="mb-2 font-weight-normal"><span className="font-weight-bold">Affordability</span></h4>
 									<p class="mb-0 mt-2 font-italic">"The tastiest food doesn't have to be the costliest.
@@ -31,7 +33,7 @@ function Index(props){
 								</blockquote>
 							</Col>
 							<Col md={4} xs={6}>
-								<blockquote class="blockquote blockquote-custom bg-white p-5 shadow rounded" style={{height:'300px'}}>
+								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{height:'300px',background:'#f0f0f0'}}>
 									<div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
 									<h4 className="mb-2 font-weight-normal"><span className="font-weight-bold">Quality</span></h4>
 									<p class="mb-0 mt-2 font-italic">"Fooddude provides you the best food ranging from several
@@ -41,7 +43,7 @@ function Index(props){
 								</blockquote>
 							</Col>
 							<Col md={4} xs={6}>
-								<blockquote class="blockquote blockquote-custom bg-white p-5 shadow rounded">
+								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{background:'#f0f0f0'}}>
 									<div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
 									<h4 className="mb-2 font-weight-normal"><span className="font-weight-bold">Hygiene</span></h4>
 									<p class="mb-0 mt-2 font-italic">"The pandemic has forced us to rethink our
@@ -56,7 +58,7 @@ function Index(props){
 					</Container>
 				</section>
 
-			    {/* <section className="section pt-5 pb-5 products-section">
+			    <section className="section pt-5 pb-5 products-section">
 			         <Container>
 			         	<SectionHeading 
 			         		heading='Popular Dishes For You'
@@ -137,7 +139,7 @@ function Index(props){
 			               </Col>
 			            </Row>
 			         </Container>
-			    </section> */}
+			    </section>
 			    <section className="section pt-5 pb-5 bg-white becomemember-section border-bottom food-background" style={{marginTop:'-70px'}}>
 			         <Container>
 			         	<SectionHeading 

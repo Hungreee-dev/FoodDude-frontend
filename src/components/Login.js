@@ -30,7 +30,7 @@ const asyncLocalStorage = {
 function Login (props) {
 	const emailRef = useRef()
 	const passwordRef = useRef()
-	const { login,currentUser,setCurrentUser} = useAuth()
+	const { login,setCurrentUser,updateCart} = useAuth()
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
 	const history = useHistory()
@@ -43,7 +43,7 @@ function Login (props) {
 		setLoading(true)
 		const result = await login(emailRef.current.value, passwordRef.current.value)
 		const token = await result.user.getIdToken()
-		console.log(token)
+		// console.log(token)
         const res= await axios.post(`${BaseUrl}/api/user/getDetails`,{
 			uid:result.user.uid
 		},{
@@ -52,6 +52,7 @@ function Login (props) {
 		const userData={name:res.data.name,phone:res.data.phone,email:emailRef.current.value,uid:result.user.uid,token:token}
 		 asyncLocalStorage.setItem('userData',JSON.stringify(userData))
 		history.push('/')
+		updateCart()
 	  } catch {
 		setError("Failed to log in")
 	  }
@@ -67,6 +68,7 @@ function Login (props) {
 		  const userData={name:res.user.displayName,phone:res.user.phoneNumber,email:res.user.email,uid:res.user.uid,token:token}
 		  asyncLocalStorage.setItem('userData',JSON.stringify(userData)) 
 		})
+		updateCart()
 		  history.push('/')
 		}).catch((error) => {
 		  console.log(error.message)
@@ -75,7 +77,7 @@ function Login (props) {
     	return (
     	  <Container fluid className='bg-white'>
 	         <Row>
-	            <Col md={4} lg={6} className="d-none d-md-flex bg-image">{currentUser && currentUser.email}</Col>
+	            <Col md={4} lg={6} className="d-none d-md-flex bg-image"><img src='https://images.unsplash.com/photo-1502301103665-0b95cc738daf?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80' height='700px' width="800px"/></Col>
 	            <Col md={8} lg={6}>
 	               <div className="login d-flex align-items-center py-5">
 	                  <Container>

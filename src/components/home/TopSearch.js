@@ -94,8 +94,8 @@ if(sendingData){
 	                     </Form>
 						 {!resData?<h7 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}>Enter your pincode to check if we deliver there</h7>:resData.success?<h7 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}>Yoooohoooo!! We deliver here. Start Ordering Dude!</h7>:<h7 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}>Ahhh Damn!! We will reach out there soon. Not delivering there as of now :(</h7>}
 	                  </div>
-	                  <h6 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}s>E.g. Beverages, Pizzas, Chines,Indian...</h6>
-	                  <CategoriesCarousel />
+	                  {/* <h6 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}s>Beverages, Pizzas, Chines,Indian... Get everything whatever your tummy demands</h6> */}
+	                  {/* <CategoriesCarousel /> */}
 	               </Col>
 	               <Col md={4}>
 	                  <div className="osahan-slider pl-4 pt-3">

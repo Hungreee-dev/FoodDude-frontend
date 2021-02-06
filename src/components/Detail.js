@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios'
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {Row,Col,Container,Form,InputGroup,Button,Tab,Nav,Image,Badge} from 'react-bootstrap';
 import ItemsCarousel from './common/ItemsCarousel';
 import GalleryCarousel from './common/GalleryCarousel';
@@ -9,13 +9,19 @@ import BestSeller from './common/BestSeller';
 import QuickBite from './common/QuickBite';
 import Cart from './Order/Cart'
 import Icofont from 'react-icofont';
-import {BaseUrl} from '../BaseUrl'
-function Detail(props) {
+import {BaseUrl} from '../BaseUrl';
+import {useAuth} from '../contexts/AuthContext'
 
+
+
+
+function Detail(props) {
+const history=useHistory()
 const [menu,setMenu]=React.useState([]);
+const {updateCart}=useAuth()
 const [category,setCategory]=React.useState([])
 const [recievedData,setRecievedData]=React.useState(false)
-const {uid,token}=JSON.parse(localStorage.getItem('userData'));
+const userData=JSON.parse(localStorage.getItem('userData'));
 React.useEffect(()=>{
     try{
     const fetchData= async ()=>{
@@ -42,7 +48,7 @@ React.useEffect(()=>{
   },[]);
 
   const getQty = async ({id,quantity,price}) => {
-
+if(userData){
    const item={
 	   name:id,
 	   quantity:quantity,
@@ -51,15 +57,18 @@ React.useEffect(()=>{
 	 
 	const result = await axios.post(`http://localhost:3030/api/users/cart/add`,{
 		item:item,
-		uid:uid
+		uid:userData.uid
 	},{
 		headers:{
-			Authorization:token
+			Authorization:userData.token
 		}
 	})
 	if(result){
-		props.setCartUpdated(Math.random())
-	}
+		updateCart()
+	}}else
+	history.push('/login')
+	
+	
 }
 const getStarValue = ({value}) => {
 	console.log(value);
@@ -89,7 +98,7 @@ let MenuData=<></>
 				 }
 				 return(
 					<Row>
-					<h5 className="mb-4 mt-3 col-md-12">{item} <small className="h6 text-black-50">{DishData.length} ITEMS</small></h5>
+					<h3 className="mb-4 mt-3 col-md-12">{item} <small className="h6 text-black-50">{DishData.length} ITEMS</small></h3>
 					<Col md={12}>
 					<div className="bg-white rounded border shadow-sm">
 						{DishData.map(item1=>{
@@ -112,7 +121,7 @@ let MenuData=<></>
 		<>
           <Tab.Container defaultActiveKey="first">
 	      
-		      <section className="offer-dedicated-body pt-2 pb-2 mt-4 mb-4">
+		      <section className="offer-dedicated-body pt-2 pb-2 food-background">
 		        <Container>
 		            <Row>
 		  
@@ -128,181 +137,22 @@ let MenuData=<></>
 		                                    </InputGroup.Append>
 		                                 </InputGroup>
 		                              </Form> */}
-		                              <h6 className="mb-3">Most Popular  <Badge variant="success">	<Icofont icon="tags" /> 15% Off All Items </Badge></h6>
-		                        	  <ItemsCarousel />
-
-			                           <Row>
-			                              <h5 className="mb-4 mt-3 col-md-12">Best Sellers</h5>
-			                              <Col md={4} sm={6} className="mb-4">
-			                                 <BestSeller 
-												id={1}
-										   		title='World Famous'
-												subTitle='North Indian • American • Pure veg'
-											  	imageAlt='Product'
-											    image='img/list/1.png'
-											    imageClass='img-fluid item-img'
-												price={250}
-												priceUnit='$'
-												isNew={true}
-												showPromoted={true}
-												promotedVariant='dark'
-												favIcoIconColor='text-danger'
-												rating='3.1 (300+)'
-												getValue={getQty}
-										   	/>
-			                              </Col>
-
-			                              <Col md={4} sm={6} className="mb-4">
-			                                 <BestSeller 
-												id={2}
-										   		title='The osahan Restaurant'
-												subTitle='North Indian • American • Pure veg'
-											  	imageAlt='Product'
-											    image='img/list/6.png'
-											    imageClass='img-fluid item-img'
-												price={250}
-												priceUnit='$'
-												qty={1}
-												showPromoted={true}
-												promotedVariant='dark'
-												favIcoIconColor='text-danger'
-												rating='3.1 (300+)'
-												getValue={getQty}
-										   	/>
-			                              </Col>
-
-			                              <Col md={4} sm={6} className="mb-4">
-			                                 <BestSeller 
-												id={3}
-										   		title='Bite Me Sandwiches'
-												subTitle='North Indian • American • Pure veg'
-											  	imageAlt='Product'
-											    image='img/list/3.png'
-											    imageClass='img-fluid item-img'
-												price={250}
-												priceUnit='$'
-												showPromoted={true}
-												promotedVariant='dark'
-												favIcoIconColor='text-danger'
-												rating='3.1 (300+)'
-												getValue={getQty}
-										   	/>
-			                              </Col>
-			                           </Row>
+		                              
 			                          
 			                              {MenuData}
 			                          
-			                           <Row>
-			                              <h5 className="mb-4 mt-3 col-md-12">Starters <small className="h6 text-black-50">3 ITEMS</small></h5>
-			                              <Col md={12}>
-			                                 <div className="bg-white rounded border shadow-sm mb-4">
-			                                 	<QuickBite 
-													id={1}
-													itemClass="menu-list"
-													image="/img/5.jpg"
-											   		title='Chicken Tikka Sub'
-													price={250}
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-				                                <QuickBite 
-													id={2}
-													itemClass="menu-list"
-											   		title='Cheese corn Roll'
-													image="/img/2.jpg"
-													price={600}
-													showBadge={true}
-													badgeText='BEST SELLER'
-													qty={1}
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-				                                <QuickBite 
-													id={3}
-													itemClass="menu-list"
-													image="/img/3.jpg"
-											   		title='Chicken Tikka Sub'
-													price={250}
-													showBadge={true}
-													badgeText='Pure Veg'
-													badgeVariant="success"
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-			                                 </div>
-			                              </Col>
-			                           </Row>
-			                           <Row>
-			                              <h5 className="mb-4 mt-3 col-md-12">Soups <small className="h6 text-black-50">8 ITEMS</small></h5>
-			                              <Col md={12}>
-			                                 <div className="bg-white rounded border shadow-sm">
-			                                 	<QuickBite 
-													id={1}
-											   		title='Chicken Tikka Sub'
-													price={250}
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-				                                <QuickBite 
-													id={2}
-											   		title='Cheese corn Roll'
-													price={600}
-													showBadge={true}
-													badgeText='BEST SELLER'
-													qty={1}
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-				                                <QuickBite 
-													id={3}
-											   		title='Chicken Tikka Sub'
-													price={250}
-													showBadge={true}
-													badgeText='Pure Veg'
-													badgeVariant="success"
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-											   	<QuickBite 
-													id={1}
-											   		title='Chicken Tikka Sub'
-													price={250}
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-				                                <QuickBite 
-													id={2}
-											   		title='Cheese corn Roll'
-													price={600}
-													showBadge={true}
-													badgeText='BEST SELLER'
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-				                                <QuickBite 
-													id={3}
-											   		title='Chicken Tikka Sub'
-													price={250}
-													showBadge={true}
-													badgeText='Pure Veg'
-													badgeVariant="success"
-													priceUnit='$'
-													getValue={getQty}
-											   	/>
-			                                 </div>
-			                              </Col>
-			                           </Row>
+			                           
 						</Col>
 		               <Col md={4}>
-		               <div className="bg-white rounded shadow-sm text-white mb-4 p-4 clearfix restaurant-detailed-earn-pts card-icon-overlap">
+		               {/* <div className="bg-white rounded shadow-sm text-white mb-4 p-4 clearfix restaurant-detailed-earn-pts card-icon-overlap">
 		                     <Image fluid className="float-left mr-3" src="/img/earn-score-icon.png" />
 		                     <h6 className="pt-0 text-primary mb-1 font-weight-bold">OFFER</h6>
 		                     <p className="mb-0">60% off on orders above $99 | Use coupon <span className="text-danger font-weight-bold">OSAHAN50</span></p>
 		                     <div className="icon-overlap">
 		                        <Icofont icon="sale-discount" />
 		                     </div>
-		                </div>
-		               	<Cart cartUpdated={props.cartUpdated} setCartUpdated={props.setCartUpdated}/>
+		                </div> */}
+		               	<Cart />
 		               </Col>
 					</Row>
 				</Container>

@@ -83,7 +83,7 @@ async function handleSubmit(e) {
     	return (
     	  <Container fluid className='bg-white'>
 	         <Row>
-	            <Col md={4} lg={6} className="d-none d-md-flex bg-image"><div>{currentUser && currentUser.email}</div></Col>
+	            <Col md={4} lg={6} className="d-none d-md-flex bg-image"><div><img src='https://images.unsplash.com/photo-1502301103665-0b95cc738daf?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80' height='800px' width="700px"/></div></Col>
 	            <Col md={8} lg={6}>
 	               <div className="login d-flex align-items-center py-5">
 	                  <Container>

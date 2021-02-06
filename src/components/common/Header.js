@@ -11,10 +11,10 @@ import {useAuth} from '../../contexts/AuthContext';
 function Header (props) {
   const node = React.useRef()
   const  [isNavExpanded,setNavExpanded] = React.useState(false)
-  const {logout,currentUser} = useAuth();
+  const {logout,currentUser,cartUpdated} = useAuth();
   const history= useHistory(); 
   const [error, setError] = React.useState("")
-  const userData=JSON.parse(localStorage.getItem('userData'))
+  //const userData=JSON.parse(localStorage.getItem('userData'))
 
 //   const [showSignOutModal,setSignOutModal]=React.useState(false)	   
     const setIsNavExpanded = () => {
@@ -72,17 +72,17 @@ function Header (props) {
 						/* <Nav.Link eventKey={1} as={NavLink} activeclassname="active" to="/offers">
              				<Icofont icon='sale-discount'/> Offers <Badge variant="danger">New</Badge>
 			            </Nav.Link> */}
-						{!currentUser?<Nav.Link eventKey={2} as={NavLink} activeclassname="active" to="/login">
-							<Icofont icon='login'/> Sign In
-						</Nav.Link>:null}
 						
-			            <NavDropdown title="Restaurants" alignRight className="border-0">
+						<Nav.Link eventKey={0} as={NavLink} activeclassname="active" exact to="/detail">
+			               Make an Order <span className="sr-only">(current)</span>
+			            </Nav.Link>
+			            {/* <NavDropdown title="Restaurants" alignRight className="border-0">
 							{ // This is the Listing Nav-Link Commented out
-							/* <NavDropdown.Item eventKey={2.1} as={NavLink} activeclassname="active" to="/listing">Listing</NavDropdown.Item> */}
+							/* <NavDropdown.Item eventKey={2.1} as={NavLink} activeclassname="active" to="/listing">Listing</NavDropdown.Item> }
 			            	<NavDropdown.Item eventKey={2.2} as={NavLink} activeclassname="active" to="/detail">Detail + Cart</NavDropdown.Item>
 			            	{currentUser?<NavDropdown.Item eventKey={2.3} as={NavLink} activeclassname="active" to="/checkout">Checkout</NavDropdown.Item>:null}
-			            </NavDropdown>
-			            <NavDropdown title="Pages" alignRight>
+			            </NavDropdown> */}
+			            {/* <NavDropdown title="Pages" alignRight>
 			            	<NavDropdown.Item eventKey={3.1} as={NavLink} activeclassname="active" to="/track-order">Track Order</NavDropdown.Item>
 			            	<NavDropdown.Item eventKey={3.2} as={NavLink} activeclassname="active" to="/invoice">Invoice</NavDropdown.Item>
 			            	<NavDropdown.Item eventKey={3.3} as={NavLink} activeclassname="active" to="/login">Login</NavDropdown.Item>
@@ -90,12 +90,12 @@ function Header (props) {
 			            	<NavDropdown.Item eventKey={3.5} as={NavLink} activeclassname="active" to="/404">404</NavDropdown.Item>
 			            	<NavDropdown.Item eventKey={3.6} as={NavLink} activeclassname="active" to="/extra">Extra</NavDropdown.Item>
 
-			            </NavDropdown>
-				{	currentUser?	<NavDropdown alignRight
+			            </NavDropdown> */}
+				   {currentUser?<NavDropdown alignRight
 							title={
 								<DropDownTitle 
 									className='d-inline-block' 
-									image="img/user/4.png"
+									image="https://cdn0.iconfinder.com/data/icons/profession-and-occupation-icons/110/avatar_occupation_profile_cook_kitchener_flunkey_food-512.png"
 									imageAlt='user'
 									imageClass="nav-osahan-pic rounded-pill"
 									title='My Account'
@@ -104,13 +104,16 @@ function Header (props) {
 						>
 							<NavDropdown.Item eventKey={4.1} as={NavLink} activeclassname="active" to="/myaccount/orders"><Icofont icon='food-cart'/> Orders</NavDropdown.Item>
 							<NavDropdown.Item eventKey={4.2} as={NavLink} activeclassname="active" to="/myaccount/offers"><Icofont icon='sale-discount'/> Offers</NavDropdown.Item>
-							<NavDropdown.Item eventKey={4.3} as={NavLink} activeclassname="active" to="/myaccount/favourites"><Icofont icon='heart'/> Favourites</NavDropdown.Item>
-							<NavDropdown.Item eventKey={4.4} as={NavLink} activeclassname="active" to="/myaccount/payments"><Icofont icon='credit-card'/> Payments</NavDropdown.Item>
+							{/* <NavDropdown.Item eventKey={4.3} as={NavLink} activeclassname="active" to="/myaccount/favourites"><Icofont icon='heart'/> Favourites</NavDropdown.Item>
+							<NavDropdown.Item eventKey={4.4} as={NavLink} activeclassname="active" to="/myaccount/payments"><Icofont icon='credit-card'/> Payments</NavDropdown.Item> */}
 							<NavDropdown.Item eventKey={4.5} as={NavLink} activeclassname="active" to="/myaccount/addresses"><Icofont icon='location-pin'/> Addresses</NavDropdown.Item>
 						</NavDropdown>:null}
-			           { currentUser?<Cart cartUpdated={props.cartUpdated}/>:null}
+			           { currentUser?<Cart/>:null}
 						{currentUser?<Nav.Link eventKey={2} as={NavLink}  to="/" onClick={handleLogout}>
 								 <Icofont icon='login'/> Sign Out
+						</Nav.Link>:null}
+						{!currentUser?<Nav.Link eventKey={2} as={NavLink} activeclassname="active" to="/login">
+							<Icofont icon='login'/> Sign In
 						</Nav.Link>:null}
 			         </Nav>
 			      </Navbar.Collapse>

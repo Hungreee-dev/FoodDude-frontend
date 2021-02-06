@@ -2,8 +2,7 @@ import React from 'react';
 import {Form,Modal,Button} from 'react-bootstrap';
 
 function EditProfileModal(props) {
-
-	
+const userData = JSON.parse(localStorage.getItem('userData'))
     	return (
 	        <Modal 
 	        	show={props.show} 
@@ -18,26 +17,27 @@ function EditProfileModal(props) {
 			  <Modal.Body>
 			    <Form>
                <div className="form-row">
+			   <Form.Group className="col-md-12 mb-0">
+                     <Form.Label>Name</Form.Label>
+                     <Form.Control type='text' defaultValue={userData.name} placeholder="Enter Name
+                        "/>
+                  </Form.Group>
                   <Form.Group className="col-md-12">
                      <Form.Label>Phone number</Form.Label>
-                     <Form.Control type="text" defaultValue="+91 85680-79956" placeholder="Enter Phone number" />
+                     <Form.Control type="text" defaultValue={userData.phone} placeholder="Enter Phone number" />
                   </Form.Group>
                   <Form.Group className="col-md-12">
                      <Form.Label>Email id</Form.Label>
-                     <Form.Control type="text" defaultValue="iamosahan@gmail.com" placeholder="Enter Email id
+                     <Form.Control type="text" defaultValue={userData.email} placeholder="Enter Email id
                         "/>
                   </Form.Group>
-                  <Form.Group className="col-md-12 mb-0">
-                     <Form.Label>Password</Form.Label>
-                     <Form.Control type="password" defaultValue="**********" placeholder="Enter password
-                        "/>
-                  </Form.Group>
+                  
                </div>
           </Form>
 			  </Modal.Body>
 
 			  <Modal.Footer>
-			    <Button type='button' onClick={props.onHide} variant="outline-primary" className="d-flex w-50 text-center justify-content-center">CANCEL</Button>
+			    <Button type='button' onClick={props.onHide} variant="primary" className="d-flex w-50 text-center justify-content-center">CANCEL</Button>
 			    <Button type='button' variant="primary" className='d-flex w-50 text-center justify-content-center'>UPDTAE</Button>
 			  </Modal.Footer>
 			</Modal>

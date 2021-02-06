@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 import CheckoutItem from '../common/CheckoutItem';
 import Icofont from 'react-icofont';
+
+import {useAuth} from '../../contexts/AuthContext'
 //import {BaseUrl} from '../BaseUrl'
 function Cart(props) {
 
@@ -12,6 +14,7 @@ function Cart(props) {
     const [totalPrice,setTotalPrice]=React.useState(0)
     const [recievedData,setRecievedData]=React.useState(false);
     const [cartItem,setCartItem]=React.useState()
+    const {cartUpdated,updateCart}=useAuth()
     
     React.useEffect(()=>{
       try{
@@ -47,7 +50,7 @@ function Cart(props) {
         console.log(err);
       }
     
-    },[props.cartUpdated]);
+    },[cartUpdated]);
 
   React.useEffect(()=>{
   if(recievedData){
@@ -88,7 +91,7 @@ function Cart(props) {
      }
    })
    if(result){
-     props.setCartUpdated(Math.random())
+     updateCart()
    }
  }
   
@@ -107,7 +110,7 @@ function Cart(props) {
      <p className="seven-color mb-1 text-right">Extra charges may apply</p>
      {/* <p className="text-black mb-0 text-right">You have saved $955 on the bill</p> */}
   </div>
-   <Link to="/checkout" className="btn btn-success btn-block btn-lg">Checkout
+   <Link to="/checkout"   className="btn btn-success btn-block btn-lg">Checkout
    <Icofont icon="long-arrow-right" /></Link>
    <div className="pt-2"></div>
    {/* <div className="alert alert-success" role="alert">

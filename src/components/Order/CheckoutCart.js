@@ -5,6 +5,8 @@ import {Image} from 'react-bootstrap';
 import CheckoutItem from '../common/CheckoutItem';
 import Icofont from 'react-icofont';
 //import {BaseUrl} from '../BaseUrl'
+
+import {useAuth} from '../../contexts/AuthContext'
 function Cart(props) {
 
     const userData=JSON.parse(localStorage.getItem('userData'))
@@ -13,6 +15,7 @@ function Cart(props) {
     const [recievedData,setRecievedData]=React.useState(false);
     const [cartItem,setCartItem]=React.useState()
     const {uid,token}=JSON.parse(localStorage.getItem('userData'));
+    const {cartUpdated,updateCart}=useAuth()
     React.useEffect(()=>{
       try{
      if(userData)	{	
