@@ -56,7 +56,7 @@ function Checkout(props) {
 			return
 		}
 
-		const data = await fetch('http://localhost:3030/api/payment/razorpay', {
+		const data = await fetch(`${BaseUrl2}/api/payment/razorpay`, {
 			 method: 'POST',
 			 headers:{'Content-Type':"application/json",Authorization:token}, 
 			 body:JSON.stringify({

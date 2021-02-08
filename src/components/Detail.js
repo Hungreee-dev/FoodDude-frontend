@@ -9,7 +9,7 @@ import BestSeller from './common/BestSeller';
 import QuickBite from './common/QuickBite';
 import Cart from './Order/Cart'
 import Icofont from 'react-icofont';
-import {BaseUrl} from '../BaseUrl';
+import {BaseUrl,BaseUrl2} from '../BaseUrl';
 import {useAuth} from '../contexts/AuthContext'
 
 
@@ -55,7 +55,7 @@ if(userData){
 	   price:price
    }
 	 
-	const result = await axios.post(`http://localhost:3030/api/users/cart/add`,{
+	const result = await axios.post(`${BaseUrl2}/api/users/cart/add`,{
 		item:item,
 		uid:userData.uid
 	},{

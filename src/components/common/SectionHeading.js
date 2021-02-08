@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 class SectionHeading extends React.Component {
 	render() {
     	return (
-            <div className={`section-header ${this.props.alignClass}`}>
-               <h1 style={{fontWeight:'700'}}>{this.props.heading}</h1>
+            <div  className={`section-header ${this.props.alignClass}`}>
+               <h1 style={{background:'white'}} style={{fontWeight:'700'}}>{this.props.heading}</h1>
                {this.props.subHeading ? (
                		<p>{this.props.subHeading}</p>
                		):''

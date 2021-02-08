@@ -30,7 +30,10 @@ const TrackOrder = lazy(()=>import('./components/TrackOrder'));
 const Invoice = lazy(()=>import('./components/Invoice'));
 const Checkout = lazy(()=>import('./components/Checkout'));
 const Detail = lazy(()=>import('./components/Detail'));
-
+const AboutUs = lazy(()=>import('./components/staticPages/AboutUs'));
+const RefundPolicy = lazy(()=>import('./components/staticPages/RefundPolicy.js'));
+const Terms = lazy(()=>import('./components/staticPages/TermsOfServices.js'));
+const PrivacyPolicy = lazy(()=>import('./components/staticPages/PrivacyPolicy.js'));
 
 function App(props)  {
   var hist = createBrowserHistory();
@@ -58,10 +61,15 @@ function App(props)  {
                 <Route path="/register" exact component={Register} />
                 <Route path="/track-order" exact component={TrackOrder} />
                 <Route path="/invoice" exact component={Invoice} />
+                <Route path='/about' exact component={AboutUs}/>
+                <Route path='/refund' exact component={RefundPolicy}/>
+                <Route path='/terms' exact component={Terms}/>
+                <Route path='/privacy' exact component={PrivacyPolicy}/>
                 <PrivateRoute path="/checkout"  component={Checkout} />
                 <PrivateRoute path="/thanks" exact component={Thanks} />
                 <PrivateRoute path="/detail" exact  component={Detail} />
                 <Route exact component={NotFound} />
+                
               </Switch>
            <Footer/>
           

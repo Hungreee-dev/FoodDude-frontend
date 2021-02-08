@@ -13,7 +13,7 @@ function Footer(props) {
 			    <section className="footer pt-5 pb-3" >
 			         <Container>
 			            <Row>
-			               <Col md={2} sm={12}>
+			               <Col md={3} sm={12}>
 			                  
 			                  <div className="app">
 			                     <p className="mb-2">DOWNLOAD OUR APP</p>
@@ -24,22 +24,31 @@ function Footer(props) {
 			                  </div>
 			               </Col>
 			               
-			               <Col md={4} sm={6} xs={6}>
-			                  <h6 className="mb-3">About Food Dude</h6>
+			               <Col md={2} sm={6} xs={6}>
+			                  <h6 className="mb-3">Support</h6>
 			                  <ul>
-			                     <li><Link to="#">About Us</Link></li>
-			                     <li><Link to="#">Blog</Link></li>
-			                     {/* <li><Link to="#">Careers</Link></li> */}
-			                     <li><Link to="#">Contact us</Link></li>
-								 <li><Link to="#">Code of Conduct</Link></li>
-								 <li><Link to="#">Follow us on Instagram</Link></li>
+			                     <li><Link to="/about">About Us</Link></li>
+			                     <li><Link to="/contact">Contact us</Link></li>
+								 {/* <li><Link to="#">Code of Conduct</Link></li>
+								 <li><Link to="#">Follow us on Instagram</Link></li> */}
 
 			                  </ul>
 			               </Col>
-			               <Col md={5} sm={6} xs={6} style={{marginLeft:'30px',textTransform:'none'}}>
+						   <Col md={3} sm={6} xs={6}>
+			                  <h6 className="mb-3">Legal</h6>
+			                  <ul>
+			                     <li><Link to="/privacy">Privacy Policy</Link></li>
+			                     <li><Link to="/terms">Terms of Service</Link></li>
+			                     {/* <li><Link to="#">Careers</Link></li> */}
+			                     <li><Link to="/refund">Refund/ Cancellation Policy</Link></li>
+								 
+
+			                  </ul>
+			               </Col>
+			               <Col md={3} sm={6} xs={6} style={{marginLeft:'30px',textTransform:'none'}}>
 			                  <h6 className="mb-3" style={{marginLeft:'30px',textTransform:'none'}} > Contact us at +91-6754321908</h6>
 							  <h6 className="mb-3" style={{marginLeft:'30px',textTransform:'none'}} > Mail us at wefooddude@gmail.com</h6>
-			                 
+			                  <div style={{display:'flex',justifyContent:'center'}} ><Image src="img/logo-fd-round.png" alt='' fluid /></div>
 			               </Col>
 			              
 			            </Row>
