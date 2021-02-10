@@ -17,7 +17,7 @@ function PrivacyPolicy(props){
                                         subHeading=''
 
                                     />
-                                    <div class="mb-0 mt-2" style={{fontSize:'16px',color:'#454040'}}>
+                                    <div class="mb-0 mt-2 font-italic" style={{fontSize:'16px',color:'#454040'}}>
                                     <p style={{color:'black'}}><strong><u>WHAT DO WE DO WITH YOUR INFORMATION?</u></strong></p>
 <p>When you purchase something from our store, as part of the buying and selling process, we collect the personal information you give us such as your name, address and email address.</p>
 <p>When you browse our store, we also automatically receive your computer&rsquo;s internet protocol (IP) address in order to provide us with information that helps us learn about your browser and operating system.</p>

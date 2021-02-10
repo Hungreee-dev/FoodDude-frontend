@@ -22,8 +22,8 @@ function Index(props){
 					/>
 					<Container>
 						<Row>
-							<Col md={4} xs={6} >
-								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{background:'#f0f0f0'}} >
+							<Col md={4} xs={12} style={{marginTop:'30px'}} >
+								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{background:'#f0f0f0',height:"300px"}} >
 									<div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
 									<h4 className="mb-2 font-weight-normal"><span className="font-weight-bold">Affordability</span></h4>
 									<p class="mb-0 mt-2 font-italic">"The tastiest food doesn't have to be the costliest.
@@ -32,7 +32,7 @@ function Index(props){
 
 								</blockquote>
 							</Col>
-							<Col md={4} xs={6}>
+							<Col md={4} xs={12} style={{marginTop:'30px'}}>
 								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{height:'300px',background:'#f0f0f0'}}>
 									<div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
 									<h4 className="mb-2 font-weight-normal"><span className="font-weight-bold">Quality</span></h4>
@@ -42,8 +42,8 @@ function Index(props){
 
 								</blockquote>
 							</Col>
-							<Col md={4} xs={6}>
-								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{background:'#f0f0f0'}}>
+							<Col md={4} xs={12} style={{marginTop:'30px'}}>
+								<blockquote class="blockquote blockquote-custom  p-5 shadow rounded" style={{background:'#f0f0f0',height:"300px"}}>
 									<div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
 									<h4 className="mb-2 font-weight-normal"><span className="font-weight-bold">Hygiene</span></h4>
 									<p class="mb-0 mt-2 font-italic">"The pandemic has forced us to rethink our
@@ -58,84 +58,72 @@ function Index(props){
 					</Container>
 				</section>
 
-			    <section className="section pt-5 pb-5 products-section">
+			    <section className="section pt-5 pb-5 products-section food-background">
 			         <Container>
 			         	<SectionHeading 
-			         		heading='Popular Dishes For You'
+			         		heading='Reviews From Experts'
 			         		subHeading='The delectable, lucious, mouthwatering food you can find with us'
 			         	/>
 			            <Row>
 			               <Col md={12}>
-			               	  <OwlCarousel nav loop {...options} className="owl-carousel-four owl-theme">
+			                 <div class="osahan-slider">
+			               	  <OwlCarousel autoplay nav loop {...options} className="owl-carousel-four owl-theme">
 			                     <div className="item">
 			                        <CardItem 
-								   		title='World Famous'
-										subTitle='North Indian • American • Pure veg'
 									  	imageAlt='Product'
-									    image='img/list/1.png'
+									    image='img/bloggers/1.jpeg'
 									    imageClass='img-fluid item-img'
-									    linkUrl='detail'
-									    offerText='65% off | Use Coupon OSAHAN50'
-										time='20–25 min'
-										price='$250 FOR TWO'
-										// showPromoted={true}
-										promotedVariant='dark'
-										// favIcoIconColor='text-danger'
-										// rating='3.1 (300+)'
+									    linkUrl='#'
+									    heading='@food_and_them_'
+										content='@wefooddude is a Newly Opened Cloud Kitchen In Bhubaneswar Which is Serving Delicious Indian n Chinese Dishes at a Very Affordable Price and Delivering it at Your Doorstep Maintaining Utmost Safety and Sanitisation ♥️'
 								   	/>
 			                     </div>
-			                     <div className="item">
+								 <div className="item">
 			                        <CardItem 
-								   		title='Bite Me Sandwiches'
-										subTitle='North Indian • American • Pure veg'
+								   		
 									  	imageAlt='Product'
-									    image='img/list/3.png'
+									    image='img/bloggers/2.jpeg'
 									    imageClass='img-fluid item-img'
-									    linkUrl='detail'
-									    offerText='65% off | Use Coupon OSAHAN50'
-										time='15–25 min'
-										price='$100 FOR TWO'
-										// showPromoted={true}
-										promotedVariant='dark'
-										// favIcoIconColor='text-danger'
-										// rating='3.1 (300+)'
+									    linkUrl='#'
+									    heading='-@foodishah'
+										content='@wefooddude is an initiative borne out of a gaping hole of quality existing in the online food ordering space right now. Being founded by youngsters like us. It strives to cater to the palette of each and everyone.'
 								   	/>
 			                     </div>
-			                     <div className="item">
+								 <div className="item">
 			                        <CardItem 
-								   		title='The osahan Restaurant'
-										subTitle='North Indian • American • Pure veg'
+								   		
 									  	imageAlt='Product'
-									    image='img/list/6.png'
+									    image='img/bloggers/3.jpeg'
 									    imageClass='img-fluid item-img'
-									    linkUrl='detail'
-									    offerText='65% off | Use Coupon OSAHAN50'
-										time='20–25 min'
-										price='$500 FOR TWO'
-										// showPromoted={true}
-										promotedVariant='danger'
-										// favIcoIconColor='text-dark'
-										// rating='3.1 (300+)'
+									    linkUrl='#'
+									    heading='@thatfoodieartist'
+										content='Food Dude is an initiative borne out of a gaping hole of quality existing in the online food ordering space right now. Being founded by youngsters like ourselves, it strives to cater to the palette of everyone.'
 								   	/>
 			                     </div>
-			                     <div className="item">
+								 <div className="item mr-2">
 			                        <CardItem 
-								   		title='Polo Lounge'
-										subTitle='North Indian • American • Pure veg'
+								   		
 									  	imageAlt='Product'
-									    image='img/list/9.png'
+									    image='img/bloggers/4.jpeg'
 									    imageClass='img-fluid item-img'
-									    linkUrl='detail'
-									    offerText='65% off | Use Coupon OSAHAN50'
-										time='20–25 min'
-										price='$250 FOR TWO'
-										// showPromoted={true}
-										promotedVariant='dark'
-										// favIcoIconColor='text-danger'
-										// rating='3.1 (300+)'
+									    linkUrl='#'
+									    heading='@hungrie_young_man'
+										content='Cloud kitchen alert. FoodDude is the new addition to the list of Cloud kitchens in Bhubaneswar. The food delivered was well packed with paper handkerchief, spoons, sanitiser and ketchup.'
+								   	/>
+			                     </div>
+								 <div className="item">
+			                        <CardItem 
+								   		
+									  	imageAlt='Product'
+									    image='img/bloggers/5.jpeg'
+									    imageClass='img-fluid item-img'
+									    linkUrl='#'
+									    heading='@jas_tronomy'
+										content='NEW CLOUD KITCHEN ALERT.  It was packed with all needed amenities and the food delivered was amazing as there was no compromise in quality and quantity.'
 								   	/>
 			                     </div>
 			                  </OwlCarousel>
+							  </div>
 			               </Col>
 			            </Row>
 			         </Container>

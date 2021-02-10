@@ -7,8 +7,8 @@ import Icofont from 'react-icofont';
 class CardItem extends React.Component {
 	render() {
     	return (
-    		<div className="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-               <div className="list-card-image">
+    		<div>
+               <div className="list-card-image shadow">
                	  {/* {this.props.rating ? (
 	                  <div className="star position-absolute">
                   		<Badge variant="success">
@@ -31,43 +31,15 @@ class CardItem extends React.Component {
                   	  :""
                   } */}
                   <Link to={this.props.linkUrl}>
-                  	<Image src={this.props.image} className={this.props.imageClass} alt={this.props.imageAlt} />
+                  	<Image src={this.props.image} className={this.props.imageClass} alt={this.props.imageAlt} style={{height:'250px'}} />
                   </Link>
                </div>
-               <div className="p-3 position-relative">
-                  <div className="list-card-body">
-                     <h6 className="mb-1"><Link to={this.props.linkUrl} className="text-black">{this.props.title}</Link></h6>
-                     {this.props.subTitle ? (
-	                     <p className="text-gray mb-3">{this.props.subTitle}</p>
-	                     )
-	                     :''
-	                 }
-	                 {/* {(this.props.time || this.props.price)? (
-	                     <p className="text-gray mb-3 time">
-	                     	{this.props.time ? (
-		                     	<span className="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2">
-		                     		<Icofont icon='wall-clock'/> {this.props.time}
-		                     	</span> 
-		                     	)
-		                     	:""
-		                    }
-							{this.props.price ? (
-	                     		<span className="float-right text-black-50"> {this.props.price}</span>
-	                     		)
-	                     		:""
-	                     	}
-	                     </p>
-	                   	):''
-	                 } */}
-                  </div>
-                  {/* {this.props.offerText ? (
-	                  <div className="list-card-badge">
-	                     <Badge variant={this.props.offerColor}>OFFER</Badge> <small>{this.props.offerText}</small>
-	                  </div>
-	                  )
-	                  :""
-	              } */}
-               </div>
+               <blockquote class="blockquote blockquote-custom p-3 shadow rounded" style={{background:'#f0f0f0',height:"300px"}}>
+									<div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
+									<p class="mb-0 mt-3 font-italic">"{this.props.content}"</p>
+									<p className="mb-2 font-italic" style={{color:'black',fontSize:'12px',textAlign:'right'}}><b>By-{this.props.heading}</b></p>
+
+								</blockquote>
             </div>
 		);
 	}

@@ -34,7 +34,7 @@ const AboutUs = lazy(()=>import('./components/staticPages/AboutUs'));
 const RefundPolicy = lazy(()=>import('./components/staticPages/RefundPolicy.js'));
 const Terms = lazy(()=>import('./components/staticPages/TermsOfServices.js'));
 const PrivacyPolicy = lazy(()=>import('./components/staticPages/PrivacyPolicy.js'));
-
+const ContactUs = lazy(()=>import('./components/staticPages/ContactUs.js'));
 function App(props)  {
   var hist = createBrowserHistory();
 
@@ -64,6 +64,7 @@ function App(props)  {
                 <Route path='/about' exact component={AboutUs}/>
                 <Route path='/refund' exact component={RefundPolicy}/>
                 <Route path='/terms' exact component={Terms}/>
+                <Route path='/contact' exact component={ContactUs}/>
                 <Route path='/privacy' exact component={PrivacyPolicy}/>
                 <PrivateRoute path="/checkout"  component={Checkout} />
                 <PrivateRoute path="/thanks" exact component={Thanks} />
