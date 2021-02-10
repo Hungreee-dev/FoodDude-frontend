@@ -61,7 +61,7 @@ function Checkout(props) {
 			 headers:{'Content-Type':"application/json",Authorization:token}, 
 			 body:JSON.stringify({
 				 uid:uid,
-				 price:totalPrice,
+				 price:totalPrice+49,
 			 })
 			
 			
@@ -210,7 +210,7 @@ function Checkout(props) {
 		return (
 		 <CheckoutItem 
 		   itemName={`${item.name}`}
-		  price={item.price+49}
+		  price={item.price}
 		  priceUnit="₹"
 		  id={item.name}
 		  qty={item.quantity}
@@ -448,8 +448,8 @@ function Checkout(props) {
                      </div>
                      <div className="mb-2 bg-white rounded p-2 clearfix">
                         <p className="mb-1">Item Total <span className="float-right text-dark">₹{totalPrice}</span></p>
-                        <p className="mb-1">Restaurant Charges <span className="float-right text-dark">$62.8</span></p>
-                        <p className="mb-1">Delivery Fee
+                        <p className="mb-1">Delivery Charges <span className="float-right text-dark">₹ 49</span></p>
+                        {/* <p className="mb-1">Delivery Fee
                     		<OverlayTrigger
 						      key="top"
 						      placement="top"
@@ -465,7 +465,7 @@ function Checkout(props) {
 						    </OverlayTrigger>
                            <span className="float-right text-dark">₹49</span>
                            
-                        </p>
+                        </p> */}
                         {/* <p className="mb-1 text-success">Total Discount 
                            <span className="float-right text-success">$1884</span>
                         </p> */}

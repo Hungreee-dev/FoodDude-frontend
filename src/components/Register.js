@@ -5,7 +5,7 @@ import {useAuth} from '../contexts/AuthContext';
 import FontAwesome from './common/FontAwesome';
 import { auth,googleProvider} from '../firebase'
 import axios from 'axios'
-
+import {BaseUrl2} from '../BaseUrl'
 function Register(props) {
 const nameRef=useRef();
 const phoneRef=useRef();
@@ -33,7 +33,7 @@ async function handleSubmit(e) {
       setLoading(true)
 	 const result=  await signup(emailRef.current.value, passwordRef.current.value)
 	 const token = await result.user.getIdToken()
-	 const res=await fetch(`http://localhost:3030/api/users/new`,{
+	 const res=await fetch(`${BaseUrl2}/api/users/new`,{
         method:"post",
         headers:{'Content-Type':"application/json",Authorization:token},
         body:JSON.stringify({
@@ -61,7 +61,7 @@ async function handleSubmit(e) {
 	auth.signInWithPopup(googleProvider).then((res) => {
 	  setCurrentUser(res.user)
 	  res.user.getIdToken().then(token=>{
-		axios.post(`http://localhost:3030/api/users/new`,{
+		axios.post(`${BaseUrl2}/api/users/new`,{
 		name:res.user.displayName,
 			  phone:res.user.phoneNumber,
 			  email:res.user.email,

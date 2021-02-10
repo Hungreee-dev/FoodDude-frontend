@@ -1,6 +1,6 @@
 import React from 'react';
 import {Form,InputGroup,Modal,ButtonToolbar,Button,ToggleButton,ToggleButtonGroup} from 'react-bootstrap';
-
+import {BaseUrl2} from '../../BaseUrl'
 export default function AddAddressModal(props) {
 const housenoRef=React.useRef()
 const line1Ref=React.useRef()
@@ -22,7 +22,7 @@ const handleSubmit=async (e)=>{
    }
 
     try {	
-	 const res=await fetch(`http://localhost:3030/api/users/address/add`,{
+	 const res=await fetch(`${BaseUrl2}/api/users/address/add`,{
         method:"post",
         headers:{'Content-Type':"application/json",Authorization:token},
         body:JSON.stringify({
