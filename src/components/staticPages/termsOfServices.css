@@ -1,0 +1,45 @@
+p{
+    color: rgba(0,0,0) !important;
+}
+
+@media (max-width:600px){
+    .section-header{
+        height: min-content;
+        margin: 10px 0;
+    }
+    .section-header > h1{
+        font-size:2rem !important;
+        
+    }
+    .section-header > h1 + .line{
+        display:none;
+    }
+    .section{
+        padding: 5px !important;
+    }
+    
+}
+
+@media (max-width:500px){
+    .section-header > h1{
+        font-size:1.5rem !important;
+    }
+    .blockquote{
+    
+        width:115%;
+
+    }
+    .mb-0.mt-2 li {
+        font-size:10px !important;
+    }
+    p.mb-0.mt-2{
+        font-size:10px !important;
+    }
+}
+
+@media (max-width:400px){
+    .section-header > h1{
+        font-size:1.2rem !important;
+    }
+    
+}

@@ -1527,3 +1527,7 @@ input[type=number]::-webkit-outer-spin-button {
 .user_select_disable{
     user-select: none;
 }
+.clickAbleText{
+    color: #FF3008;
+    cursor:  pointer;
+}
