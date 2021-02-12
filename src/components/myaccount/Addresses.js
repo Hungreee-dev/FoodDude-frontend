@@ -15,8 +15,8 @@ function Addresses() {
     const {uid,token} = JSON.parse(localStorage.getItem("userData"))
     const [addressId,setAddressId]=React.useState('')
     const [updated,isUpdated]=React.useState()
-  
-	
+
+
 	React.useEffect(()=>{
 	  try{
 		  console.log(uid)
@@ -26,25 +26,25 @@ function Addresses() {
 		},{
 			headers:{Authorization:token}
 		}) ;
-		
+
 		if(result.data){
 			console.log(result.data)
 		  setAddressData(result.data)
 		  setRecievedData(true)
 		}
-	  
+
 		else {
 		 console.log("error")
-		} 
+		}
 	}
 	  fetchData();
-	  
+
 	}catch(err){
 		console.log(err);
 	  }
-	
+
 	},[updated]);
-	
+
 	const  hideDeleteModal = () => showDeleteModal(false);
 	const  hideAddressModal = () => showAddressModal(false);
 	const  hideEditModal = () => showEditModal(false);
@@ -54,15 +54,15 @@ function Addresses() {
 			<EditAddressModal show={editModal} onHide={hideEditModal} isUpdated={isUpdated} addressId={addressId}/>
 	        <AddAddressModal show={addressModal} onHide={hideAddressModal} isUpdated={isUpdated} />
 	        <DeleteAddressModal show={deleteModal} onHide={hideDeleteModal} isUpdated={isUpdated} addressId={addressId}/>
-		    <div className='p-4 bg-white shadow-sm'>
+		    <div className='p-4 bg-white shadow-sm '>
               <Row>
                <Col md={12}>
                   <h4 className="font-weight-bold mt-0 mb-3">Manage Addresses</h4>
                </Col>
-               
+             <Col className="col-md-6" style={{margin:"auto"}}>
 			   {AddressData.map(item=>{
 				   return(
-					   <Col md={6}>
+					    <Row >
 						   <AddressCard
 							   boxClass="border border-primary shadow"
 							   title='Home'
@@ -70,26 +70,27 @@ function Addresses() {
 							   iconclassName='icofont-3x'
 							   address={`${item.housenumber}, ${item.line1}, ${item.line2}, ${item.city},${item.state} ${item.pincode}, India`}
 							   onEditClick={() => {
-								setAddressId(item.id)  
+								setAddressId(item.id)
 								showEditModal(true)
-								  
+
 								}}
 							   onDeleteClick={() => {
-								setAddressId(item.id)   
+								setAddressId(item.id)
 								showDeleteModal(true)
 								}}
 						   />
-					   </Col>
-				   )
+						</Row>
+					 )
 			   })}
+				 	 </Col>
 
 						<Col md={12}>
-							<div style={{display:'flex',justifyContent:'center'}}> 
+							<div style={{display:'flex',justifyContent:'center'}}>
 							<Button type='button' onClick={()=>{showAddressModal(true)}} variant="primary" className='d-flex w-50 text-center justify-content-center'>Add Address</Button>
 							</div>
 						</Col>
                {/* <Col md={6}>
-               	  <AddressCard 
+               	  <AddressCard
                	  	  boxClass="shadow-sm"
 					  title= 'Work'
 					  icoIcon= 'briefcase'
@@ -100,7 +101,7 @@ function Addresses() {
                	  />
                </Col>
                <Col md={6}>
-               	  <AddressCard 
+               	  <AddressCard
                	  	  boxClass="shadow-sm"
 					  title= 'Other'
 					  icoIcon= 'location-pin'
@@ -111,7 +112,7 @@ function Addresses() {
                	  />
                </Col>
                <Col md={6}>
-               	  <AddressCard 
+               	  <AddressCard
                	  	  boxClass="shadow-sm"
 					  title= 'Other'
 					  icoIcon= 'location-pin'
@@ -122,7 +123,7 @@ function Addresses() {
                	  />
                </Col>
                <Col md={6}>
-               	  <AddressCard 
+               	  <AddressCard
                	  	  boxClass="shadow-sm"
 					  title= 'Other'
 					  icoIcon= 'location-pin'
@@ -133,7 +134,7 @@ function Addresses() {
                	  />
                </Col>
                <Col md={6}>
-               	  <AddressCard 
+               	  <AddressCard
                	  	  boxClass="shadow-sm"
 					  title= 'Other'
 					  icoIcon= 'location-pin'

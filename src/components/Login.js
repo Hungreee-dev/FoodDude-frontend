@@ -8,13 +8,13 @@ import axios from 'axios'
 import {BaseUrl} from '../BaseUrl'
 
 
-const asyncLocalStorage = {
-    setItem: function (key, value) {
+const  asyncLocalStorage = {
+     setItem: async function (key, value) {
         return Promise.resolve().then(function () {
             localStorage.setItem(key, value);
         });
     },
-    getItem: function (key) {
+    getItem: async function (key) {
         return Promise.resolve().then(function () {
             return localStorage.getItem(key);
         });
@@ -34,10 +34,10 @@ function Login (props) {
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
 	const history = useHistory()
-  
+
 	async function handleSubmit(e) {
 	  e.preventDefault()
-  
+
 	  try {
 		setError("")
 		setLoading(true)
@@ -50,13 +50,13 @@ function Login (props) {
 			headers:{Authorization:token}
 		})
 		const userData={name:res.data.name,phone:res.data.phone,email:emailRef.current.value,uid:result.user.uid,token:token}
-		 asyncLocalStorage.setItem('userData',JSON.stringify(userData))
+		await asyncLocalStorage.setItem('userData',JSON.stringify(userData))
 		history.push('/')
 		updateCart()
 	  } catch {
 		setError("Failed to log in")
 	  }
-  
+
 	  setLoading(false)
 	}
 
@@ -66,7 +66,7 @@ function Login (props) {
 		  setCurrentUser(res.user)
 		  res.user.getIdToken().then(token=>{
 		  const userData={name:res.user.displayName,phone:res.user.phoneNumber,email:res.user.email,uid:res.user.uid,token:token}
-		  asyncLocalStorage.setItem('userData',JSON.stringify(userData)) 
+		  asyncLocalStorage.setItem('userData',JSON.stringify(userData))
 		})
 		updateCart()
 		  history.push('/')
@@ -94,7 +94,7 @@ function Login (props) {
 	                                 <Form.Control type="password" id="inputPassword" placeholder="Password" ref={passwordRef} />
 	                                 <Form.Label htmlFor="inputPassword">Password</Form.Label>
 	                              </div>
-	                              
+
 	                              <Button type="submit" disabled={loading} className="btn btn-lg btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2" style={{marginTop:'30px'}}>Sign in</Button>
 	                              <div className="text-center pt-3">
 	                                 Don’t have an account? <Link className="font-weight-bold" to="/register">Sign Up</Link>

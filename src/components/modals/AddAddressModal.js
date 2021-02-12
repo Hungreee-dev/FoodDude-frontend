@@ -21,29 +21,29 @@ const handleSubmit=async (e)=>{
 	   pincode:pincodeRef.current.value
    }
 
-    try {	
+    try {
 	 const res=await fetch(`http://localhost:3030/api/users/address/add`,{
         method:"post",
         headers:{'Content-Type':"application/json",Authorization:token},
         body:JSON.stringify({
 			address:address,
 			uid:uid
-      }) 
-    }) 
+      })
+    })
 	if(res){
 		props.isUpdated(Math.random())
 		props.onHide()
 	}
     } catch(err) {
 		console.log(err)
-     
+
     }
 }
-   
-	
+
+
     	return (
-	        <Modal 
-	        	show={props.show} 
+	        <Modal
+	        	show={props.show}
 	        	onHide={props.onHide}
 		        centered
 		   	  >
@@ -52,7 +52,7 @@ const handleSubmit=async (e)=>{
 			  </Modal.Header>
 
 			  <Modal.Body>
-  				<Form onSubmit={handleSubmit}> 
+  				<Form onSubmit={handleSubmit}>
              <div className="form-row">
                 <Form.Group className="col-md-12">
                    <Form.Label>House No.</Form.Label>
@@ -75,13 +75,13 @@ const handleSubmit=async (e)=>{
 				<Form.Group className="col-md-12">
                    <Form.Label>City</Form.Label>
                    <InputGroup>
-                      <Form.Control type="text" placeholder="City" ref={cityRef} />
+                      <Form.Control type="text" value="Bhubaneshwar" readOnly ref={cityRef} />
                    </InputGroup>
                 </Form.Group>
 				<Form.Group className="col-md-12">
                    <Form.Label>State</Form.Label>
                    <InputGroup>
-                      <Form.Control type="text" placeholder="State" ref={stateRef} />
+                      <Form.Control type="text" value="Odisha" readOnly ref={stateRef} />
                    </InputGroup>
                 </Form.Group>
 				<Form.Group className="col-md-12">
@@ -90,8 +90,8 @@ const handleSubmit=async (e)=>{
                       <Form.Control type="number" placeholder="Pincode" ref={pincodeRef} />
                    </InputGroup>
                 </Form.Group>
-                
-                
+
+
                 {/* <Form.Group className="mb-0 col-md-12">
                    <Form.Label>Nickname</Form.Label>
                    <ButtonToolbar>
@@ -109,7 +109,7 @@ const handleSubmit=async (e)=>{
     						  </ButtonToolbar>
                 </Form.Group> */}
              </div>
-          </Form>      
+          </Form>
 			  </Modal.Body>
 
 			  <Modal.Footer>

@@ -34,18 +34,18 @@ const AboutUs = lazy(()=>import('./components/staticPages/AboutUs'));
 const RefundPolicy = lazy(()=>import('./components/staticPages/RefundPolicy.js'));
 const Terms = lazy(()=>import('./components/staticPages/TermsOfServices.js'));
 const PrivacyPolicy = lazy(()=>import('./components/staticPages/PrivacyPolicy.js'));
-
+const Fail = lazy(()=>import('./components/Fail'));
 function App(props)  {
   var hist = createBrowserHistory();
 
-  
-  
+
+
     return (
       <>
       <AuthProvider>
       <Router history={hist}>
           <Suspense fallback={<div>Loading...</div>}>
-          
+
           {/* {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Header/>:''
           } */}
@@ -68,15 +68,16 @@ function App(props)  {
                 <PrivateRoute path="/checkout"  component={Checkout} />
                 <PrivateRoute path="/thanks" exact component={Thanks} />
                 <PrivateRoute path="/detail" exact  component={Detail} />
+                <PrivateRoute path="/failed" exact component={Fail} />
                 <Route exact component={NotFound} />
-                
+
               </Switch>
            <Footer/>
-          
+
           {/* {
             (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Footer/>:''
           } */}
-           
+
           </Suspense>
           </Router>
           </AuthProvider>

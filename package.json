@@ -18,7 +18,7 @@
     "react-firebaseui": "^4.1.0",
     "react-icofont": "1.0.19",
     "react-owl-carousel3": "^2.2.5",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-select2-wrapper": "^1.0.4-beta6"
   },

@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Row,Col,Container,Image} from 'react-bootstrap';
 
-class Thanks extends React.Component {
+class Fail extends React.Component {
 
 	render() {
     	return (
@@ -10,9 +10,9 @@ class Thanks extends React.Component {
 		         <Container>
 		            <Row>
 		               <Col md={12} className="text-center pt-5 pb-5">
-		                  <Image className="img-fluid" src="/img/thanks.png" alt="404" />
-		                  <h1 className="mt-2 mb-2">Congratulations</h1>
-		                  <p className="mb-5">You have successfully placed your order</p>
+		                  <Image className="img-fluid" src="/img/cancel.png" width="300px" height="300px" alt="404" />
+		                  <p className="mt-2 mb-2  display-3 text-danger">Transaction Failed</p>
+		                  <p className="mb-5" >Sorry for Failure, If money would have deducted It will returned back to your account within 2 bussiness days</p>
 		                  <Link className="btn btn-primary btn-lg" to="/myaccount/orders">GO HOME</Link>
 		               </Col>
 		            </Row>
@@ -23,4 +23,4 @@ class Thanks extends React.Component {
 }
 
 
-export default Thanks;
+export default Fail;
