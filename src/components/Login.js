@@ -138,11 +138,20 @@ function Login(props) {
                         />
                     </Col>
                     <Col md={8} lg={6}>
-                        <div style={{ position: 'relative' }} className="login d-flex align-items-center py-5">
+                        <div
+                            style={{ position: 'relative' }}
+                            className="login pb-5alt
+py-5alt d-flex align-items-center py-5"
+                        >
                             {popup && <Popup />}
                             <Container>
                                 <Row>
-                                    <Col md={9} lg={8} className=" loginbox mx-auto pl-5 pr-5">
+                                    <Col
+                                        md={9}
+                                        lg={8}
+                                        className=" loginbox mx-auto pb-5alt
+py-5alt pl-5 pr-5"
+                                    >
                                         <h3 className="login-heading mb-4 watchmax">
                                             <img className="mr-3" src="/img/logo-fd-round.png" alt="logo"></img>
                                             Welcome back!
@@ -151,7 +160,7 @@ function Login(props) {
                                         {loginWithOTP ? (
                                             <>
                                                 <p onClick={toggleType} className="text-center clickAbleText">
-                                                    LOGIN WITH EMAIL?
+                                                    LOGIN WITH EMAIL ?
                                                 </p>
                                                 <div className="row w100 padzero">
                                                     <div className="col padzero pr-2">
@@ -199,7 +208,7 @@ function Login(props) {
                                         ) : (
                                             <>
                                                 <p onClick={toggleType} className="text-center clickAbleText">
-                                                    LOGIN WITH OTP?
+                                                    LOGIN WITH OTP ?
                                                 </p>
                                                 <Form onSubmit={handleSubmit}>
                                                     <div className="form-label-group">
@@ -229,22 +238,21 @@ function Login(props) {
                                                     >
                                                         Sign in
                                                     </Button>
-                                                    <hr className="my-4" />
-                                                    <p className="text-center">LOGIN WITH</p>
-                                                    <div className="row w100 padzero">
-                                                        <div className="col padzero pr-2">
-                                                            <Button
-                                                                className="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase"
-                                                                onClick={signInWithGoogle}
-                                                            >
-                                                                <FontAwesome icon="google" className="mr-2" /> Google
-                                                            </Button>
-                                                        </div>
-                                                    </div>
                                                 </Form>
                                             </>
                                         )}
-
+                                        <hr className="my-4" />
+                                        <p className="text-center">LOGIN WITH</p>
+                                        <div className="row w100 padzero">
+                                            <div className="col padzero pr-2">
+                                                <Button
+                                                    className="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase"
+                                                    onClick={signInWithGoogle}
+                                                >
+                                                    <FontAwesome icon="google" className="mr-2" /> Google
+                                                </Button>
+                                            </div>
+                                        </div>
                                         <div style={{ marginBottom: '20px' }} className="text-center pt-3">
                                             Don’t have an account?{' '}
                                             <Link className="font-weight-bold" to="/register">

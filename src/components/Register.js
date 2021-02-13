@@ -122,11 +122,19 @@ function Register(props) {
                         />
                     </div>
                 </Col>
-                <Col md={8} lg={6}>
-                    <div className="login d-flex align-items-center py-5">
+                <Col md={8} lg={6} className="resize">
+                    <div
+                        className="login d-flex align-items-center pb-5alt
+py-5alt py-5"
+                    >
                         <Container>
                             <Row>
-                                <Col md={9} lg={8} className="loginbox mx-auto pl-5 pr-5">
+                                <Col
+                                    md={9}
+                                    lg={8}
+                                    className="loginbox mx-auto pb-5alt
+py-5alt pl-5 pr-5"
+                                >
                                     <h3 className="login-heading mb-4">
                                         <img className="mr-3" src="/img/logo-fd-round.png" alt="logo"></img>New Buddy!
                                     </h3>
