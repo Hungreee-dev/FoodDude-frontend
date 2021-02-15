@@ -8,8 +8,8 @@ function AddressCard(props) {
 
 	
     	return (
-        <Card className={"bg-white addresses-item mb-4 " + (props.boxClass)}>
-            <div className="gold-members p-4">
+        <Card className={"bg-white addresses-item mb-4 " + (props.boxClass)} style={{width:"100%"}}>
+            <div className="gold-members p-4" style={{paddingLeft:"2px"}}>
                <Media>
                   <div className="mr-3"><Icofont icon={props.icoIcon} className={props.iconclassName} /></div>
                   <div className="media-body">

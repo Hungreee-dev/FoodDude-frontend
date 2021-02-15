@@ -54,10 +54,10 @@ function Addresses() {
 			<EditAddressModal show={editModal} onHide={hideEditModal} isUpdated={isUpdated} addressId={addressId}/>
 	        <AddAddressModal show={addressModal} onHide={hideAddressModal} isUpdated={isUpdated} />
 	        <DeleteAddressModal show={deleteModal} onHide={hideDeleteModal} isUpdated={isUpdated} addressId={addressId}/>
-		    <div className='p-4 bg-white shadow-sm '>
+		    <div className='p-4 bg-white  food-background'>
               <Row>
                <Col md={12}>
-                  <h4 className="font-weight-bold mt-0 mb-3">Manage Addresses</h4>
+                  <h4 className="font-weight-bold mt-0 mb-3 text-center">Manage Addresses</h4>
                </Col>
              <Col className="col-md-6" style={{margin:"auto"}}>
 			   {AddressData.map(item=>{
@@ -89,61 +89,6 @@ function Addresses() {
 							<Button type='button' onClick={()=>{showAddressModal(true)}} variant="primary" className='d-flex w-50 text-center justify-content-center'>Add Address</Button>
 							</div>
 						</Col>
-               {/* <Col md={6}>
-               	  <AddressCard
-               	  	  boxClass="shadow-sm"
-					  title= 'Work'
-					  icoIcon= 'briefcase'
-					  iconclassName= 'icofont-3x'
-					  address= 'NCC, Model Town Rd, Pritm Nagar, Model Town, Ludhiana, Punjab 141002, India'
-					  onEditClick= {() => showAddressModal(true)}
-					  onDeleteClick={() =>  showDeleteModal(true)}
-               	  />
-               </Col>
-               <Col md={6}>
-               	  <AddressCard
-               	  	  boxClass="shadow-sm"
-					  title= 'Other'
-					  icoIcon= 'location-pin'
-					  iconclassName= 'icofont-3x'
-					  address= 'Delhi Bypass Rd, Jawaddi Taksal, Ludhiana, Punjab 141002, India'
-					  onEditClick= {() => showAddressModal(true)}
-					  onDeleteClick={() =>  showDeleteModal(true)}
-               	  />
-               </Col>
-               <Col md={6}>
-               	  <AddressCard
-               	  	  boxClass="shadow-sm"
-					  title= 'Other'
-					  icoIcon= 'location-pin'
-					  iconclassName= 'icofont-3x'
-					  address= 'MT, Model Town Rd, Pritm Nagar, Model Town, Ludhiana, Punjab 141002, India'
-					  onEditClick= {() => showAddressModal(true)}
-					  onDeleteClick={() =>  showDeleteModal(true)}
-               	  />
-               </Col>
-               <Col md={6}>
-               	  <AddressCard
-               	  	  boxClass="shadow-sm"
-					  title= 'Other'
-					  icoIcon= 'location-pin'
-					  iconclassName= 'icofont-3x'
-					  address= 'GNE Rd, Jawaddi Taksal, Ludhiana, Punjab 141002, India'
-					  onEditClick= {() => showAddressModal(true)}
-					  onDeleteClick={() =>  showDeleteModal(true)}
-               	  />
-               </Col>
-               <Col md={6}>
-               	  <AddressCard
-               	  	  boxClass="shadow-sm"
-					  title= 'Other'
-					  icoIcon= 'location-pin'
-					  iconclassName= 'icofont-3x'
-					  address= 'GTTT, Model Town Rd, Pritm Nagar, Model Town, Ludhiana, Punjab 141002, India'
-					  onEditClick= {() => showAddressModal(true)}
-					  onDeleteClick={() =>  showDeleteModal(true)}
-               	  />
-               </Col> */}
               </Row>
 		    </div>
 	      </>

@@ -9,7 +9,7 @@ function Offers(props)  {
 
 	const [promoData, setpromoData] = React.useState([]);
 	const [recievedData, setRecievedData] = React.useState(false)
-
+    
 
 	React.useEffect(()=>{
 		try{
@@ -56,56 +56,7 @@ function Offers(props)  {
 				  </Col>
 					   )
 				   })}
-	               <Col md={6}>
-	               	  <CouponCard 
-						  title= 'Get 50% OFF on your first osahan eat order'
-						  logoImage= 'img/bank/2.png'
-						  subTitle= 'Use code EAT730 & get 50% off on your first osahan order on Website and Mobile site. Maximum discount: $600'
-						  copyBtnText= 'COPY CODE'
-						  couponCode= 'EAT730'
-						  noBorder={false}
-	               	  />
-	               </Col>
-	               <Col md={6}>
-	               	  <CouponCard 
-						  title= 'Get 50% OFF on your first osahan eat order'
-						  logoImage= 'img/bank/3.png'
-						  subTitle= 'Use code SAHAN50 & get 50% off on your first osahan order on Website and Mobile site. Maximum discount: $200'
-						  copyBtnText= 'COPY CODE'
-						  couponCode= 'SAHAN50'
-						  noBorder={false}
-	               	  />
-	               </Col>
-	               <Col md={6}>
-	               	  <CouponCard 
-						  title= 'Get 50% OFF on your first osahan eat order'
-						  logoImage= 'img/bank/4.png'
-						  subTitle= 'Use code GURDEEP50 & get 50% off on your first osahan order on Website and Mobile site. Maximum discount: $600'
-						  copyBtnText= 'COPY CODE'
-						  couponCode= 'GURDEEP50'
-						  noBorder={false}
-	               	  />
-	               </Col>
-	               <Col md={6}>
-	               	  <CouponCard 
-						  title= 'Get 50% OFF on your first osahan eat order'
-						  logoImage= 'img/bank/5.png'
-						  subTitle= 'Use code OSAHANEAT50 & get 50% off on your first osahan order on Website and Mobile site. Maximum discount: $200'
-						  copyBtnText= 'COPY CODE'
-						  couponCode= 'OSAHANEAT50'
-						  noBorder={false}
-	               	  />
-	               </Col>
-	               <Col md={6}>
-	               	  <CouponCard 
-						  title= 'Get 50% OFF on your first osahan eat order'
-						  logoImage= 'img/bank/6.png'
-						  subTitle= 'Use code OSAHANEAT50 & get 50% off on your first osahan order on Website and Mobile site. Maximum discount: $200'
-						  copyBtnText= 'COPY CODE'
-						  couponCode= 'OSAHANEAT50'
-						  noBorder={false}
-	               	  />
-	               </Col>
+	             
 	            </Row>
 			    </div>
 		    </>

@@ -1,53 +1,62 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types'; 
 import {Link } from 'react-router-dom';
 import {Image,Media} from 'react-bootstrap';
 import Icofont from 'react-icofont';
 
-class OrderCard extends React.Component {
+function OrderCard(props){
+      const [deliveryStatus, setDeliveryStatus] =  useState("");
+	   React.useEffect(()=>{
 
-	render() {
+		   console.log(props.deliveredDate);
+		   console.log(typeof(props.deliveredDate))
+	        if(props.deliveredDate == 0)
+			 setDeliveryStatus("Processing");
+			else if(props.deliveredDate ==1)
+			 setDeliveryStatus("On the Way");
+			else if(props.deliveredDate == 2)
+			  setDeliveryStatus("Delivered");  
+	},[]) 
     	return (
-	      <div className="bg-white card mb-4 order-list shadow-sm">
+	      <div className="bg-white card mb-4 order-list shadow-sm" >
 	          <div className="gold-members p-4">
 	                <Media>
-	                   <Image className="mr-4" src={this.props.image} alt={this.props.imageAlt} />
+	                   <Image className="mr-4" src={props.image} alt={props.imageAlt} />
 	                   <Media.Body>
-	                   		{this.props.deliveredDate?
-	                   			(
-			                      <span className="float-right text-info">Delivered on {this.props.deliveredDate}  
-			                      	<Icofont icon="check-circled" className="text-success ml-1" />
-			                      </span>
-			                    )
-			                    :""
-	                   		}
+	                   		
+			                      <span className="float-right text-info">{deliveryStatus}
+								  {deliveryStatus =="Delivered"?
+								     <Icofont icon="check-circled" className="text-success ml-1" />
+									 :null
+								   }
+									   </span>
+			                  
 	                      <h6 className="mb-2">
-	                      	<Link to={this.props.detailLink}  className="text-black">{this.props.orderTitle} </Link>
+	                      	<Link to={props.detailLink}  className="text-black">{props.orderTitle} </Link>
 	                      </h6>
 	                      <p className="text-gray mb-1">
-	                      	<Icofont icon="location-arrow" /> {this.props.address} 
+	                      	<Icofont icon="location-arrow" /> {props.address} 
 	                      </p>
 	                      <p className="text-gray mb-3">
-	                      	<Icofont icon="list" /> ORDER #{this.props.orderNumber} 
-	                      	<Icofont icon="clock-time" className="ml-2" /> {this.props.orderDate} 
+	                      	<Icofont icon="list" /> ORDER #{props.orderNumber} 
+	                      	<Icofont icon="clock-time" className="ml-2" /> {props.orderDate} 
 	                      </p>
 	                      <p className="text-dark">
-	                      	{this.props.orderProducts} 
+	                      	{props.orderProducts} 
 	                      </p>
 	                      <hr />
 	                      <div className="float-right">
-		                      <Link className="btn btn-sm btn-outline-primary mr-1" to={this.props.helpLink}><Icofont icon="headphone-alt" /> HELP</Link>
-		                      <Link className="btn btn-sm btn-primary" to={this.props.detailLink}><Icofont icon="refresh" /> REORDER</Link>
+		                        <Link className="btn btn-sm btn-primary" to={'/detail'}><Icofont icon="refresh" /> REORDER</Link>
 	                      </div>
 	                      <p className="mb-0 text-black text-primary pt-2">
-	                      	<span className="text-black font-weight-bold"> Total Paid:</span> {this.props.orderTotal}
+	                      	<span className="text-black font-weight-bold"> Total Paid:</span> {props.orderTotal}
 	                      </p>
 	                   </Media.Body>
 	                </Media>
 	          </div>
 	       </div>
     	);
-    }
+    
 }
 
 OrderCard.propTypes = {
