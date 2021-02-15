@@ -33,7 +33,7 @@ export default function Cart(props) {
                             headers: { Authorization: userData.token },
                         }
                     );
-
+                    console.log(result);
                     // console.log(result);
                     if (result === undefined || result.data === undefined) {
                         // console.log('error');
@@ -45,10 +45,11 @@ export default function Cart(props) {
                         setCart(result.data);
                     }
                 } catch (e) {
-                    console.log(e);
-                    setLoading(false);
-                    logout();
-                    alert('Due to some technical problem and your safety we logged you out!');
+                    console.log(e.message);
+                    if (e.message.includes('401')) {
+                        setLoading(false);
+                        alert('Due to some token expired and your safety we logged you out!');
+                    }
                 }
             })();
         }

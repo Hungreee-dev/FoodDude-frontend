@@ -20,19 +20,27 @@ function QuickBite(props) {
     // }
     useEffect(() => {
         setQuantity(cartItems.find((ele) => ele.name === props.title)?.quantity);
-    }, [cartItems]);
+    }, [cartItems, props.title]);
     const IncrementItem = () => {
         if (quantity >= max) {
         } else {
-            setQuantity(quantity + 1);
-            props.getValue({ id: props.id, quantity: quantity + 1, price: price });
+            let quantityalt = quantity;
+            if (quantityalt === undefined || quantityalt === null) {
+                quantityalt = 0;
+            }
+            setQuantity(quantityalt + 1);
+            props.getValue({ id: props.id, quantity: quantityalt + 1, price: price });
         }
     };
     const DecreaseItem = () => {
         if (quantity <= min) {
         } else {
-            setQuantity(quantity - 1);
-            props.getValue({ id: props.id, quantity: quantity - 1, price: price });
+            let quantityalt = quantity;
+            if (quantity === undefined || quantityalt === null) {
+                quantityalt = 0;
+            }
+            setQuantity(quantityalt - 1);
+            props.getValue({ id: props.id, quantity: quantityalt - 1, price: price });
         }
     };
 
@@ -50,7 +58,7 @@ function QuickBite(props) {
                         {' '}
                         <Icofont icon="minus" />{' '}
                     </Button>
-                    <input className="count-number-input" type="text" value={quantity} readOnly />
+                    <input className="count-number-input" type="text" value={parseInt(quantity)} readOnly />
                     <Button variant="outline-secondary" onClick={IncrementItem} className="btn-sm right inc">
                         {' '}
                         <Icofont icon="icofont-plus" />{' '}

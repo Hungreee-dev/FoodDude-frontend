@@ -1,31 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom';
-import {
-    Row,
-    Col,
-    Container,
-    Form,
-    InputGroup,
-    Button,
-    Tab,
-    Nav,
-    ButtonToolbar,
-    ToggleButton,
-    ToggleButtonGroup,
-    Image,
-    OverlayTrigger,
-    Tooltip,
-} from 'react-bootstrap';
-import ItemsCarousel from './common/ItemsCarousel';
+import { useHistory } from 'react-router-dom';
+import { Row, Col, Container, Form, InputGroup, Button, Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
+// import ItemsCarousel from './common/ItemsCarousel';
 import ChooseAddressCard from './common/ChooseAddressCard';
 import CheckoutItem from './common/CheckoutItem';
 import AddAddressModal from './modals/AddAddressModal';
 import Icofont from 'react-icofont';
 import { useAuth } from '../contexts/AuthContext';
 import { BaseUrl, BaseUrl2 } from '../BaseUrl';
-import Header from './common/Header';
-import Footer from './common/Footer';
+// import Header from './common/Header';
+// import Footer from './common/Footer';
 function loadScript(src) {
     return new Promise((resolve) => {
         const script = document.createElement('script');

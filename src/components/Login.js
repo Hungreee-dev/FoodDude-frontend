@@ -98,7 +98,7 @@ function Login(props) {
         auth.signInWithPopup(googleProvider)
             .then((res) => {
                 setCurrentUser(res.user);
-                res.user.getIdToken().then((token) => {
+                res.user.getIdToken().then(async (token) => {
                     const userData = {
                         name: res.user.displayName,
                         phone: res.user.phoneNumber,
@@ -106,7 +106,7 @@ function Login(props) {
                         uid: res.user.uid,
                         token: token,
                     };
-                    asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+                    await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
                 });
                 updateCart();
                 history.push('/');

@@ -70,34 +70,37 @@ function Detail(props) {
                         },
                     }
                 );
-                // let newdata = [...cartItems];
-                // // console.log(cartItems);
-                // if (quantity === 0) {
-                //     newdata = newdata.filter((ele) => ele.name !== id);
-                // } else {
-                //     const index = newdata.findIndex((ele) => ele.name === id);
-                //     if (index !== -1) {
-                //         newdata[index].quantity = quantity;
-                //     }
-                // }
-                // // console.log(newdata);
-                const res = await axios.post(
-                    `${BaseUrl2}/api/users/cart/get`,
-                    {
-                        uid: userData.uid,
-                    },
-                    {
-                        headers: { Authorization: userData.token },
+                let newdata = [...cartItems];
+                // console.log(newdata);
+                if (quantity === 0) {
+                    newdata = newdata.filter((ele) => ele.name !== id);
+                } else {
+                    const index = newdata.findIndex((ele) => ele.name === id);
+                    if (index !== -1) {
+                        newdata[index].quantity = quantity;
+                    } else {
+                        newdata.push(item);
                     }
-                );
-                setCart(res.data);
+                }
+                // console.log(newdata);
+                // console.log(cartItems);
+                // const res = await axios.post(
+                //     `${BaseUrl2}/api/users/cart/get`,
+                //     {
+                //         uid: userData.uid,
+                //     },
+                //     {
+                //         headers: { Authorization: userData.token },
+                //     }
+                // );
+                setCart(newdata);
                 setLoading(false);
             } catch (err) {
                 // console.log(err);
                 setLoading(false);
             }
         },
-        [setCart, setLoading]
+        [setCart, setLoading, cartItems]
     );
 
     // const getStarValue = ({ value }) => {
@@ -131,10 +134,8 @@ function Detail(props) {
                                         const DishData = [];
                                         for (let data of menu) {
                                             if (data.Category === item) {
-                                            
                                                 DishData.push(
                                                     <QuickBite
-                                                        
                                                         id={data.Name}
                                                         title={data.Name}
                                                         showBadge={true}
