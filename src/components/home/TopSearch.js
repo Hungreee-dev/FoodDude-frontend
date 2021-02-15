@@ -18,25 +18,28 @@ function TopSearch(props) {
 
     React.useEffect(() => {
         if (sendingData) {
-            try {
-                const fetchData = async () => {
+            const fetchData = async () => {
+                try {
                     const result = await axios.post(`${BaseUrl}/api/pincode/check`, {
                         Pincode: pincode,
                     });
-
+                    // console.log(result);
                     if (result.data) {
                         setResData(result.data);
+                        setSendingData(false);
                     } else {
-                        console.log('error');
+                        setResData('error');
+                        setSendingData(false);
                     }
-                };
-                fetchData();
-                setSendingData(false);
-            } catch (err) {
-                console.log(err);
-            }
+                } catch (err) {
+                    setResData('error');
+                    // console.log(err, 'error');
+                    setSendingData(false);
+                }
+            };
+            fetchData();
         }
-    });
+    }, [pincode]);
 
     function handleSubmit() {
         setPincode(pincodeRef.current.value);
@@ -66,7 +69,13 @@ function TopSearch(props) {
                             </h5>
                         </div>
                         <div className="homepage-search-form">
-                            <Form className="form-noborder">
+                            <Form
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    handleSubmit();
+                                }}
+                                className="form-noborder"
+                            >
                                 <div className="form-row">
                                     {/* <Form.Group className='col-lg-3 col-md-3 col-sm-12'>
 	                              <div className="location-dropdown">
