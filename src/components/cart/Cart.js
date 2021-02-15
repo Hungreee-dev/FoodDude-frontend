@@ -33,13 +33,13 @@ export default function Cart(props) {
                             headers: { Authorization: userData.token },
                         }
                     );
-                    console.log(result);
+                    // console.log(result);
                     // console.log(result);
                     if (result === undefined || result.data === undefined) {
                         // console.log('error');
                         setLoading(false);
-                        logout();
                         alert('Due to some technical problem and your safety we logged you out!');
+                        logout();
                     } else {
                         setLoading(false);
                         setCart(result.data);
@@ -48,7 +48,8 @@ export default function Cart(props) {
                     console.log(e.message);
                     if (e.message.includes('401')) {
                         setLoading(false);
-                        alert('Due to some token expired and your safety we logged you out!');
+                        alert('Cause your token expired and your safety we logged you out!');
+                        logout();
                     }
                 }
             })();
