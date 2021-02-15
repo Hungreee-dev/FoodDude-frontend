@@ -50,6 +50,13 @@ function Index(props) {
                 username: 'Robert Smith',
                 rating: 4.3,
             },
+            {
+                photoURL: Image,
+                review:
+                    'Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.',
+                username: 'Robert Smith',
+                rating: 4.3,
+            },
         ]);
     }, []);
 
@@ -139,9 +146,9 @@ function Index(props) {
                         <Row>
                             <Col md={12}>
                                 <OwlCarousel nav {...options} className="owl-carousel-four owl-theme">
-                                    {reviews.map((ele, i) => {
-                                        return <ReviewCard {...ele} key={i} />;
-                                    })}
+                                    {reviews.map((ele, i) => (
+                                        <ReviewCard {...ele} key={i} />
+                                    ))}
                                 </OwlCarousel>
                             </Col>
                         </Row>

@@ -25,7 +25,7 @@ const asyncLocalStorage = {
 function Login(props) {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login, setCurrentUser, updateCart } = useAuth();
+    const { login, setCurrentUser, updateCart, sendotp } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -58,13 +58,6 @@ function Login(props) {
         }
         return false;
     })();
-    const sendOTP = () => {
-        setdisableOTP(Date.now());
-        setpopup(true);
-        setTimeout(() => {
-            setpopup(false);
-        }, 4100);
-    };
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -122,6 +115,15 @@ function Login(props) {
                 console.log(error.message);
             });
     };
+    const sendOTP = async () => {
+        await sendotp(mobile);
+        setdisableOTP(Date.now());
+        setpopup(true);
+        setTimeout(() => {
+            setpopup(false);
+        }, 4100);
+    };
+
     const signInWithOTP = () => {
         alert('For now this function is invalid!');
     };
