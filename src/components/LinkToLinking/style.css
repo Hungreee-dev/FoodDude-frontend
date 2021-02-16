@@ -1,0 +1,20 @@
+.linkingtolink{
+    position: fixed;
+    top: 40px;
+    left:50%;
+    transform: translateX(-50%);
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(172, 165, 165,0.8);
+    padding:20px;
+    border-radius:20px;
+    border: skyblue solid 1px;
+    z-index:9999;
+    text-align:center;
+}
+.linkingtolink > p {
+    color: lawngreen;
+    font-size: 12px;
+    font-weight: 800;
+}

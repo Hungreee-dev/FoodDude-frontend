@@ -112,15 +112,6 @@ function TopSearch(props) {
                                         >
                                             Check
                                         </Button>
-                                        <Button
-                                            disabled={sendingData}
-                                            onClick={() => {
-                                                auth.currentUser.linkWithPopup(phoneProvider);
-                                            }}
-                                            className="btn btn-primary btn-block btn-lg "
-                                        >
-                                            Link Phone
-                                        </Button>
                                     </Form.Group>
                                 </div>
                             </Form>

@@ -6,7 +6,19 @@ import FontAwesome from './common/FontAwesome';
 import { auth, googleProvider } from '../firebase';
 import axios from 'axios';
 import Input from './Input/Index';
-
+import { BaseUrl2 } from '../BaseUrl';
+const asyncLocalStorage = {
+    setItem: async function (key, value) {
+        return Promise.resolve().then(function () {
+            localStorage.setItem(key, value);
+        });
+    },
+    getItem: async function (key) {
+        return Promise.resolve().then(function () {
+            return localStorage.getItem(key);
+        });
+    },
+};
 function Register(props) {
     const [name, setname] = useState('');
     const [phone, setphone] = useState('');
@@ -45,7 +57,7 @@ function Register(props) {
             setLoading(true);
             const result = await signup(email, password);
             const token = await result.user.getIdToken();
-            const res = await fetch(`http://localhost:3030/api/users/new`, {
+            const res = await fetch(`${BaseUrl2}/api/users/new`, {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json', Authorization: token },
                 body: JSON.stringify({
@@ -56,15 +68,17 @@ function Register(props) {
                 }),
             });
             if (res) {
-                history.push('/myaccount');
                 const userData = {
                     name: name,
                     phone: phone,
                     email: result.user.email,
                     uid: result.user.uid,
                     token: token,
+                    user: result.user,
                 };
-                localStorage.setItem('userData', JSON.stringify(userData));
+                await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+                setCurrentUser(res.user);
+                history.push('/myaccount');
             }
         } catch (err) {
             console.log(err);
@@ -74,14 +88,15 @@ function Register(props) {
         setLoading(false);
     }
 
-    const signInWithGoogle = () => {
-        auth.signInWithPopup(googleProvider)
+    const signInWithGoogle = async () => {
+        await auth
+            .signInWithPopup(googleProvider)
             .then((res) => {
                 setCurrentUser(res.user);
-                res.user.getIdToken().then((token) => {
-                    axios
+                res.user.getIdToken().then(async (token) => {
+                    await axios
                         .post(
-                            `http://localhost:3030/api/users/new`,
+                            `${BaseUrl2}/api/users/new`,
                             {
                                 name: res.user.displayName,
                                 phone: res.user.phoneNumber,
@@ -100,7 +115,8 @@ function Register(props) {
                         uid: res.user.uid,
                         token: token,
                     };
-                    localStorage.setItem('userData', JSON.stringify(userData));
+                    await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+                    setCurrentUser(res.user);
                 });
                 history.push('/');
             })

@@ -24,6 +24,7 @@ body {
     background: #f3f7f8;
     font-size: 13px;
     font-weight: 500;
+    position:relative;
 }
 button, a {
     outline: none !important;

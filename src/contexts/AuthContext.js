@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
     const [cartUpdated, setCartUpdated] = useState();
+    const [verifiedPhone, setUVP] = useState(true);
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password);
     }
@@ -24,6 +25,7 @@ export function AuthProvider({ children }) {
     }
 
     function logout() {
+        setUVP(true);
         return auth.signOut();
     }
 
@@ -44,6 +46,9 @@ export function AuthProvider({ children }) {
     function updateCart() {
         setCartUpdated(Math.random());
         console.log('hi');
+    }
+    function sUVP() {
+        setUVP(false);
     }
     function signinWithPhone(phoneNumber, verifier) {
         return auth.signInWithPhoneNumber(phoneNumber, verifier);
@@ -74,6 +79,8 @@ export function AuthProvider({ children }) {
         updateCart,
         signinWithPhone,
         linkPhoneNumber,
+        verifiedPhone,
+        sUVP,
     };
 
     return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;

@@ -88,9 +88,11 @@ function Checkout(props) {
                 name: 'Food Order',
                 description: 'Thank you for nothing. Please give us some money',
                 image: '/img/logo-fd-round.png',
-                handler: function (response) {
+                handler: async function (response) {
                     const newdate = new Date();
-                    axios
+                    setLoading(true);
+                    setCart([]);
+                    await axios
                         .post(
                             `${BaseUrl}/api/order/add`,
                             {
@@ -119,15 +121,11 @@ function Checkout(props) {
                         )
                         .then((t) => {
                             // console.log(t);
-                            if (t) {
-                                setLoading(true);
-                                history.push('./thanks');
-                            }
                         })
                         .catch((err) => {
                             console.log(err.response);
                         });
-                    axios
+                    await axios
                         .post(
                             `${BaseUrl2}/api/users/cart/delete`,
                             {
@@ -140,7 +138,7 @@ function Checkout(props) {
                         .catch((err) => {
                             console.log(err.response);
                         });
-                    axios
+                    await axios
                         .post(
                             `${BaseUrl2}/api/users/add-order-id`,
                             {
@@ -151,8 +149,12 @@ function Checkout(props) {
                                 headers: { Authorization: token },
                             }
                         )
+                        .then((t) => {
+                            history.push('./thanks');
+                        })
                         .catch((err) => {
                             console.log(err.response);
+                            history.push('./thanks');
                         });
                     // console.log(response)
                     // alert(response.razorpay_payment_id)
@@ -280,7 +282,7 @@ function Checkout(props) {
     //CHECK PROMOCODE
 
     React.useEffect(() => {
-        console.log(uid);
+        console.log('uid');
         if (checkingPromocode) {
             setpromoPercentage(0);
             setPromocodeMssg('');
@@ -327,7 +329,7 @@ function Checkout(props) {
             fetchData();
             setCheckingPromocode(false);
         }
-    });
+    }, [checkingPromocode]);
 
     const hideAddressModal = () => showAddressModal(false);
 
@@ -368,7 +370,6 @@ function Checkout(props) {
             }).then((res) => res.json());
             setLoading(false);
             if (resdata.error === false) {
-                console.log('Done Payment');
                 setLoading(true);
                 const order_id = resdata.message;
                 const newdate = new Date();
@@ -399,16 +400,16 @@ function Checkout(props) {
                     )
                     .then((t) => {
                         // console.log(t.data);
-                        if (t) {
-                            setLoading(true);
-                            history.push('./thanks');
-                        }
+                        // if (t) {
+                        //     setLoading(true);
+                        //     history.push('./thanks');
+                        // }
                     })
                     .catch((err) => {
                         console.log(err.response);
                     });
 
-                axios
+                await axios
                     .post(
                         `${BaseUrl2}/api/users/cart/delete`,
                         {
@@ -418,10 +419,13 @@ function Checkout(props) {
                             headers: { Authorization: token },
                         }
                     )
+                    .then((res) => {
+                        setCart([]);
+                    })
                     .catch((err) => {
                         console.log(err.response);
                     });
-                axios
+                await axios
                     .post(
                         `${BaseUrl2}/api/users/add-order-id`,
                         {
@@ -463,6 +467,7 @@ function Checkout(props) {
                                                 {AddressData.map((item, index) => {
                                                     return (
                                                         <Row
+                                                            key={index}
                                                             style={{ width: '100%', margin: 'auto', display: 'block' }}
                                                         >
                                                             <Form.Check

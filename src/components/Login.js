@@ -85,8 +85,10 @@ function Login(props) {
                 email: emailRef.current.value,
                 uid: result.user.uid,
                 token: token,
+                user: res.user,
             };
             await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+            setCurrentUser(res.user);
             history.push('/');
             updateCart();
         } catch {
@@ -96,21 +98,23 @@ function Login(props) {
         setLoading(false);
     }
 
-    const signInWithGoogle = () => {
-        auth.signInWithPopup(googleProvider)
-            .then((res) => {
-                setCurrentUser(res.user);
-                res.user.getIdToken().then(async (token) => {
+    const signInWithGoogle = async () => {
+        await auth
+            .signInWithPopup(googleProvider)
+            .then(async (res) => {
+                await res.user.getIdToken().then(async (token) => {
                     const userData = {
                         name: res.user.displayName,
                         phone: res.user.phoneNumber,
                         email: res.user.email,
                         uid: res.user.uid,
                         token: token,
+                        user: res.user,
                     };
                     await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
                 });
                 updateCart();
+                setCurrentUser(res.user);
                 history.push('/');
             })
             .catch((error) => {
@@ -122,6 +126,13 @@ function Login(props) {
         const verifier = window.recaptchaVerifier;
 
         try {
+            await axios.post(`https://fooddude-node.herokuapp.com/api/users/check-user-by-phoneNumber`, {
+                token: 'FoodDude',
+                phone: `+91${mobile}`,
+            });
+
+            // console.log(res);
+            console.log('Send OTP');
             const confirmationResult = await signinWithPhone(`+91${mobile}`, verifier);
             setpopup(true);
             setTimeout(() => {
@@ -129,20 +140,31 @@ function Login(props) {
             }, 4100);
             window.confirmationResult = confirmationResult; // Used by VerificationCodeForm
         } catch (err) {
-            alert('logInVendor ERROR', err);
-            console.log(err);
+            if (err.message.includes('404')) {
+                alert('Please create account first!');
+                history.push('/register');
+            } else {
+                alert('logInVendor ERROR', err);
+                console.log(err.body);
+            }
         }
     };
     const loginWithPhone = async () => {
         setWorking(true);
         try {
             const res = await window.confirmationResult.confirm(otp);
-            // console.log(res);
-            if (res.additionalUserInfo.isNewUser || res.credential === null) {
-                alert('Please create account first!');
-                history.push('/register');
-            }
+            const userData = {
+                name: res.user.displayName,
+                phone: res.user.phoneNumber,
+                email: res.user.email,
+                uid: res.user.uid,
+                token: res.user.refreshToken,
+                user: res.user,
+            };
+            await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+            setCurrentUser(res.user);
             setWorking(false);
+            history.push('/');
         } catch (err) {
             setWorking(false);
             alert('confirmationResult.confirm() ERROR', err);

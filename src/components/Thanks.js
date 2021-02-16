@@ -1,13 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Container, Image } from 'react-bootstrap';
-import { useOrder } from '../contexts/OrderContext';
-const Thanks = () => {
-    const { setCart } = useOrder();
-    useEffect(() => {
-        setCart([]);
-    }, []);
 
+const Thanks = () => {
     return (
         <section className="section pt-5 pb-5 osahan-not-found-page">
             <Container>

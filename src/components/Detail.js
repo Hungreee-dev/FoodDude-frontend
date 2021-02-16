@@ -7,7 +7,7 @@ import QuickBite from './common/QuickBite';
 import Cart from './Order/Cart';
 import Spinner from './Spinner/index';
 import { BaseUrl, BaseUrl2 } from '../BaseUrl';
-// import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useOrder } from '../contexts/OrderContext';
 
 function Detail(props) {
@@ -20,6 +20,7 @@ function Detail(props) {
     // const userData = JSON.parse(localStorage.getItem('userData'));
     const [loading, setLoading] = useState(false);
     const [loading1, setLoading1] = useState(false);
+    const { logout } = useAuth();
 
     React.useEffect(() => {
         try {
@@ -42,8 +43,13 @@ function Detail(props) {
             };
             fetchData();
         } catch (err) {
-            console.log(err);
             setLoading1(false);
+            console.log(err.message);
+            if (err.message.includes('401')) {
+                setLoading(false);
+                alert('Cause you not authenticated or your token expired and your safety we logged you out!');
+                logout();
+            }
         }
     }, []);
 
@@ -98,6 +104,12 @@ function Detail(props) {
             } catch (err) {
                 // console.log(err);
                 setLoading(false);
+                console.log(err.message);
+                if (err.message.includes('401')) {
+                    setLoading(false);
+                    alert('Cause you not authenticated or your token expired and your safety we logged you out!');
+                    logout();
+                }
             }
         },
         [setCart, setLoading, cartItems]
