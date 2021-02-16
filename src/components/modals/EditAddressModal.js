@@ -75,13 +75,13 @@ const handleSubmit=async (e)=>{
 				<Form.Group className="col-md-12">
                    <Form.Label>City</Form.Label>
                    <InputGroup>
-                      <Form.Control type="text" placeholder="City" ref={cityRef} />
+                      <Form.Control value="Bhubaneshwar" readOnly ref={cityRef} />
                    </InputGroup>
                 </Form.Group>
 				<Form.Group className="col-md-12">
                    <Form.Label>State</Form.Label>
                    <InputGroup>
-                      <Form.Control type="text" placeholder="State" ref={stateRef} />
+                      <Form.Control value="Odisha" readOnly  ref={stateRef} />
                    </InputGroup>
                 </Form.Group>
 				<Form.Group className="col-md-12">

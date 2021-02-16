@@ -10,11 +10,11 @@ function OrderCard(props){
 
 		   console.log(props.deliveredDate);
 		   console.log(typeof(props.deliveredDate))
-	        if(props.deliveredDate == 0)
+	        if(props.deliveredDate === 0)
 			 setDeliveryStatus("Processing");
-			else if(props.deliveredDate ==1)
+			else if(props.deliveredDate ===1)
 			 setDeliveryStatus("On the Way");
-			else if(props.deliveredDate == 2)
+			else if(props.deliveredDate === 2)
 			  setDeliveryStatus("Delivered");  
 	},[]) 
     	return (
@@ -25,7 +25,7 @@ function OrderCard(props){
 	                   <Media.Body>
 	                   		
 			                      <span className="float-right text-info">{deliveryStatus}
-								  {deliveryStatus =="Delivered"?
+								  {deliveryStatus ==="Delivered"?
 								     <Icofont icon="check-circled" className="text-success ml-1" />
 									 :null
 								   }

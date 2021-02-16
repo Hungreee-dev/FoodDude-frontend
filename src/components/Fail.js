@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Row,Col,Container,Image} from 'react-bootstrap';
 
-class Thanks extends React.Component {
+class Fail extends React.Component {
 
 	render() {
     	return (
@@ -24,4 +24,4 @@ class Thanks extends React.Component {
 }
 
 
-export default Thanks;
+export default Fail;

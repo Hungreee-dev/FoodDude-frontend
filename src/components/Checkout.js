@@ -38,7 +38,6 @@ function Checkout(props) {
 	const [AddressData, setAddressData] = React.useState([]);
     const [recievedData, setRecievedData] = React.useState(false)
     const {uid,token,name,email,phone} = JSON.parse(localStorage.getItem("userData"))
-    const [addressId,setAddressId]=React.useState('')
     const [updated,isUpdated]=React.useState()
     const [orderData,setOrderData]=React.useState({})
 	const {cartUpdated,updateCart}=useAuth()
