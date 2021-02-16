@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Row, Col, Container, Form, Button, Alert } from 'react-bootstrap';
 import FontAwesome from './common/FontAwesome';
 import { auth, googleProvider } from '../firebase';
 import axios from 'axios';
-import { BaseUrl } from '../BaseUrl';
+import { BaseUrl2 } from '../BaseUrl';
 import './Input/style.css';
 import Input from './Input/Index';
 import Popup from './staticPages/Popup';
+import firebase from 'firebase';
 const asyncLocalStorage = {
     setItem: async function (key, value) {
         return Promise.resolve().then(function () {
@@ -25,7 +26,7 @@ const asyncLocalStorage = {
 function Login(props) {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login, setCurrentUser, updateCart, sendotp } = useAuth();
+    const { login, setCurrentUser, updateCart, signinWithPhone } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -35,6 +36,7 @@ function Login(props) {
     const [time, settime] = useState(60);
     const [popup, setpopup] = useState(false);
     const [loginWithOTP, setloginWithOTP] = useState(true);
+    const [working, setWorking] = useState(false);
 
     const toggleType = () => {
         setloginWithOTP((prev) => !prev);
@@ -69,7 +71,7 @@ function Login(props) {
             const token = await result.user.getIdToken();
             // console.log(token)
             const res = await axios.post(
-                `${BaseUrl}/api/user/getDetails`,
+                `${BaseUrl2}/api/user/getDetails`,
                 {
                     uid: result.user.uid,
                 },
@@ -116,17 +118,47 @@ function Login(props) {
             });
     };
     const sendOTP = async () => {
-        await sendotp(mobile);
         setdisableOTP(Date.now());
-        setpopup(true);
-        setTimeout(() => {
-            setpopup(false);
-        }, 4100);
+        const verifier = window.recaptchaVerifier;
+
+        try {
+            const confirmationResult = await signinWithPhone(`+91${mobile}`, verifier);
+            setpopup(true);
+            setTimeout(() => {
+                setpopup(false);
+            }, 4100);
+            window.confirmationResult = confirmationResult; // Used by VerificationCodeForm
+        } catch (err) {
+            alert('logInVendor ERROR', err);
+            console.log(err);
+        }
+    };
+    const loginWithPhone = async () => {
+        setWorking(true);
+        try {
+            const res = await window.confirmationResult.confirm(otp);
+            // console.log(res);
+            if (res.additionalUserInfo.isNewUser || res.credential === null) {
+                alert('Please create account first!');
+                history.push('/register');
+            }
+            setWorking(false);
+        } catch (err) {
+            setWorking(false);
+            alert('confirmationResult.confirm() ERROR', err);
+        }
     };
 
-    const signInWithOTP = () => {
-        alert('For now this function is invalid!');
-    };
+    useEffect(() => {
+        // Setup recaptcha
+        if (loginWithOTP && !window.recaptchaVerifier) {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('login-btn', { size: 'invisible' });
+            window.recaptchaVerifier.render();
+        }
+        return () => {
+            window.recaptchaVerifier = null;
+        };
+    }, [loginWithOTP]);
     return (
         <>
             <Container fluid className="food-background">
@@ -171,7 +203,7 @@ py-5alt pl-5 pr-5"
                                                             filled={mobile !== ''}
                                                             error={isMobileInvalid}
                                                             type="tel"
-                                                            Label="Mobile Number"
+                                                            Label="Mobile Number(10 Digit Format Only)"
                                                             name="Mobile"
                                                             value={mobile}
                                                             change={(e) => {
@@ -191,16 +223,21 @@ py-5alt pl-5 pr-5"
                                                             }}
                                                         />
                                                         <Button
-                                                            disabled={isMobileInvalid || disableOTP}
+                                                            id="login-btn"
+                                                            disabled={
+                                                                isMobileInvalid ||
+                                                                disableOTP ||
+                                                                !window.recaptchaVerifier
+                                                            }
                                                             className="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase"
                                                             onClick={sendOTP}
                                                         >
                                                             SEND OTP {disableOTP && `(Resend in ${time})`}
                                                         </Button>
                                                         <Button
-                                                            disabled={isMobileInvalid || otp.length < 4}
+                                                            disabled={isMobileInvalid || otp.length < 4 || working}
                                                             className="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase"
-                                                            onClick={signInWithOTP}
+                                                            onClick={loginWithPhone}
                                                         >
                                                             Sign In With OTP
                                                         </Button>
@@ -234,7 +271,7 @@ py-5alt pl-5 pr-5"
 
                                                     <Button
                                                         type="submit"
-                                                        disabled={loading}
+                                                        disabled={loading || working}
                                                         className="btn btn-lg btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
                                                         style={{ marginTop: '30px' }}
                                                     >
@@ -248,6 +285,7 @@ py-5alt pl-5 pr-5"
                                         <div className="row w100 padzero">
                                             <div className="col padzero pr-2">
                                                 <Button
+                                                    disabled={working}
                                                     className="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase"
                                                     onClick={signInWithGoogle}
                                                 >

@@ -22,4 +22,5 @@ export const uiConfig = {
 export const auth = app.auth();
 
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const phoneProvider = new firebase.auth.PhoneAuthProvider();
 export default app;

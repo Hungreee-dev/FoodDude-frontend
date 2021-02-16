@@ -13,6 +13,8 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'react-select2-wrapper/css/select2.css';
 import './App.css';
 
+import Loader from './components/Loader/index';
+
 //Routes
 const Header = lazy(() => import('./components/common/Header'));
 const Footer = lazy(() => import('./components/common/Footer'));
@@ -34,6 +36,7 @@ const RefundPolicy = lazy(() => import('./components/staticPages/RefundPolicy.js
 const Terms = lazy(() => import('./components/staticPages/TermsOfServices.js'));
 const PrivacyPolicy = lazy(() => import('./components/staticPages/PrivacyPolicy.js'));
 const ContactUs = lazy(() => import('./components/staticPages/ContactUS/Index.js'));
+const Fail = lazy(() => import('./components/Fail'));
 
 function App(props) {
     var hist = createBrowserHistory();
@@ -42,10 +45,7 @@ function App(props) {
             <OrderProvider>
                 <AuthProvider>
                     <Router history={hist}>
-                        <Suspense fallback={<div>Loading...</div>}>
-                            {/* {
-            (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Header/>:''
-          } */}
+                        <Suspense fallback={<Loader />}>
                             <Header />
                             <Switch>
                                 <Route path="/" exact component={Index} />
@@ -68,7 +68,7 @@ function App(props) {
                                 <PrivateRoute path="/checkout" component={Checkout} />
                                 <PrivateRoute path="/thanks" exact component={Thanks} />
                                 <PrivateRoute path="/detail" exact component={Detail} />
-
+                                <PrivateRoute path="/failed" exact component={Fail} />
                                 <Route exact component={NotFound} />
                             </Switch>
                             <Footer />

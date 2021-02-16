@@ -6,8 +6,8 @@ import { Row, Col, Container, Form, Button } from 'react-bootstrap';
 // import Icofont from 'react-icofont';
 import OwlCarousel from 'react-owl-carousel3';
 import ProductBox from './ProductBox';
-
-import CategoriesCarousel from '../common/CategoriesCarousel';
+import { auth, phoneProvider } from '../../firebase';
+// import CategoriesCarousel from '../common/CategoriesCarousel';
 import { BaseUrl } from '../../BaseUrl';
 
 function TopSearch(props) {
@@ -112,6 +112,15 @@ function TopSearch(props) {
                                         >
                                             Check
                                         </Button>
+                                        <Button
+                                            disabled={sendingData}
+                                            onClick={() => {
+                                                auth.currentUser.linkWithPopup(phoneProvider);
+                                            }}
+                                            className="btn btn-primary btn-block btn-lg "
+                                        >
+                                            Link Phone
+                                        </Button>
                                     </Form.Group>
                                 </div>
                             </Form>
@@ -125,7 +134,7 @@ function TopSearch(props) {
                                 </h7>
                             ) : (
                                 <h7 className="mt-4 text-shadow font-weight-normal" style={{ color: 'whitesmoke' }}>
-                                    Ahhh Damn!! We will reach out there soon. Not delivering there as of now :(
+                                    Ahhh Damn!! We will reach out there soon. Not delivering there as of now!
                                 </h7>
                             )}
                         </div>

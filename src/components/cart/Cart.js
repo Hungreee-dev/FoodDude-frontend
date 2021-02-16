@@ -48,7 +48,7 @@ export default function Cart(props) {
                     console.log(e.message);
                     if (e.message.includes('401')) {
                         setLoading(false);
-                        alert('Cause your token expired and your safety we logged you out!');
+                        alert('Cause you not authenticated or your token expired and your safety we logged you out!');
                         logout();
                     }
                 }
