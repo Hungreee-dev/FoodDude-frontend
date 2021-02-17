@@ -5,7 +5,7 @@ import { Row, Col, Container, Form, Button, Alert } from 'react-bootstrap';
 import FontAwesome from './common/FontAwesome';
 import { auth, googleProvider } from '../firebase';
 import axios from 'axios';
-import { BaseUrl2 } from '../BaseUrl';
+import { BaseUrl2, BaseUrl } from '../BaseUrl';
 import './Input/style.css';
 import Input from './Input/Index';
 import Popup from './staticPages/Popup';
@@ -63,7 +63,6 @@ function Login(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
         try {
             setError('');
             setLoading(true);
@@ -71,7 +70,7 @@ function Login(props) {
             const token = await result.user.getIdToken();
             // console.log(token)
             const res = await axios.post(
-                `${BaseUrl2}/api/user/getDetails`,
+                `${BaseUrl}/api/user/getDetails`,
                 {
                     uid: result.user.uid,
                 },

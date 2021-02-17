@@ -40,6 +40,8 @@ function LinkPhone(props) {
         if (userData.user.providerData.length >= 2) {
             alert(`Don't try suspicious Behaviour!'`);
             history.push('/');
+        } else if (userData.phone) {
+            setMobile(userData.phone);
         }
     }, []);
 

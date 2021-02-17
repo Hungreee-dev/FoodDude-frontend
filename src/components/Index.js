@@ -67,8 +67,8 @@ function Index(props) {
                 <section className="section pt-5 pb-5 homepage-add-section ">
                     <SectionHeading heading="Our Motto" subHeading="" />
                     <div className="container">
-                        <div className="row row_motto">
-                            <div className="col col_motto">
+                        <div className="rows row_motto">
+                            <div className="cols col_motto">
                                 <blockquote
                                     class="blockquote blockquote-custom  p-5 shadow rounded card_moto"
                                     style={{
@@ -90,7 +90,7 @@ function Index(props) {
                                     </p>
                                 </blockquote>
                             </div>
-                            <div className="col col_motto">
+                            <div className="cols col_motto">
                                 <blockquote
                                     class="blockquote blockquote-custom  p-5 shadow rounded card_moto"
                                     style={{
@@ -111,7 +111,7 @@ function Index(props) {
                                     </p>
                                 </blockquote>
                             </div>
-                            <div className="col col_motto">
+                            <div className="cols col_motto">
                                 <blockquote
                                     class="blockquote blockquote-custom  p-5 shadow rounded card_moto"
                                     style={{

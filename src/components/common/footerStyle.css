@@ -1,4 +1,4 @@
-.row{
+.rows{
     width:100%;
     padding:20px;
     display:flex;
@@ -8,7 +8,7 @@
     flex-wrap: wrap;
 }
 
-.col{
+.cols{
     text-align: center;
 }
 

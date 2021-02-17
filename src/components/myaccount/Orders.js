@@ -3,14 +3,17 @@ import axios from 'axios';
 import OrderCard from '../common/OrderCard';
 // import {Row,Col} from 'react-bootstrap';
 import { BaseUrl } from '../../BaseUrl';
+import Spinner from '../Spinner/index';
 const { uid, token } = JSON.parse(localStorage.getItem('userData'));
 
 function Orders() {
     const [orderData, setOrderData] = useState([]);
     const [dataRecieved, setdataRecieved] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     React.useEffect(() => {
         try {
+            setLoading(true);
             const fetchData = async () => {
                 const result = await axios
                     .post(
@@ -29,13 +32,16 @@ function Orders() {
                     //  console.log(result.data);
                     setOrderData(result.data);
                     setdataRecieved(true);
+                    setLoading(false);
                     console.log(uid);
                 } else {
+                    setLoading(false);
                     console.log('error');
                 }
             };
             fetchData();
         } catch (err) {
+            setLoading(false);
             console.log(err);
         }
     }, [dataRecieved]);
@@ -43,13 +49,14 @@ function Orders() {
         console.log(dataRecieved);
     }
 
-    if (orderData != null || orderData != undefined || dataRecieved == true) {
+    if (orderData !== null || orderData !== undefined || dataRecieved === true) {
         return (
             <>
+                {loading && <Spinner />}
                 {orderData.map((item) => {
                     const orderItem = item.items;
 
-                    var id = item.billing.id;
+                    var id = item.id;
                     var orderDate = { new: Date(item.billing.orderTime) };
                     var Time = orderDate.new.substring(1, 24);
                     var address = item.Address;
@@ -78,7 +85,7 @@ function Orders() {
                         <OrderCard
                             image="/img/3.jpg"
                             imageAlt=""
-                            key={id}
+                            orderNumber={id}
                             orderDate={Time}
                             deliveredDate={Status}
                             orderTitle="Gus's World Famous Fried Chicken"

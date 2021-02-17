@@ -6,7 +6,7 @@ import FontAwesome from './common/FontAwesome';
 import { auth, googleProvider } from '../firebase';
 import axios from 'axios';
 import Input from './Input/Index';
-import { BaseUrl2 } from '../BaseUrl';
+import { BaseUrl, BaseUrl2 } from '../BaseUrl';
 const asyncLocalStorage = {
     setItem: async function (key, value) {
         return Promise.resolve().then(function () {
@@ -57,7 +57,7 @@ function Register(props) {
             setLoading(true);
             const result = await signup(email, password);
             const token = await result.user.getIdToken();
-            const res = await fetch(`${BaseUrl2}/api/users/new`, {
+            const res = await fetch(`${BaseUrl}/api/users/new`, {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json', Authorization: token },
                 body: JSON.stringify({
@@ -91,9 +91,9 @@ function Register(props) {
     const signInWithGoogle = async () => {
         await auth
             .signInWithPopup(googleProvider)
-            .then((res) => {
+            .then(async (res) => {
                 setCurrentUser(res.user);
-                res.user.getIdToken().then(async (token) => {
+                await res.user.getIdToken().then(async (token) => {
                     await axios
                         .post(
                             `${BaseUrl2}/api/users/new`,

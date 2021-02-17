@@ -9,8 +9,8 @@ function Footer(props) {
         <>
             <section className="footer pt-5 pb-3">
                 <div className="Container">
-                    <div className="row">
-                        <div className="col" md={3} sm={6}>
+                    <div className="rows">
+                        <div className="cols" md={3} sm={6}>
                             <div className="app">
                                 <p className="mb-2 user_select_disable">DOWNLOAD OUR APP</p>
                                 <Link to="#">
@@ -18,7 +18,7 @@ function Footer(props) {
                                 </Link>
                             </div>
                         </div>
-                        <div className="col" md={2} sm={6} xs={6}>
+                        <div className="cols" md={2} sm={6} xs={6}>
                             <h6 className="mb-3 user_select_disable">Support</h6>
                             <ul>
                                 <li>
@@ -31,7 +31,7 @@ function Footer(props) {
 								 <li><Link to="#">Follow us on Instagram</Link></li> */}
                             </ul>
                         </div>
-                        <div className="col" md={3} sm={6} xs={6}>
+                        <div className="cols" md={3} sm={6} xs={6}>
                             <h6 className="mb-3 user_select_disable">Legal</h6>
                             <ul>
                                 <li>
