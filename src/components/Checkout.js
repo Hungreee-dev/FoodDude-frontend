@@ -474,7 +474,7 @@ function Checkout(props) {
                                                                 inline
                                                                 type="radio"
                                                                 name="address-radio"
-                                                                id={`${item.housenumber},${item.pincode}`}
+                                                                id={`${item.houseNumber},${item.pincode}`}
                                                                 onClick={() => {
                                                                     setOrderData((prevState) => ({
                                                                         ...prevState,
@@ -487,7 +487,7 @@ function Checkout(props) {
                                                                         title="Address"
                                                                         icoIcon="home"
                                                                         iconclassName="icofont-3x"
-                                                                        address={`${item.housenumber}, ${item.line1}, ${item.line2}, ${item.city},${item.state} ${item.pincode} India`}
+                                                                        address={`${item.houseNumber}, ${item.line1}, ${item.line2}, ${item.city},${item.state} ${item.pincode} India`}
                                                                     />
                                                                 }
                                                             ></Form.Check>

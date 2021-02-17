@@ -72,7 +72,7 @@ function Addresses() {
                                         title="Home"
                                         icoIcon="ui-home"
                                         iconclassName="icofont-3x"
-                                        address={`${item.housenumber}, ${item.line1}, ${item.line2}, ${item.city},${item.state} ${item.pincode}, India`}
+                                        address={`${item.houseNumber}, ${item.line1}, ${item.line2}, ${item.city},${item.state} ${item.pincode}, India`}
                                         onEditClick={() => {
                                             setAddressId(item.id);
                                             showEditModal(true);

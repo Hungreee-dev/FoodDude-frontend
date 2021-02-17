@@ -13,7 +13,7 @@ export default function EditAddressModal(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const address = {
-            housenumber: housenoRef.current.value,
+            houseNumber: housenoRef.current.value,
             line1: line1Ref.current.value,
             line2: line2Ref.current.value,
             city: cityRef.current.value,
