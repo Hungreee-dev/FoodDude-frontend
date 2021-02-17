@@ -54,8 +54,8 @@ function OrderCard(props) {
                             setLoading(false);
                         });
 
-                    await res.data.items.forEach((it) => {
-                        axios
+                    const allItems = res.data.items.map((it) => {
+                        return axios
                             .post(
                                 `${BaseUrl2}/api/users/cart/add`,
                                 {
@@ -64,16 +64,15 @@ function OrderCard(props) {
                                 },
                                 { headers: { Authorization: token } }
                             )
-                            .then((res) => {
-                                console.log('item has been inserted into cart');
-                                setLoading(false);
-                                history.push('../checkout');
-                            })
                             .catch((err) => {
                                 console.log(err);
                                 setLoading(false);
                             });
                     });
+                    await Promise.all(allItems);
+                    console.log('item has been inserted into cart');
+                    setLoading(false);
+                    history.push('../checkout');
                 } else {
                     console.log(res.message);
                     setLoading(false);
