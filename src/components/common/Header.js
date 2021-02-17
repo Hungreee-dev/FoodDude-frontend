@@ -42,7 +42,6 @@ function Header(props) {
         setError('');
         try {
             await logout();
-            await localStorage.clear();
             props.onHide();
             history.push('/');
         } catch {

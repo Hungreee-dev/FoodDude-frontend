@@ -24,7 +24,7 @@ const asyncLocalStorage = {
 };
 
 function LinkPhone(props) {
-    const { setCurrentUser, updateCart, sUVP, signinWithPhone } = useAuth();
+    const { setCurrentUser, updateCart, setUVP, signinWithPhone } = useAuth();
     const [error, setError] = useState('');
     const history = useHistory();
     const [mobile, setMobile] = useState(props.phone || '');
@@ -89,36 +89,32 @@ function LinkPhone(props) {
                 otp
             );
             // console.log(credential);
-            await auth.currentUser
-                .linkWithCredential(credential)
-                .then(async (res) => {
-                    sUVP(true);
-                    await res.user.getIdToken().then(async (token) => {
-                        const userData = {
-                            name: res.user.displayName,
-                            phone: res.user.phoneNumber,
-                            email: res.user.email,
-                            uid: res.user.uid,
-                            token: token,
-                            user: res.user,
-                        };
-                        await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
-                    });
+            const res = await auth.currentUser.linkWithCredential(credential);
 
-                    updateCart();
-                    setCurrentUser(res.user);
-                    console.log('Account linking success');
-                    alert('Account Linked Successfully!');
-                    history.push('/');
-                })
-                .catch((error) => {
-                    alert('Account Linking Failed!');
-                    console.log('Account linking error', error);
-                });
+            const token = await res.user.getIdToken();
+            const userData = {
+                name: res.user.displayName,
+                phone: res.user.phoneNumber,
+                email: res.user.email,
+                uid: res.user.uid,
+                token: token,
+                user: res.user,
+            };
+            await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+
+            updateCart();
+            setUVP(true);
+            setCurrentUser(res.user);
+            console.log('Account linking success');
+            alert('Account Linked Successfully!');
+            history.push('/');
+
             setWorking(false);
         } catch (err) {
             setWorking(false);
             alert('confirmationResult.confirm() ERROR');
+            alert('Account Linking Failed!');
+            console.log('Account linking error', error);
             console.log(err);
         }
     };

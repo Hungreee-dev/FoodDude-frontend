@@ -7,8 +7,8 @@ import Icofont from 'react-icofont';
 function OrderCard(props) {
     const [deliveryStatus, setDeliveryStatus] = useState('');
     React.useEffect(() => {
-        console.log(props.deliveredDate);
-        console.log(typeof props.deliveredDate);
+        // console.log(props.deliveredDate);
+        // console.log(typeof props.deliveredDate);
         if (props.deliveredDate === 0) setDeliveryStatus('Processing');
         else if (props.deliveredDate === 1) setDeliveryStatus('On the Way');
         else if (props.deliveredDate === 2) setDeliveryStatus('Delivered');

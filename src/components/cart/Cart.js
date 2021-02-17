@@ -20,10 +20,15 @@ const asyncLocalStorage = {
             return localStorage.getItem(key);
         });
     },
+    removeItem: async function (key) {
+        return Promise.resolve().then(function () {
+            return localStorage.getItem(key);
+        });
+    },
 };
 export default function Cart(props) {
     // const [cartData, setCartData] = React.useState([]);
-    const { sUVP } = useAuth();
+    const { setUVP } = useAuth();
     // const [totalPrice, setTotalPrice] = React.useState(0);
     const { cartItems, total, setCart } = useOrder();
     const [loading, setLoading] = useState(false);
@@ -108,55 +113,51 @@ export default function Cart(props) {
     React.useEffect(() => {
         (async () => {
             setLoading(true);
-            const userData = JSON.parse(await asyncLocalStorage.getItem('userData'));
-            // console.log(userData);
+            const d = await asyncLocalStorage.getItem('userData');
+            const userData = await JSON.parse(d);
 
             if (userData) {
                 console.log('ohnnooo');
 
-                (async () => {
-                    try {
-                        const result = await axios.post(
-                            `${BaseUrl2}/api/users/cart/get`,
-                            {
-                                uid: userData.uid,
-                            },
-                            {
-                                headers: { Authorization: userData.token },
-                            }
-                        );
-                        // console.log(result);
-                        // console.log(result);
-                        if (result === undefined || result.data === undefined) {
-                            // console.log('error');
-                            setLoading(false);
-                            alert('Due to some technical problem and your safety we logged you out!');
-                            logout();
-                        } else {
-                            if (userData.user.providerData.length < 2) {
-                                console.log(userData.user.providerData.length);
-                                sUVP(false);
-                            }
-                            setLoading(false);
-                            setCart(result.data);
+                try {
+                    const result = await axios.post(
+                        `${BaseUrl2}/api/users/cart/get`,
+                        {
+                            uid: userData.uid,
+                        },
+                        {
+                            headers: { Authorization: userData.token },
                         }
-                    } catch (e) {
-                        console.log(e.message);
-                        if (e.message.includes('401')) {
-                            setLoading(false);
-                            alert(
-                                'Cause you not authenticated or your token expired and your safety we logged you out!'
-                            );
-                            logout();
+                    );
+                    // console.log(result);
+                    // console.log(result);
+                    if (result === undefined || result.data === undefined) {
+                        // console.log('error');
+                        setLoading(false);
+                        alert('Due to some technical problem and your safety we logged you out!');
+                        logout();
+                    } else {
+                        if (userData.user.providerData.length < 2) {
+                            console.log(userData.user.providerData.length);
+                            setUVP(false);
                         }
+                        setLoading(false);
+                        setCart(result.data);
                     }
-                })();
+                } catch (e) {
+                    console.log(e.message);
+                    if (e.message.includes('401')) {
+                        setLoading(false);
+                        alert('Cause you not authenticated or your token expired and your safety we logged you out!');
+                        await logout();
+                    }
+                }
             } else {
+                await logout();
                 alert('No user found!');
-                logout();
             }
         })();
-    }, []);
+    }, [setCart, logout, setUVP]);
 
     return (
         <>

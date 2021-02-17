@@ -5,6 +5,24 @@ import { auth, phoneProvider } from '../firebase';
 // import {useHistory} from 'react-router-dom'
 //import axios from 'axios';
 
+const asyncLocalStorage = {
+    setItem: async function (key, value) {
+        return Promise.resolve().then(function () {
+            localStorage.setItem(key, value);
+        });
+    },
+    getItem: async function (key) {
+        return Promise.resolve().then(function () {
+            return localStorage.getItem(key);
+        });
+    },
+    removeItem: async function (key) {
+        return Promise.resolve().then(function () {
+            return localStorage.getItem(key);
+        });
+    },
+};
+
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -24,8 +42,9 @@ export function AuthProvider({ children }) {
         return auth.signInWithEmailAndPassword(email, password);
     }
 
-    function logout() {
+    async function logout() {
         setUVP(true);
+        await asyncLocalStorage.removeItem('userData');
         return auth.signOut();
     }
 
@@ -47,9 +66,7 @@ export function AuthProvider({ children }) {
         setCartUpdated(Math.random());
         console.log('hi');
     }
-    function sUVP() {
-        setUVP(false);
-    }
+
     function signinWithPhone(phoneNumber, verifier) {
         return auth.signInWithPhoneNumber(phoneNumber, verifier);
     }
@@ -80,7 +97,7 @@ export function AuthProvider({ children }) {
         signinWithPhone,
         linkPhoneNumber,
         verifiedPhone,
-        sUVP,
+        setUVP,
     };
 
     return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;

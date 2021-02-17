@@ -153,15 +153,18 @@ function Login(props) {
         setWorking(true);
         try {
             const res = await window.confirmationResult.confirm(otp);
+            const token = await res.user.getIdToken();
+
             const userData = {
                 name: res.user.displayName,
                 phone: res.user.phoneNumber,
                 email: res.user.email,
                 uid: res.user.uid,
-                token: res.user.refreshToken,
+                token: token,
                 user: res.user,
             };
             await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+            // console.log(userData);
             setCurrentUser(res.user);
             setWorking(false);
             history.push('/');
@@ -259,7 +262,9 @@ py-5alt pl-5 pr-5"
                                                         <Button
                                                             disabled={isMobileInvalid || otp.length < 4 || working}
                                                             className="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase"
-                                                            onClick={loginWithPhone}
+                                                            onClick={async () => {
+                                                                await loginWithPhone();
+                                                            }}
                                                         >
                                                             Sign In With OTP
                                                         </Button>
