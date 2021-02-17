@@ -68,6 +68,17 @@ function Login(props) {
             setLoading(true);
             const result = await login(emailRef.current.value, passwordRef.current.value);
             const token = await result.user.getIdToken();
+
+            await fetch(`${BaseUrl}/api/users/new`, {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json', Authorization: token },
+                body: JSON.stringify({
+                    name: result.user.displayName,
+
+                    email: result.user.email,
+                    uid: result.user.uid,
+                }),
+            });
             // console.log(token)
             const res = await axios.post(
                 `${BaseUrl}/api/user/getDetails`,
