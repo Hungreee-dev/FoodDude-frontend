@@ -92,8 +92,19 @@ function LinkPhone(props) {
             );
             // console.log(credential);
             const res = await auth.currentUser.linkWithCredential(credential);
-
             const token = await res.user.getIdToken();
+            await axios.post(
+                `${BaseUrl2}/api/users/update-user`,
+                {
+                    name: res.user.displayName,
+                    phone: res.user.phoneNumber,
+                    email: res.user.email,
+                    uid: res.user.uid,
+                },
+                {
+                    headers: { Authorization: token },
+                }
+            );
             const userData = {
                 name: res.user.displayName,
                 phone: res.user.phoneNumber,
@@ -134,8 +145,8 @@ function LinkPhone(props) {
     return (
         <>
             <Container fluid className="food-background">
-                <Row>
-                    <Col md={4} lg={6} className="d-none d-md-flex bg-image hidecol">
+                <Row className="rows">
+                    <Col md={4} lg={6} className="d-none cols d-md-flex bg-image hidecol">
                         <img
                             src="https://images.unsplash.com/photo-1502301103665-0b95cc738daf?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80"
                             height="700px"

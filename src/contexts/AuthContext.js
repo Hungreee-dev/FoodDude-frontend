@@ -18,7 +18,7 @@ const asyncLocalStorage = {
     },
     removeItem: async function (key) {
         return Promise.resolve().then(function () {
-            return localStorage.getItem(key);
+            return localStorage.removeItem(key);
         });
     },
 };
@@ -44,6 +44,7 @@ export function AuthProvider({ children }) {
 
     async function logout() {
         setUVP(true);
+        setCurrentUser(null);
         await asyncLocalStorage.removeItem('userData');
         return auth.signOut();
     }

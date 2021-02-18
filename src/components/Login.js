@@ -84,10 +84,10 @@ function Login(props) {
                 email: emailRef.current.value,
                 uid: result.user.uid,
                 token: token,
-                user: res.user,
+                user: result.user,
             };
             await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
-            setCurrentUser(res.user);
+            setCurrentUser(result.user);
             history.push('/');
             updateCart();
         } catch {

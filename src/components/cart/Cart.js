@@ -115,10 +115,9 @@ export default function Cart(props) {
             setLoading(true);
             const d = await asyncLocalStorage.getItem('userData');
             const userData = await JSON.parse(d);
-
+            // console.log(userData);
             if (userData) {
                 console.log('ohnnooo');
-
                 try {
                     const result = await axios.post(
                         `${BaseUrl2}/api/users/cart/get`,
@@ -153,8 +152,8 @@ export default function Cart(props) {
                     }
                 }
             } else {
+                setLoading(false);
                 await logout();
-                alert('No user found!');
             }
         })();
     }, [setCart, logout, setUVP]);

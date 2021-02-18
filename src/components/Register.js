@@ -99,7 +99,7 @@ function Register(props) {
                             `${BaseUrl2}/api/users/new`,
                             {
                                 name: res.user.displayName,
-                                phone: res.user.phoneNumber,
+                                phone: res.user.phoneNumber.replace('+91', ''),
                                 email: res.user.email,
                                 uid: res.user.uid,
                             },

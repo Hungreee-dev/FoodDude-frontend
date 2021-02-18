@@ -64,7 +64,7 @@ function Orders() {
                     var location = '';
                     if (item.Address) {
                         location =
-                            address.housenumber +
+                            address.houseNumber +
                             ' ' +
                             address.line1 +
                             ' ' +
