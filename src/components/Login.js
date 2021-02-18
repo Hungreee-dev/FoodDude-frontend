@@ -68,17 +68,6 @@ function Login(props) {
             setLoading(true);
             const result = await login(emailRef.current.value, passwordRef.current.value);
             const token = await result.user.getIdToken();
-
-            await fetch(`${BaseUrl}/api/users/new`, {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json', Authorization: token },
-                body: JSON.stringify({
-                    name: result.user.displayName,
-
-                    email: result.user.email,
-                    uid: result.user.uid,
-                }),
-            });
             // console.log(token)
             const res = await axios.post(
                 `${BaseUrl}/api/user/getDetails`,
@@ -112,6 +101,15 @@ function Login(props) {
         await auth
             .signInWithPopup(googleProvider)
             .then(async (res) => {
+                console.log(res);
+                if (res.additionalUserInfo.isNewUser) {
+                    await auth.currentUser.delete().then(() => {
+                        console.log('User Deleted');
+                    });
+                    alert('Create a account first');
+                    history.push('/register');
+                    return;
+                }
                 await res.user.getIdToken().then(async (token) => {
                     const userData = {
                         name: res.user.displayName,
@@ -197,8 +195,8 @@ function Login(props) {
     return (
         <>
             <Container fluid className="food-background">
-                <Row>
-                    <Col md={4} lg={6} className="d-none d-md-flex bg-image hidecol">
+                <Row className="rows">
+                    <Col md={4} lg={6} className="d-none cols d-md-flex bg-image hidecol">
                         <img
                             src="https://images.unsplash.com/photo-1502301103665-0b95cc738daf?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80"
                             height="700px"
@@ -214,11 +212,11 @@ py-5alt d-flex align-items-center py-5"
                         >
                             {popup && <Popup />}
                             <Container>
-                                <Row>
+                                <Row className="rows">
                                     <Col
                                         md={9}
                                         lg={8}
-                                        className=" loginbox mx-auto pb-5alt
+                                        className=" loginbox mx-auto pb-5alt cols
 py-5alt pl-5 pr-5"
                                     >
                                         <h3 className="login-heading mb-4 watchmax">
