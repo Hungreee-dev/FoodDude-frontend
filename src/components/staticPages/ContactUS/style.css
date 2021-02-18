@@ -1,0 +1,167 @@
+
+.contact{
+    background-image: linear-gradient(white 50%,#358597 );
+    min-height: calc(100vh - 70px);
+    display: grid;
+    place-items: center;
+    padding:20px;
+}
+.contact_card{
+    background-color: white;
+    width: 70%;
+    min-height: 80%;
+    border-radius: 12px;
+    border: 2px solid #E0715E;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.5) !important;
+    display:flex;
+    flex-direction: column;
+}
+
+.contact_card_heading{
+    text-align: center;
+    color: #E0715E;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 40px;
+    position: relative;
+}
+
+.contact_card_heading::after{
+    content: "";
+    width: 80px;
+    height: 3px;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #eee;
+}
+
+.contact_card_details{
+    flex: 1;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+    padding: 20px 20px;
+}
+
+.contact_card_popups{
+    flex: 1;
+    padding: 20px 20px;
+}
+.contact_card_direct{
+    flex: 1;
+    display: flex;
+    
+    flex-direction: column;
+}
+
+.contact_card_direct_heading{
+    font-size: 14px;
+    font-weight:700;
+    color: rgb(185, 181, 181);
+    margin-bottom: 20px;
+}
+
+.contact_card_direct_inputholder,.contact_card_direct_inputholder-2{
+    position:relative;
+}
+
+.contact_card_direct_inputholder > label{
+    position:absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    transition: all 0.2s ease-in-out;
+    color: #d4d1d1;
+}
+
+.label_alt{
+    color: #d4d1d1;
+    position:absolute;
+    top: 8px;
+    left: 10px;
+    transform: none;transition: all 0.2s ease-in-out;
+}
+
+.contact_card_direct_inputholder > input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color:#F2F2F2;
+    padding:10px;
+    margin: 8px 0;
+    border-radius:8px;
+}
+
+.contact_card_direct_inputholder > input:focus~label{
+    top:0 !important;
+}
+.labelactive{
+    top:0 !important;
+}
+
+.contact_card_direct_inputholder-2 > textarea{
+    resize: none;
+    width: 100%;height: 200px;outline: none;
+    border: none;
+    background-color:#F2F2F2;padding:10px;
+    margin: 8px 0;border-radius:8px;
+}
+
+.contact_card_direct_inputholder-2 > textarea:focus~label{
+    top:0;transform: translateY(-50%);
+}
+.labelactive-2{
+    top:0 !important;transform: translateY(-50%) !important;
+}
+
+.contact_card_direct_submit{
+    width: 100%;
+    text-align: center;
+    background-color: #E0715E;
+    color: #fff;
+    text-transform: uppercase;
+    font-size:12px;
+    outline: none;
+    border-radius:10px;
+    border: none;
+    padding: 10px;
+    font-weight: 700;
+}
+
+.contact_card_direct_submit:disabled{
+    background-color: #f1ab9f !important;
+    cursor: not-allowed !important;
+}
+
+.contact_card_popups_detail{
+    max-width: 300px;
+    margin: 10px;
+}
+
+.contact_card_popups_location{
+    width: 75%;
+    height:150px;
+    object-fit: cover;
+}
+@media(max-width:600px){
+    .contact_card_details{
+        flex-direction: column;
+    }
+}
+
+.contact_card_popups_socio{
+    font-size: 24px;
+    margin: 0 8px;
+}
+
+
+.contact_card_popups_social{
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}

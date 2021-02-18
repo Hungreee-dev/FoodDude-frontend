@@ -1,55 +1,106 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import OrderCard from '../common/OrderCard';
+// import {Row,Col} from 'react-bootstrap';
+import { BaseUrl } from '../../BaseUrl';
+import Spinner from '../Spinner/index';
+const { uid, token } = JSON.parse(localStorage.getItem('userData'));
 
-class Orders extends React.Component {
+function Orders() {
+    const [orderData, setOrderData] = useState([]);
+    const [dataRecieved, setdataRecieved] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-	render() {
-    	return (
-    		<>
-    		    <div className='p-4 bg-white shadow-sm'>
-	              <h4 className="font-weight-bold mt-0 mb-4">Past Orders</h4>
-			      <OrderCard
-			      	image='/img/3.jpg'
-			      	imageAlt=''
-			      	orderNumber='25102589748'
-			      	orderDate='Mon, Nov 12, 6:26 PM'
-			      	deliveredDate='Mon, Nov 12, 7:18 PM'
-			      	orderTitle="Gus's World Famous Fried Chicken"
-			      	address='730 S Mendenhall Rd, Memphis, TN 38117, USA'
-			      	orderProducts='Veg Masala Roll x 1, Veg Burger x 1, Veg Penne Pasta in Red Sauce x 1'
-			      	orderTotal='$300' 
-			      	helpLink='#'
-			      	detailLink='/detail' 
-			      />
-			      <OrderCard
-			      	image='/img/4.jpg'
-			      	imageAlt=''
-			      	orderNumber='25102589748'
-			      	orderDate='Mon, Nov 12, 6:26 PM'
-			      	deliveredDate='Mon, Nov 12, 7:18 PM'
-			      	orderTitle="Jimmy's Famous American Tavern"
-			      	address='730 S Mendenhall Rd, Memphis, TN 38117, USA'
-			      	orderProducts='Veg Masala Roll x 1, Veg Burger x 1, Veg Penne Pasta in Red Sauce x 1'
-			      	orderTotal='$300' 
-			      	helpLink='#'
-			      	detailLink='/detail' 
-			      />
-			      <OrderCard
-			      	image='/img/5.jpg'
-			      	imageAlt=''
-			      	orderNumber='25102589748'
-			      	orderDate='Mon, Nov 12, 6:26 PM'
-			      	deliveredDate='Mon, Nov 12, 7:18 PM'
-			      	orderTitle="The Famous Restaurant"
-			      	address='730 S Mendenhall Rd, Memphis, TN 38117, USA'
-			      	orderProducts='Veg Masala Roll x 1, Veg Burger x 1, Veg Penne Pasta in Red Sauce x 1'
-			      	orderTotal='$300' 
-			      	helpLink='#'
-			      	detailLink='/detail' 
-			      />
-			    </div>
-		    </>
-    	);
+    React.useEffect(() => {
+        try {
+            setLoading(true);
+            const fetchData = async () => {
+                const result = await axios
+                    .post(
+                        `${BaseUrl}/api/order/user`,
+                        {
+                            userId: uid,
+                        },
+                        { headers: { Authorization: token } }
+                    )
+                    .catch((err) => {
+                        console.log(err.response);
+                    });
+
+                if (result.data) {
+                    // console.log(Object.prototype.toString.call(result.data));
+                    //  console.log(result.data);
+                    setOrderData(result.data);
+                    setdataRecieved(true);
+                    setLoading(false);
+                    console.log(uid);
+                } else {
+                    setLoading(false);
+                    console.log('error');
+                }
+            };
+            fetchData();
+        } catch (err) {
+            setLoading(false);
+            console.log(err);
+        }
+    }, [dataRecieved]);
+    {
+        console.log(dataRecieved);
+    }
+
+    if (orderData !== null || orderData !== undefined || dataRecieved === true) {
+        return (
+            <>
+                {loading && <Spinner />}
+                {orderData.map((item) => {
+                    const orderItem = item.items;
+
+                    var id = item.id;
+                    var orderDate = { new: Date(item.billing.orderTime) };
+                    var Time = orderDate.new.substring(1, 24);
+                    var address = item.Address;
+                    var amount = item.billing.finalAmount;
+                    var location = '';
+                    if (item.Address) {
+                        location =
+                            address.houseNumber +
+                            ' ' +
+                            address.line1 +
+                            ' ' +
+                            address.line2 +
+                            ' ' +
+                            address.city +
+                            ' ' +
+                            address.state;
+                    }
+                    var Status = item.orderStatus;
+                    console.log(Status);
+                    var orderproducts = '';
+                    for (var i = 0; i < orderItem.length; i++) {
+                        orderproducts += orderItem[i].name + 'x' + orderItem[i].quantity + ',';
+                    }
+
+                    return (
+                        <OrderCard
+                            image="/img/3.jpg"
+                            imageAlt=""
+                            orderNumber={id}
+                            orderDate={Time}
+                            deliveredDate={Status}
+                            orderTitle="Gus's World Famous Fried Chicken"
+                            address={location}
+                            orderProducts={orderproducts}
+                            orderTotal={amount}
+                            helpLink="#"
+                            detailLink="/detail"
+                        />
+                    );
+                })}
+            </>
+        );
+    } else {
+        return <></>;
     }
 }
 export default Orders;
