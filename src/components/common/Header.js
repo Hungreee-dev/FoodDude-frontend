@@ -30,7 +30,8 @@ function Header(props) {
     React.useEffect(() => {
         (async () => {
             const res = await asyncLocalStorage.getItem('userData');
-            setCurrentUser(res.user);
+            const data = await JSON.parse(res);
+            setCurrentUser(data.user);
         })();
     }, []);
 
