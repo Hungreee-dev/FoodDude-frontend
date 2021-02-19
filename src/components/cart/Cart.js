@@ -112,7 +112,7 @@ export default function Cart(props) {
 
     React.useEffect(() => {
         const getUsr = async () => {
-            console.log(userDat);
+            // console.log(userDat);
             setLoading(true);
 
             const userData = userDat;
