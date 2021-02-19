@@ -115,7 +115,11 @@ export default function Cart(props) {
             // console.log(userDat);
             setLoading(true);
 
-            const userData = userDat;
+            let userData = userDat;
+            if (!userData) {
+                const d = await asyncLocalStorage.getItem('userData');
+                userData = await JSON.parse(d);
+            }
             // console.log(userData);
             if (userData) {
                 try {
