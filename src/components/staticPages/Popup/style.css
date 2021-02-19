@@ -1,0 +1,53 @@
+.popup{
+    position:absolute;
+    left:50%;
+    top:-50px;
+    transform: translateX(-50%);
+    animation: slideDown 4s forwards;
+    opacity: 0;
+    box-shadow: 0px 5px 12px rgba(0,0,0,0.6);
+    border-radius: 8px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    backface-visibility: hidden;
+    z-index: 999;
+    background-color: rgba(0,0,0,0.6);
+    width: max-content;
+}
+
+.icon_otp{
+    color: lawngreen !important;
+    font-size:32px;
+}
+
+.OTP_msg{
+    font-size:14px;
+    font-weight:800;
+    color:white;
+    margin:0 !important;
+    margin-left: 12px !important;
+}
+
+@keyframes slideDown{
+    0%{
+        top: -50px;
+    }
+    50%{
+        top: 30px;
+        opacity: 1;
+    }
+    99%{
+        top: 40px;
+        opacity:0;
+        visibility: visible;
+        display: block;
+    }
+    100%{
+        top: 40px;
+        opacity:0;
+        visibility: hidden;
+        display:none;
+    }
+}

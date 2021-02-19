@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal,Button} from 'react-bootstrap';
-
+import {BaseUrl2} from '../../BaseUrl'
 function DeleteAddressModal(props) {
 
 const {token,uid}=JSON.parse(localStorage.getItem('userData'))
@@ -9,7 +9,7 @@ const {token,uid}=JSON.parse(localStorage.getItem('userData'))
 		e.preventDefault()
 	
 		try {	
-		 const res=await fetch(`http://localhost:3030/api/users/address/remove`,{
+		 const res=await fetch(`${BaseUrl2}/api/users/address/remove`,{
 			method:"post",
 			headers:{'Content-Type':"application/json",Authorization:token},
 			body:JSON.stringify({

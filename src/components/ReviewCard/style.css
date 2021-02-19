@@ -1,0 +1,132 @@
+.review_card{
+    width: 260px;
+    height: 300px;
+    background-color: #cfcccc;
+    display: flex;
+    align-items: center;
+    flex-direction:column;
+    padding: 20px;
+    border-radius: 10px;
+   position:relative; 
+}
+
+.review_card_user{
+    position: relative;
+    width: 120px !important;
+    height:120px !important;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #85144b;
+    border-spacing: 10px;
+    
+}
+
+.review_card_user_name{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;transition: all 0.4s ease-in;background-color: rgba(255,255,255,0.7);backdrop-filter: blur(2px);
+    opacity:0;
+    visibility: hidden;
+}
+
+.review_card_user_name > span{
+    position: absolute;
+    top: 0;
+    opacity:0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    color: black;
+    transition: all 0.4s ease-in;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.review_card:hover  span{
+    opacity: 1;
+    top:45%;
+}
+
+.review_card:hover .review_card_user_name{
+    opacity:1;
+    visibility: visible;
+}
+
+.reviewcard_user_photo{
+    object-fit: scale-down;
+}
+
+.review_card_ratings{
+    flex:0;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.owl-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 340px;
+}
+
+.review_card_review{
+    flex:0;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.star_fill{
+    color:gold !important;
+    margin-right: 5px;
+}
+
+.review_card_review{
+    color: black;
+    font-size: 12px;
+    font-weight:600;
+}
+
+.line-1{
+    width:80%;
+    background-color: rgb(190, 189, 189);
+    height: 1px;
+    border-radius:4px;
+    position: absolute;
+    top: 136px;
+    margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.line-2{
+    width:80%;
+    background-color: #eee;
+    height: 3px;
+    border-radius:4px;
+    position: absolute;
+    bottom:14px;
+    margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.card_moto{
+    min-width: 260px;
+    min-height: fit-content;
+    margin: 10px 0;
+    display: grid;
+    place-items: center;
+    max-width: 500px;background-image: linear-gradient(135deg,#eee 50%,#81cfe0) !important;
+}
+.col_motto{
+    max-width: fit-content;
+    
+}
+
+.row_motto{
+    display: flex;
+    align-items: center;
+}
