@@ -7,14 +7,32 @@ import Cart from '../cart/Cart';
 import Icofont from 'react-icofont';
 import LinkToLinking from '../LinkToLinking/index';
 import { useAuth } from '../../contexts/AuthContext';
-
+const asyncLocalStorage = {
+    setItem: async function (key, value) {
+        return Promise.resolve().then(function () {
+            localStorage.setItem(key, value);
+        });
+    },
+    getItem: async function (key) {
+        return Promise.resolve().then(function () {
+            return localStorage.getItem(key);
+        });
+    },
+};
 function Header(props) {
     const node = React.useRef();
     const [isNavExpanded, setNavExpanded] = React.useState(false);
-    const { logout, currentUser, verifiedPhone } = useAuth();
+    const { logout, currentUser, setCurrentUser, verifiedPhone } = useAuth();
     const history = useHistory();
     const [error, setError] = React.useState('');
     //const userData=JSON.parse(localStorage.getItem('userData'))
+
+    React.useEffect(() => {
+        (async () => {
+            const res = await asyncLocalStorage.getItem('userData');
+            setCurrentUser(res.user);
+        })();
+    }, []);
 
     //   const [showSignOutModal,setSignOutModal]=React.useState(false)
     const setIsNavExpanded = () => {
