@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Row, Col, Container, Form, Button, Alert } from 'react-bootstrap';
 import FontAwesome from './common/FontAwesome';
@@ -26,7 +26,7 @@ const asyncLocalStorage = {
 function Login(props) {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login, setCurrentUser, updateCart, signinWithPhone,setUserData } = useAuth();
+    const { login, currentUser, setCurrentUser, updateCart, signinWithPhone, setUserData } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -192,6 +192,7 @@ function Login(props) {
     }, [loginWithOTP]);
     return (
         <>
+            {currentUser && <Redirect to="/" />}
             <Container fluid className="food-background">
                 <Row className="rows">
                     <Col md={4} lg={6} className="d-none cols d-md-flex bg-image hidecol">
