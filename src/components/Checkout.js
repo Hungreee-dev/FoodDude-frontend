@@ -295,7 +295,7 @@ function Checkout(props) {
                         `${BaseUrl2}/api/promocode/check-promocode`,
                         {
                             uid: uid,
-                            promocode: promocodeString.toUpperCase(),
+                            promocode: promocodeString,
                         },
                         {
                             headers: {
@@ -313,7 +313,7 @@ function Checkout(props) {
                         setLoading(false);
                         const percent = result.data.promocode.Percentage;
                         setpromoPercentage(percent);
-                        setapplyPromocode(promocodeString.toUpperCase());
+                        setapplyPromocode(promocodeString);
                         //here is changing the discount price
                         const amt = (parseInt(total) * percent) / 100;
                         const pr = total - amt;
@@ -350,7 +350,6 @@ function Checkout(props) {
         setAddressAlert(false);
     };
 
-    useEffect(() => {}, []);
     //For Cash Payment
     async function cashPay() {
         console.log(uid);
@@ -554,7 +553,6 @@ function Checkout(props) {
                                             type="text"
                                             placeholder="Enter promo code"
                                             ref={promocodeRef}
-                                            style={{ textTransform: 'uppercase' }}
                                         />
                                         <InputGroup.Append>
                                             <Button
