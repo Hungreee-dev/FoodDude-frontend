@@ -64,12 +64,12 @@ function App(props) {
                                 <Route path="/refund" exact component={RefundPolicy} />
                                 <Route path="/terms" exact component={Terms} />
                                 <Route path="/privacy" exact component={PrivacyPolicy} />
+                                <Route path="/detail" exact component={Detail} />
                                 <Route path="/contact" exact>
                                     <ContactUs />
                                 </Route>
                                 <PrivateRoute path="/checkout" component={Checkout} />
                                 <PrivateRoute path="/thanks" exact component={Thanks} />
-                                <PrivateRoute path="/detail" exact component={Detail} />
                                 <PrivateRoute path="/failed" exact component={Fail} />
                                 <PrivateRoute path="/link" exact component={Link} />
                                 <Route exact component={NotFound} />

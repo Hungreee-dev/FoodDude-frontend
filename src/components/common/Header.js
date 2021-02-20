@@ -31,7 +31,7 @@ function Header(props) {
         (async () => {
             const res = await asyncLocalStorage.getItem('userData');
             const data = await JSON.parse(res);
-            setCurrentUser(data.user);
+            setCurrentUser(data ? data.user : null);
         })();
     }, []);
 

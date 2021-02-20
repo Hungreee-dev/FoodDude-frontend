@@ -58,7 +58,7 @@ function Orders() {
 
                     var id = item.id;
                     var orderDate = { new: Date(item.billing.orderTime) };
-                    var Time = orderDate.new.substring(1, 24);
+                    var Time = orderDate.new.substring(0, 24);
                     var address = item.Address;
                     var amount = item.billing.finalAmount;
                     var location = '';

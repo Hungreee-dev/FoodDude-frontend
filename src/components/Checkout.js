@@ -282,7 +282,7 @@ function Checkout(props) {
     //CHECK PROMOCODE
 
     React.useEffect(() => {
-        console.log('uid');
+        // console.log('uid');
         if (checkingPromocode) {
             setpromoPercentage(0);
             setPromocodeMssg('');
@@ -313,7 +313,7 @@ function Checkout(props) {
                         setLoading(false);
                         const percent = result.data.promocode.Percentage;
                         setpromoPercentage(percent);
-                        setapplyPromocode(promocodeString.toUpperCase());
+                        setapplyPromocode(promocodeString);
                         //here is changing the discount price
                         const amt = (parseInt(total) * percent) / 100;
                         const pr = total - amt;
@@ -350,7 +350,6 @@ function Checkout(props) {
         setAddressAlert(false);
     };
 
-    useEffect(() => {}, []);
     //For Cash Payment
     async function cashPay() {
         console.log(uid);
@@ -436,6 +435,10 @@ function Checkout(props) {
                             headers: { Authorization: token },
                         }
                     )
+                    .then((res) => {
+                        setLoading(false);
+                        history.push('./thanks');
+                    })
                     .catch((err) => {
                         console.log(err.response);
                     });
@@ -548,12 +551,7 @@ function Checkout(props) {
                                 </div>
                                 <div className="mb-2 bg-white rounded p-2 clearfix">
                                     <InputGroup className="input-group-sm mb-2">
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Enter promo code"
-                                            ref={promocodeRef}
-                                            style={{ textTransform: 'uppercase' }}
-                                        />
+                                        <Form.Control type="text" placeholder="Enter promo code" ref={promocodeRef} />
                                         <InputGroup.Append>
                                             <Button
                                                 variant="primary"

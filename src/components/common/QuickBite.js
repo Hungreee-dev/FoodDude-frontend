@@ -3,14 +3,18 @@ import { Image, Badge, Button, Media } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Icofont from 'react-icofont';
 import { useOrder } from '../../contexts/OrderContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 function QuickBite(props) {
     const { cartItems } = useOrder();
+    const { currentUser } = useAuth();
     const [quantity, setQuantity] = React.useState(cartItems.find((ele) => ele.name === props.title)?.quantity);
     const max = props.maxValue || 5;
     const min = props.minValue || 0;
     // const show = props.show || true
     const price = props.price;
+    const history = useHistory();
     //   state = {
     //     quantity: props.qty || 0,
     //     show: props.show || true,
@@ -22,6 +26,10 @@ function QuickBite(props) {
         setQuantity(cartItems.find((ele) => ele.name === props.title)?.quantity);
     }, [cartItems, props.title]);
     const IncrementItem = () => {
+        if (!currentUser) {
+            history.push('/login');
+            return;
+        }
         if (quantity >= max) {
         } else {
             let quantityalt = quantity;
@@ -33,6 +41,10 @@ function QuickBite(props) {
         }
     };
     const DecreaseItem = () => {
+        if (!currentUser) {
+            history.push('/login');
+            return;
+        }
         if (quantity <= min) {
         } else {
             let quantityalt = quantity;
