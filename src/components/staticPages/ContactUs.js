@@ -2,6 +2,7 @@ import React from 'react';
 import {Row,Col,Container} from 'react-bootstrap';
 import SectionHeading from '../common/SectionHeading';
 import FontAwesome from '../common/FontAwesome';
+import './termsOfServices.css';
 function AboutUs(props){
 	
     	return (

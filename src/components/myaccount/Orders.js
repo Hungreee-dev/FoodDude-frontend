@@ -33,21 +33,15 @@ function Orders() {
                     setOrderData(result.data);
                     setdataRecieved(true);
                     setLoading(false);
-                    console.log(uid);
                 } else {
                     setLoading(false);
-                    console.log('error');
                 }
             };
             fetchData();
         } catch (err) {
             setLoading(false);
-            console.log(err);
         }
     }, [dataRecieved]);
-    {
-        console.log(dataRecieved);
-    }
 
     if (orderData !== null || orderData !== undefined || dataRecieved === true) {
         return (

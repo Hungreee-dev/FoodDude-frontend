@@ -24,11 +24,11 @@ const Index = () => {
                             <a href="https://www.linkedin.com/company/70449147/" rel="noreferrer" target="_blank">
                                 <i class="fa fa-linkedin contact_card_popups_socio" aria-hidden="true"></i>
                             </a>
-                            <a href="#" rel="noreferrer" target="_blank">
+                            <a href="https://twitter.com/wefooddude" rel="noreferrer" target="_blank">
                                 <i class="fa fa-twitter contact_card_popups_socio" aria-hidden="true"></i>
                             </a>
-                            <a href="#" rel="noreferrer" target="_blank">
-                                <i class="fa fa-snapchat" aria-hidden="true"></i>
+                            <a href="https://www.snapchat.com/add/wefooddude" rel="noreferrer" target="_blank">
+                                <i class="fa fa-snapchat contact_card_popups_socio" aria-hidden="true"></i>
                             </a>
                         </div>
                         <div className="contact_card_popups_detail">
@@ -57,8 +57,8 @@ const Index = () => {
                         </div>
                         <img src={LocationOffice} alt="Office Location" className="contact_card_popups_location" />
                     </div>
-                    <div className="contact_card_direct">
-                        {/* <h4 className="contact_card_direct_heading user_select_disable">Leave Us A Comment</h4>
+                    {/*<div className="contact_card_direct">
+                         <h4 className="contact_card_direct_heading user_select_disable">Leave Us A Comment</h4>
                         <form action="submit">
                             <div className="contact_card_direct_inputholder">
                                 <input
@@ -105,8 +105,8 @@ const Index = () => {
                             <button disabled={true} type="submit" className="contact_card_direct_submit">
                                 Submit
                             </button> 
-                        </form>*/}
-                    </div>
+                        </form>
+                    </div>*/}
                 </div>
             </div>
         </div>

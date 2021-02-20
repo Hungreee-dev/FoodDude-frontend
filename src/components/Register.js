@@ -6,7 +6,7 @@ import FontAwesome from './common/FontAwesome';
 import { auth, googleProvider } from '../firebase';
 import axios from 'axios';
 import Input from './Input/Index';
-import { BaseUrl, BaseUrl2 } from '../BaseUrl';
+import { BaseUrl2 } from '../BaseUrl';
 
 const asyncLocalStorage = {
     setItem: async function (key, value) {
@@ -85,7 +85,6 @@ function Register(props) {
                 history.push('/');
             }
         } catch (err) {
-            console.log(err);
             setError('Failed to create an account');
         }
 
@@ -98,20 +97,19 @@ function Register(props) {
             .then(async (res) => {
                 setCurrentUser(res.user);
                 await res.user.getIdToken().then(async (token) => {
-                    await axios
-                        .post(
-                            `${BaseUrl2}/api/users/new`,
-                            {
-                                name: res.user.displayName,
-                                phone: res.user.phoneNumber,
-                                email: res.user.email,
-                                uid: res.user.uid,
-                            },
-                            {
-                                headers: { Authorization: token },
-                            }
-                        )
-                        .catch((err) => console.log(err));
+                    await axios.post(
+                        `${BaseUrl2}/api/users/new`,
+                        {
+                            name: res.user.displayName,
+                            phone: res.user.phoneNumber,
+                            email: res.user.email,
+                            uid: res.user.uid,
+                        },
+                        {
+                            headers: { Authorization: token },
+                        }
+                    );
+
                     const userData = {
                         name: res.user.displayName,
                         phone: res.user.phoneNumber,
@@ -127,7 +125,7 @@ function Register(props) {
                 });
             })
             .catch((error) => {
-                console.log(error.message);
+                setError('Failed to create an account');
             });
     };
 

@@ -51,23 +51,23 @@ function App(props) {
                             <Header />
                             <Switch>
                                 <Route path="/" exact component={Index} />
-                                <PrivateRoute path="/offers" exact component={Offers} />
-                                <Route path="/listing" exact component={List} />
-                                <PrivateRoute path="/myaccount" component={MyAccount} />
                                 <Route path="/404" exact component={NotFound} />
-                                <Route path="/extra" exact component={Extra} />
                                 <Route path="/login" exact component={Login} />
                                 <Route path="/register" exact component={Register} />
-                                <Route path="/track-order" exact component={TrackOrder} />
-                                <Route path="/invoice" exact component={Invoice} />
-                                <Route path="/about" exact component={AboutUs} />
                                 <Route path="/refund" exact component={RefundPolicy} />
-                                <Route path="/terms" exact component={Terms} />
+                                <Route path="/about" exact component={AboutUs} />
                                 <Route path="/privacy" exact component={PrivacyPolicy} />
+                                <Route path="/terms" exact component={Terms} />
                                 <Route path="/detail" exact component={Detail} />
                                 <Route path="/contact" exact>
                                     <ContactUs />
                                 </Route>
+                                <Route path="/track-order" exact component={TrackOrder} />
+                                <Route path="/extra" exact component={Extra} />
+                                <Route path="/listing" exact component={List} />
+                                <Route path="/invoice" exact component={Invoice} />
+                                <PrivateRoute path="/myaccount" component={MyAccount} />
+                                <PrivateRoute path="/offers" exact component={Offers} />
                                 <PrivateRoute path="/checkout" component={Checkout} />
                                 <PrivateRoute path="/thanks" exact component={Thanks} />
                                 <PrivateRoute path="/failed" exact component={Fail} />
@@ -75,10 +75,6 @@ function App(props) {
                                 <Route exact component={NotFound} />
                             </Switch>
                             <Footer />
-
-                            {/* {
-            (props.location.pathname!=='/login' && props.location.pathname!=='/register') ? <Footer/>:''
-          } */}
                         </Suspense>
                     </Router>
                 </AuthProvider>

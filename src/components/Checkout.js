@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { Row, Col, Container, Form, InputGroup, Button, Image, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap';
@@ -7,7 +7,6 @@ import ChooseAddressCard from './common/ChooseAddressCard';
 import CheckoutItem from './common/CheckoutItem';
 import AddAddressModal from './modals/AddAddressModal';
 import Icofont from 'react-icofont';
-// import { useAuth } from '../contexts/AuthContext';
 import Spinner from './Spinner/index';
 import { useOrder } from '../contexts/OrderContext';
 import { BaseUrl, BaseUrl2 } from '../BaseUrl';
@@ -29,14 +28,6 @@ function loadScript(src) {
 function Checkout(props) {
     const history = useHistory();
     const [addressModal, showAddressModal] = React.useState(false);
-
-    // const [recievedData, setRecievedData] = React.useState(false);
-    // const [addressId, setAddressId] = React.useState('');
-    // const [cartData, setCartData] = React.useState([]);
-    // const [totalPrice, total1] = React.useState(0);
-    // const [recievedData2, setRecievedData2] = React.useState(false);
-    // const [cartItem, setCartItem] = React.useState();
-    // const { cartUpdated, updateCart } = useAuth();
     const promocodeRef = React.useRef();
     const [promocodeMssg, setPromocodeMssg] = React.useState('');
     const [AddressData, setAddressData] = React.useState([]);
@@ -78,8 +69,6 @@ function Checkout(props) {
             }).then((t) => t.json());
             setLoading(false);
 
-            // console.log(data);
-
             const options = {
                 key: process.env.REACT_APP_RAZORPAY_API_KEY,
                 currency: data.currency,
@@ -119,9 +108,6 @@ function Checkout(props) {
                                 headers: { Authorization: token },
                             }
                         )
-                        .then((t) => {
-                            // console.log(t);
-                        })
                         .catch((err) => {
                             console.log(err.response);
                         });
@@ -253,32 +239,6 @@ function Checkout(props) {
         }
     }, []);
 
-    //UPDATING CART
-
-    // const ()=>{getQty} = async ({ id, quantity, price }) => {
-    //     const item = {
-    //         name: id,
-    //         quantity: quantity,
-    //         price: price,
-    //     };
-
-    //     const result = await axios.post(
-    //         `${BaseUrl2}/api/users/cart/add`,
-    //         {
-    //             item: item,
-    //             uid: uid,
-    //         },
-    //         {
-    //             headers: {
-    //                 Authorization: token,
-    //             },
-    //         }
-    //     );
-    //     if (result) {
-    //         updateCart();
-    //     }
-    // };
-
     //CHECK PROMOCODE
 
     React.useEffect(() => {
@@ -335,8 +295,6 @@ function Checkout(props) {
 
     //for Hide and show Modal on click pay
     const cashorder = () => {
-        // console.log('addresss');
-        // console.log(orderData.addressData);
         if (orderData.addressData !== undefined) {
             setAddressAlert(false);
             setcashOrder(true);
@@ -352,8 +310,6 @@ function Checkout(props) {
 
     //For Cash Payment
     async function cashPay() {
-        console.log(uid);
-
         const discount = total - discountPrice;
         const totalAmount = discountPrice + 49;
         try {
@@ -397,13 +353,6 @@ function Checkout(props) {
                             headers: { Authorization: token },
                         }
                     )
-                    .then((t) => {
-                        // console.log(t.data);
-                        // if (t) {
-                        //     setLoading(true);
-                        //     history.push('./thanks');
-                        // }
-                    })
                     .catch((err) => {
                         console.log(err.response);
                     });
@@ -445,7 +394,6 @@ function Checkout(props) {
             } else {
             }
         } catch (err) {
-            console.log(err);
             setLoading(false);
         }
     }
