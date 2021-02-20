@@ -16,9 +16,9 @@ const asyncLocalStorage = {
             return localStorage.getItem(key);
         });
     },
-    removeItem: async function (key) {
+    removeItem: async function () {
         return Promise.resolve().then(function () {
-            return localStorage.removeItem(key);
+            return localStorage.clear();
         });
     },
 };
@@ -30,7 +30,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState(null);
+    const [userDat, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [cartUpdated, setCartUpdated] = useState();
     const [verifiedPhone, setUVP] = useState(true);
@@ -43,10 +44,12 @@ export function AuthProvider({ children }) {
     }
 
     async function logout() {
+        await asyncLocalStorage.removeItem();
         setUVP(true);
         setCurrentUser(null);
-        await asyncLocalStorage.removeItem('userData');
-        return auth.signOut();
+        setUserData(null);
+        await auth.signOut();
+        console.log('You have been logged out securly.');
     }
 
     function resetPassword(email) {
@@ -74,10 +77,10 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user != null) {
+            if (user != null && currentUser) {
                 user.getIdTokenResult(true);
+                setCurrentUser(user);
             }
-            setCurrentUser(user);
             setLoading(false);
         });
 
@@ -99,6 +102,8 @@ export function AuthProvider({ children }) {
         linkPhoneNumber,
         verifiedPhone,
         setUVP,
+        userDat,
+        setUserData,
     };
 
     return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;

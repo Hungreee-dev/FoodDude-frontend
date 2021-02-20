@@ -41,6 +41,7 @@ const Link = lazy(() => import('./components/PhoneLink/Index'));
 
 function App(props) {
     var hist = createBrowserHistory();
+
     return (
         <>
             <OrderProvider>

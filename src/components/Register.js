@@ -7,6 +7,7 @@ import { auth, googleProvider } from '../firebase';
 import axios from 'axios';
 import Input from './Input/Index';
 import { BaseUrl, BaseUrl2 } from '../BaseUrl';
+
 const asyncLocalStorage = {
     setItem: async function (key, value) {
         return Promise.resolve().then(function () {
@@ -25,7 +26,7 @@ function Register(props) {
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
     const [passwordConfirm, setpasswordConfirm] = useState('');
-    const { signup, currentUser, setCurrentUser } = useAuth();
+    const { signup, setCurrentUser, setUserData } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -38,7 +39,7 @@ function Register(props) {
         if (re.test(String(email).toLowerCase()) === false) {
             return true;
         }
-        const telre = /\+?\d[\d -]{8,12}\d/;
+        const telre = /^[0-9]{10}$/;
         if (telre.test(String(phone).toLowerCase()) === false) {
             return true;
         }
@@ -57,6 +58,7 @@ function Register(props) {
             setLoading(true);
             const result = await signup(email, password);
             const token = await result.user.getIdToken();
+
             const res = await fetch(`${BaseUrl2}/api/users/new`, {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json', Authorization: token },
@@ -67,6 +69,7 @@ function Register(props) {
                     uid: result.user.uid,
                 }),
             });
+
             if (res) {
                 const userData = {
                     name: name,
@@ -77,8 +80,9 @@ function Register(props) {
                     user: result.user,
                 };
                 await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
-                setCurrentUser(res.user);
-                history.push('/myaccount');
+                setUserData(userData);
+                setCurrentUser(result.user);
+                history.push('/');
             }
         } catch (err) {
             console.log(err);
@@ -99,7 +103,7 @@ function Register(props) {
                             `${BaseUrl2}/api/users/new`,
                             {
                                 name: res.user.displayName,
-                                phone: res.user.phoneNumber.replace('+91', ''),
+                                phone: res.user.phoneNumber,
                                 email: res.user.email,
                                 uid: res.user.uid,
                             },
@@ -114,11 +118,13 @@ function Register(props) {
                         email: res.user.email,
                         uid: res.user.uid,
                         token: token,
+                        user: res.user,
                     };
                     await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+                    setUserData(userData);
                     setCurrentUser(res.user);
+                    history.push('/');
                 });
-                history.push('/');
             })
             .catch((error) => {
                 console.log(error.message);

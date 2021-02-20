@@ -93,11 +93,12 @@ function LinkPhone(props) {
             // console.log(credential);
             const res = await auth.currentUser.linkWithCredential(credential);
             const token = await res.user.getIdToken();
+            // console.log(res);
             await axios.post(
                 `${BaseUrl2}/api/users/update-user`,
                 {
                     name: res.user.displayName,
-                    phone: res.user.phoneNumber,
+                    phone: res.user.phoneNumber.replace('+91', ''),
                     email: res.user.email,
                     uid: res.user.uid,
                 },

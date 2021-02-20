@@ -28,11 +28,11 @@ const asyncLocalStorage = {
 };
 export default function Cart(props) {
     // const [cartData, setCartData] = React.useState([]);
-    const { setUVP } = useAuth();
+    const { setUVP, userDat } = useAuth();
     // const [totalPrice, setTotalPrice] = React.useState(0);
     const { cartItems, total, setCart } = useOrder();
     const [loading, setLoading] = useState(false);
-    const { logout } = useAuth();
+    const { logout, currentUser } = useAuth();
 
     // const getQty = React.useCallback(
     //     async ({ id, quantity, price }) => {
@@ -111,13 +111,17 @@ export default function Cart(props) {
     // };
 
     React.useEffect(() => {
-        (async () => {
+        const getUsr = async () => {
+            // console.log(userDat);
             setLoading(true);
-            const d = await asyncLocalStorage.getItem('userData');
-            const userData = await JSON.parse(d);
+
+            let userData = userDat;
+            if (!userData) {
+                const d = await asyncLocalStorage.getItem('userData');
+                userData = await JSON.parse(d);
+            }
             // console.log(userData);
             if (userData) {
-                console.log('ohnnooo');
                 try {
                     const result = await axios.post(
                         `${BaseUrl2}/api/users/cart/get`,
@@ -145,6 +149,7 @@ export default function Cart(props) {
                     }
                 } catch (e) {
                     console.log(e.message);
+                    setLoading(false);
                     if (e.message.includes('401')) {
                         setLoading(false);
                         alert('Cause you not authenticated or your token expired and your safety we logged you out!');
@@ -152,11 +157,13 @@ export default function Cart(props) {
                     }
                 }
             } else {
-                setLoading(false);
+                alert('Cart error!');
                 await logout();
+                setLoading(false);
             }
-        })();
-    }, [setCart, logout, setUVP]);
+        };
+        getUsr();
+    }, [setCart, logout, userDat, setUVP]);
 
     return (
         <>

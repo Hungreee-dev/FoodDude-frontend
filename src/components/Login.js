@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Row, Col, Container, Form, Button, Alert } from 'react-bootstrap';
 import FontAwesome from './common/FontAwesome';
@@ -26,7 +26,7 @@ const asyncLocalStorage = {
 function Login(props) {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login, setCurrentUser, updateCart, signinWithPhone } = useAuth();
+    const { login, currentUser, setCurrentUser, updateCart, signinWithPhone, setUserData } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -87,6 +87,7 @@ function Login(props) {
                 user: result.user,
             };
             await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+            setUserData(userData);
             setCurrentUser(result.user);
             history.push('/');
             updateCart();
@@ -98,36 +99,32 @@ function Login(props) {
     }
 
     const signInWithGoogle = async () => {
-        await auth
-            .signInWithPopup(googleProvider)
-            .then(async (res) => {
-                console.log(res);
-                if (res.additionalUserInfo.isNewUser) {
-                    await auth.currentUser.delete().then(() => {
-                        console.log('User Deleted');
-                    });
-                    alert('Create a account first');
-                    history.push('/register');
-                    return;
-                }
-                await res.user.getIdToken().then(async (token) => {
-                    const userData = {
-                        name: res.user.displayName,
-                        phone: res.user.phoneNumber,
-                        email: res.user.email,
-                        uid: res.user.uid,
-                        token: token,
-                        user: res.user,
-                    };
-                    await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+        try {
+            const res = await auth.signInWithPopup(googleProvider);
+            if (res.additionalUserInfo.isNewUser) {
+                await auth.currentUser.delete().then(() => {
+                    console.log('User Deleted');
                 });
-                updateCart();
-                setCurrentUser(res.user);
-                history.push('/');
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
+                alert('Create a account first');
+                history.push('/register');
+                return;
+            }
+            const token = await res.user.getIdToken();
+            const userData = {
+                name: res.user.displayName,
+                phone: res.user.phoneNumber,
+                email: res.user.email,
+                uid: res.user.uid,
+                token: token,
+                user: res.user,
+            };
+            await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
+            setUserData(userData);
+            setCurrentUser(res.user);
+            history.push('/');
+        } catch (e) {
+            console.log(error.message);
+        }
     };
     const sendOTP = async () => {
         setdisableOTP(Date.now());
@@ -152,7 +149,7 @@ function Login(props) {
                 alert('Please create account first!');
                 history.push('/register');
             } else {
-                alert('logInVendor ERROR', err);
+                alert('OTP Limit reached or network error!', err);
                 console.log(err.body);
             }
         }
@@ -162,7 +159,6 @@ function Login(props) {
         try {
             const res = await window.confirmationResult.confirm(otp);
             const token = await res.user.getIdToken();
-
             const userData = {
                 name: res.user.displayName,
                 phone: res.user.phoneNumber,
@@ -171,8 +167,10 @@ function Login(props) {
                 token: token,
                 user: res.user,
             };
+            console.log(userData);
             await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
-            // console.log(userData);
+            console.log('Done');
+            setUserData(userData);
             setCurrentUser(res.user);
             setWorking(false);
             history.push('/');
@@ -194,6 +192,7 @@ function Login(props) {
     }, [loginWithOTP]);
     return (
         <>
+            {currentUser && <Redirect to="/" />}
             <Container fluid className="food-background">
                 <Row className="rows">
                     <Col md={4} lg={6} className="d-none cols d-md-flex bg-image hidecol">
@@ -270,9 +269,7 @@ py-5alt pl-5 pr-5"
                                                         <Button
                                                             disabled={isMobileInvalid || otp.length < 4 || working}
                                                             className="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase"
-                                                            onClick={async () => {
-                                                                await loginWithPhone();
-                                                            }}
+                                                            onClick={loginWithPhone}
                                                         >
                                                             Sign In With OTP
                                                         </Button>
