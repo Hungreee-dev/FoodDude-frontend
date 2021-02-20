@@ -8,54 +8,110 @@ import TopSearch from './home/TopSearch';
 // import CardItem from './common/CardItem';
 import SectionHeading from './common/SectionHeading';
 import FontAwesome from './common/FontAwesome';
-import Image from '../assets/test.jpg';
 import ReviewCard from './ReviewCard/index';
+import Image1 from '../assets/Bloggers/1.jpg';
+import Image2 from '../assets/Bloggers/2.jpg';
+import Image3 from '../assets/Bloggers/3.jpg';
+import Image4 from '../assets/Bloggers/4.jpg';
+import Image5 from '../assets/Bloggers/5.jpg';
+import Image6 from '../assets/Bloggers/6.jpg';
+import Image7 from '../assets/Bloggers/7.jpg';
+import Image8 from '../assets/Bloggers/8.jpg';
+import Image9 from '../assets/Bloggers/9.jpg';
+import Image10 from '../assets/Bloggers/10.jpg';
+import Image11 from '../assets/Bloggers/11.jpg';
 
 function Index(props) {
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
         setReviews([
             {
-                photoURL: Image,
+                photoURL: Image1,
+                profile_link: 'https://www.instagram.com/ap_fooddiaries/',
                 review:
-                    'Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.',
-                username: 'Robert Smith',
+                    'Biryani - It was really good. It has 4-5 large pieces of chicken. Well cooked, flavourful, aromatic & less oily biryani. Give it a try.👍',
+                username: 'ap_fooddiaries',
+                rating: 4.5,
+            },
+            {
+                photoURL: Image2,
+                profile_link: 'https://www.instagram.com/hungrie_young_man/',
+                review:
+                    '🌟They sent me some of their best dishes which included Chicken Biryani, Chicken Hyderabadi and Mushroom 65. The food came with another package which included paper handkerchief, spoons, sanitizer & ketchup.',
+                username: 'Bhaskar Raha',
+                rating: 4.7,
+            },
+            {
+                photoURL: Image3,
+                profile_link: 'https://www.instagram.com/hunger_triggers',
+                review:
+                    'Had 4 medium-sized chicken pieces. Absolutely my type of Biryani- not so oily, flavourful and enough for 2. CHICKEN MASALA The curry was so good that I had them without any rice or roti 🙈. So creamy and so rich in flavours.iaries',
+                username: 'Banditaaaa',
                 rating: 4.3,
             },
             {
-                photoURL: Image,
+                photoURL: Image4,
+                profile_link: 'https://www.instagram.com/jas_tronomy',
                 review:
-                    'Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.',
-                username: 'Robert Smith',
-                rating: 4.3,
+                    'The Chicken Biryani came with a good quantity and had balanced flavours which was not too spicy(which is loved by many).Chicken Dopiaza had fair amount of pieces. The taste was amazing the way it should be.',
+                username: 'JASTRONOMY',
+                rating: 4.8,
             },
             {
-                photoURL: Image,
+                photoURL: Image5,
+                profile_link: 'https://www.instagram.com/food_and_them_',
                 review:
-                    'Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.',
-                username: 'Robert Smith',
-                rating: 4.3,
+                    'The Biryani Had an Amazing Blend of The Taste and Was Perfectly Flavoured.Chicken Punjabi (Most Recommended) One of the Best Flavoured Gravy Tasted in Recent Time. The Gravy was Creamy and Had a Perfect Amount of Spices.',
+                username: 'Dr. Jagruti',
+                rating: 4.5,
             },
             {
-                photoURL: Image,
+                photoURL: Image6,
+                profile_link: 'https://www.instagram.com/_foodie_me_pratikshya',
                 review:
-                    'Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.',
-                username: 'Robert Smith',
-                rating: 4.3,
+                    'FOOD DUDE has taken an initiative to provide High Quality Food made with utmost Hygiene and Safety . With good quality ingredients and Reasonable Prices Fooddude strives to provide the best for the People in Bhubaneswar .',
+                username: 'Pratikshya Routray',
+                rating: 4.6,
             },
             {
-                photoURL: Image,
+                photoURL: Image7,
+                profile_link: 'https://www.instagram.com/thatfoodieartist',
                 review:
-                    'Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.',
-                username: 'Robert Smith',
-                rating: 4.3,
+                    '🔥Food Dude is an initiative borne out of a gaping hole of quality existing in the online food ordering space right now. Being founded by youngsters like ourselves, It strives to cater to the palette of each and everyone.',
+                username: 'Subhra Saswati',
+                rating: 4.8,
             },
             {
-                photoURL: Image,
+                photoURL: Image8,
+                profile_link: 'https://www.instagram.com/foodishah',
                 review:
-                    'Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city.',
-                username: 'Robert Smith',
-                rating: 4.3,
+                    'Chicken Punjabi was too delicious and plus point was the masala which had perfect flavours to it.Mushroom 65 was delicious and perfect for starter dish. Mushroom was perfectly coated, deep-fried and tempered with curry leaves.',
+                username: 'Foodishah',
+                rating: 4.5,
+            },
+            {
+                photoURL: Image9,
+                profile_link: 'https://www.instagram.com/being_foodie_boy',
+                review:
+                    'Frankly, I found the Biryani to be a regular one. Chicken pieces were soft and succulent. Quantity is sufficient for two people.I personally loved this dish, BLOCKBUSTER DISH. (Highly recommended) ',
+                username: 'THEFOODIEBOY',
+                rating: 4.9,
+            },
+            {
+                photoURL: Image10,
+                profile_link: 'https://www.instagram.com/cravings',
+                review:
+                    'We Food Dude actually packaged each and every item really well. The food was packed in quality containers with their logo on it. The Chicken Biriyani had ample quantity in it, with good chicken pieces.',
+                username: '__.cravings.__',
+                rating: 4.7,
+            },
+            {
+                photoURL: Image11,
+                profile_link: 'https://www.instagram.com/foodies_of_bhubaneswar',
+                review:
+                    'I really loved the chili paneer & chicken Kassa . Perfect match with naan or Roti.And Packaging is too good pre-equiped with sanitizer sachets. Must say tottaly statisfying. ',
+                username: 'Foodies of Bhubaneswar',
+                rating: 4.4,
             },
         ]);
     }, []);
@@ -140,7 +196,7 @@ function Index(props) {
                 <section className="section pt-5 pb-5 products-section">
                     <Container>
                         <SectionHeading
-                            heading="Our Happy Customers!"
+                            heading="FoodBloggers Reviews!"
                             subHeading="All of the smiles in our heart...."
                         />
                         <Row>

@@ -154,6 +154,11 @@
     }
 }
 
+@media(max-width:400px){
+    .contact_card{
+        width: 100%;
+    }
+}
 .contact_card_popups_socio{
     font-size: 24px;
     margin: 0 8px;

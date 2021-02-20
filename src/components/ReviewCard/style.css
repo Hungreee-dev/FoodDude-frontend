@@ -12,8 +12,8 @@
 
 .review_card_user{
     position: relative;
-    width: 120px !important;
-    height:120px !important;
+    width: 100px !important;
+    height:100px !important;
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid #85144b;
@@ -95,7 +95,7 @@
     height: 1px;
     border-radius:4px;
     position: absolute;
-    top: 136px;
+    bottom: -4px;
     margin: 0;
     left: 50%;
     transform: translateX(-50%);

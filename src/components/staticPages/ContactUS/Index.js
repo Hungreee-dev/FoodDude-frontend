@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faPhone, faMobile } from '@fortawesome/free-solid-svg-icons';
 import LocationOffice from '../../../assets/location.jpeg';
 const Index = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [comment, setComment] = useState('');
+    // const [name, setName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [comment, setComment] = useState('');
     return (
         <div className="contact">
             <div className="contact_card shadow">
@@ -24,8 +24,11 @@ const Index = () => {
                             <a href="https://www.linkedin.com/company/70449147/" rel="noreferrer" target="_blank">
                                 <i class="fa fa-linkedin contact_card_popups_socio" aria-hidden="true"></i>
                             </a>
-                            <a href="https://twitter.com/home" rel="noreferrer" target="_blank">
+                            <a href="#" rel="noreferrer" target="_blank">
                                 <i class="fa fa-twitter contact_card_popups_socio" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" rel="noreferrer" target="_blank">
+                                <i class="fa fa-snapchat" aria-hidden="true"></i>
                             </a>
                         </div>
                         <div className="contact_card_popups_detail">
@@ -55,7 +58,7 @@ const Index = () => {
                         <img src={LocationOffice} alt="Office Location" className="contact_card_popups_location" />
                     </div>
                     <div className="contact_card_direct">
-                        <h4 className="contact_card_direct_heading user_select_disable">Leave Us A Comment</h4>
+                        {/* <h4 className="contact_card_direct_heading user_select_disable">Leave Us A Comment</h4>
                         <form action="submit">
                             <div className="contact_card_direct_inputholder">
                                 <input
@@ -101,8 +104,8 @@ const Index = () => {
                             </div>
                             <button disabled={true} type="submit" className="contact_card_direct_submit">
                                 Submit
-                            </button>
-                        </form>
+                            </button> 
+                        </form>*/}
                     </div>
                 </div>
             </div>
