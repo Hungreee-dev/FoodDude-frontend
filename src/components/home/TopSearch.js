@@ -111,7 +111,7 @@ function TopSearch(props) {
                             <OwlCarousel nav loop {...options2} className="homepage-ad owl-theme">
                                 <div className="item">
                                     <ProductBox
-                                        image="/img/slider.png"
+                                        image="/img/slider.webp"
                                         imageClass="img-fluid rounded"
                                         imageAlt="carousel"
                                         linkUrl="detail"
@@ -119,7 +119,7 @@ function TopSearch(props) {
                                 </div>
                                 <div className="item">
                                     <ProductBox
-                                        image="/img/slider1.png"
+                                        image="/img/slider1.webp"
                                         imageClass="img-fluid rounded"
                                         imageAlt="carousel"
                                         linkUrl="detail"
@@ -127,7 +127,7 @@ function TopSearch(props) {
                                 </div>
                                 <div className="item">
                                     <ProductBox
-                                        image="/img/slider2.png"
+                                        image="/img/slider2.webp"
                                         imageClass="img-fluid rounded"
                                         imageAlt="carousel"
                                         linkUrl="detail"
@@ -135,7 +135,7 @@ function TopSearch(props) {
                                 </div>
                                 <div className="item">
                                     <ProductBox
-                                        image="/img/slider3.png"
+                                        image="/img/slider3.webp"
                                         imageClass="img-fluid rounded"
                                         imageAlt="carousel"
                                         linkUrl="detail"
