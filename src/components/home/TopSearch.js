@@ -1,13 +1,9 @@
 import React from 'react';
-// import {Link} from 'react-router-dom';
 import axios from 'axios';
 import { Row, Col, Container, Form, Button } from 'react-bootstrap';
-// import Select2 from 'react-select2-wrapper';
-// import Icofont from 'react-icofont';
 import OwlCarousel from 'react-owl-carousel3';
 import ProductBox from './ProductBox';
 import { auth, phoneProvider } from '../../firebase';
-// import CategoriesCarousel from '../common/CategoriesCarousel';
 import { BaseUrl } from '../../BaseUrl';
 
 function TopSearch(props) {
@@ -23,7 +19,6 @@ function TopSearch(props) {
                     const result = await axios.post(`${BaseUrl}/api/pincode/check`, {
                         Pincode: pincode,
                     });
-                    // console.log(result);
                     if (result.data) {
                         setResData(result.data);
                         setSendingData(false);
@@ -33,7 +28,6 @@ function TopSearch(props) {
                     }
                 } catch (err) {
                     setResData('error');
-                    // console.log(err, 'error');
                     setSendingData(false);
                 }
             };
@@ -77,23 +71,6 @@ function TopSearch(props) {
                                 className="form-noborder"
                             >
                                 <div className="form-row">
-                                    {/* <Form.Group className='col-lg-3 col-md-3 col-sm-12'>
-	                              <div className="location-dropdown">
-	                              	 <Icofont icon='location-arrow'/>
-	                                 <Select2 className="custom-select"
-		                                 data={[
-										    { text: 'Breakfast', id: 1 },
-										    { text: 'Lunch', id: 2 },
-										    { text: 'Dinner', id: 3 },
-										    { text: 'Cafés', id: 4 },
-										    { text: 'Delivery', id: 5 }
-										  ]}
-										  options={{
-										    placeholder: 'Quick Searches',
-										  }}
-	                                 />
-	                              </div>
-	                           </Form.Group> */}
                                     <Form.Group className="col-lg-7 col-md-7 col-sm-12">
                                         <Form.Control
                                             type="number"
@@ -102,7 +79,6 @@ function TopSearch(props) {
                                             size="lg"
                                             ref={pincodeRef}
                                         />
-                                        {/* <Link className="locate-me" to="#"><Icofont icon='ui-pointer'/> Locate Me</Link> */}
                                     </Form.Group>
                                     <Form.Group className="col-lg-2 col-md-2 col-sm-12">
                                         <Button
@@ -129,8 +105,6 @@ function TopSearch(props) {
                                 </h7>
                             )}
                         </div>
-                        {/* <h6 className="mt-4 text-shadow font-weight-normal" style={{color:'whitesmoke'}}s>Beverages, Pizzas, Chines,Indian... Get everything whatever your tummy demands</h6> */}
-                        {/* <CategoriesCarousel /> */}
                     </Col>
                     <Col md={4}>
                         <div className="osahan-slider pl-4 pt-3">
@@ -140,7 +114,7 @@ function TopSearch(props) {
                                         image="/img/slider.png"
                                         imageClass="img-fluid rounded"
                                         imageAlt="carousel"
-                                        linkUrl="listing"
+                                        linkUrl="detail"
                                     />
                                 </div>
                                 <div className="item">
@@ -148,15 +122,23 @@ function TopSearch(props) {
                                         image="/img/slider1.png"
                                         imageClass="img-fluid rounded"
                                         imageAlt="carousel"
-                                        linkUrl="listing"
+                                        linkUrl="detail"
                                     />
                                 </div>
                                 <div className="item">
                                     <ProductBox
-                                        image="/img/slider.png"
+                                        image="/img/slider2.png"
                                         imageClass="img-fluid rounded"
                                         imageAlt="carousel"
-                                        linkUrl="listing"
+                                        linkUrl="detail"
+                                    />
+                                </div>
+                                <div className="item">
+                                    <ProductBox
+                                        image="/img/slider3.png"
+                                        imageClass="img-fluid rounded"
+                                        imageAlt="carousel"
+                                        linkUrl="detail"
                                     />
                                 </div>
                             </OwlCarousel>

@@ -27,8 +27,6 @@ function Footer(props) {
                                 <li>
                                     <Link to="/contact">Contact us</Link>
                                 </li>
-                                {/* <li><Link to="#">Code of Conduct</Link></li>
-								 <li><Link to="#">Follow us on Instagram</Link></li> */}
                             </ul>
                         </div>
                         <div className="cols" md={3} sm={6} xs={6}>
@@ -40,7 +38,6 @@ function Footer(props) {
                                 <li>
                                     <Link to="/terms">Terms of Service</Link>
                                 </li>
-                                {/* <li><Link to="#">Careers</Link></li> */}
                                 <li>
                                     <Link to="/refund">Refund/ Cancellation Policy</Link>
                                 </li>

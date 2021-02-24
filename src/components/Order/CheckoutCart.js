@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
 import CheckoutItem from '../common/CheckoutItem';
 import Icofont from 'react-icofont';
-//import {BaseUrl} from '../BaseUrl'
 
 import { useAuth } from '../../contexts/AuthContext';
 function Cart(props) {
@@ -110,16 +109,12 @@ function Cart(props) {
                     Subtotal : <span className="text-danger">₹{totalPrice}</span>
                 </h6>
                 <p className="seven-color mb-1 text-right">Extra charges may apply</p>
-                {/* <p className="text-black mb-0 text-right">You have saved $955 on the bill</p> */}
             </div>
             <Link to="/checkout" className="btn btn-success btn-block btn-lg">
                 Checkout
                 <Icofont icon="long-arrow-right" />
             </Link>
             <div className="pt-2"></div>
-            {/* <div className="alert alert-success" role="alert">
-      You have saved <strong>$1,884</strong> on the bill
-   </div> */}
             <div className="pt-2"></div>
         </div>
     );

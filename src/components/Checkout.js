@@ -8,6 +8,7 @@ import CheckoutItem from './common/CheckoutItem';
 import AddAddressModal from './modals/AddAddressModal';
 import Icofont from 'react-icofont';
 import Spinner from './Spinner/index';
+import { useAuth } from '../contexts/AuthContext';
 import { useOrder } from '../contexts/OrderContext';
 import { BaseUrl, BaseUrl2 } from '../BaseUrl';
 
@@ -42,8 +43,61 @@ function Checkout(props) {
     const [applyPromocode, setapplyPromocode] = useState('');
     const { cartItems, total, setCart } = useOrder();
     const [loading, setLoading] = useState(false);
+    const { currentUser, logout } = useAuth();
 
-    //RAZORPAY CALL
+    const getQty = React.useCallback(
+        async ({ id, quantity, price }) => {
+            if (!currentUser) {
+                history.push('/login');
+                return;
+            } else {
+                try {
+                    const userData = JSON.parse(localStorage.getItem('userData'));
+                    const item = {
+                        name: id,
+                        quantity: quantity,
+                        price: price,
+                    };
+                    setLoading(true);
+                    await axios.post(
+                        `${BaseUrl2}/api/users/cart/add`,
+                        {
+                            item: item,
+                            uid: userData.uid,
+                        },
+                        {
+                            headers: {
+                                Authorization: userData.token,
+                            },
+                        }
+                    );
+                    let newdata = [...cartItems];
+                    // console.log(newdata);
+                    if (quantity === 0) {
+                        newdata = newdata.filter((ele) => ele.name !== id);
+                    } else {
+                        const index = newdata.findIndex((ele) => ele.name === id);
+                        if (index !== -1) {
+                            newdata[index].quantity = quantity;
+                        } else {
+                            newdata.push(item);
+                        }
+                    }
+                    setCart(newdata);
+                    setLoading(false);
+                } catch (err) {
+                    setLoading(false);
+                    console.log(err.message);
+                    if (err.message.includes('401')) {
+                        setLoading(false);
+                        alert('Cause you not authenticated or your token expired and your safety we logged you out!');
+                        logout();
+                    }
+                }
+            }
+        },
+        [setCart, setLoading, cartItems]
+    );
     async function displayRazorpay() {
         if (orderData.addressData === undefined) {
             setAddressAlert(true);
@@ -242,11 +296,9 @@ function Checkout(props) {
     //CHECK PROMOCODE
 
     React.useEffect(() => {
-        // console.log('uid');
         if (checkingPromocode) {
             setpromoPercentage(0);
             setPromocodeMssg('');
-            //   console.log(uid)
             const promocodeString = promocodeRef.current.value;
             const fetchData = async () => {
                 try {
@@ -265,9 +317,6 @@ function Checkout(props) {
                     );
                     setLoading(false);
                     setPromocodeMssg(result.data);
-                    // console.log(result.data);
-                    // //if Promocode is valid
-                    // console.log(result.data.error);
 
                     if (result.data.error === false) {
                         setLoading(false);
@@ -308,7 +357,6 @@ function Checkout(props) {
         setAddressAlert(false);
     };
 
-    //For Cash Payment
     async function cashPay() {
         const discount = total - discountPrice;
         const totalAmount = discountPrice + 49;
@@ -402,7 +450,6 @@ function Checkout(props) {
         <>
             {loading && <Spinner />}
             <section className="offer-dedicated-body  pt-2 pb-2 food-background">
-                {/* <Header/> */}
                 <AddAddressModal show={addressModal} onHide={hideAddressModal} isUpdated={isUpdated} />
                 <Container>
                     <Row>
@@ -490,9 +537,8 @@ function Checkout(props) {
                                                 key={item.name}
                                                 qty={item.quantity}
                                                 show={true}
-                                                getValue={() => {
-                                                    /*getQty*/
-                                                }}
+                                                rights={true}
+                                                getValue={getQty}
                                             />
                                         );
                                     })}
@@ -566,10 +612,6 @@ function Checkout(props) {
                                     <Icofont icon="long-arrow-right" />
                                 </Button>
                             </div>
-
-                            {/*
-						Cash Payment Confirmation modal and address Alert modal
-					*/}
                             <Modal
                                 id="cashModal"
                                 show={cashOrder}
@@ -605,7 +647,6 @@ function Checkout(props) {
                         </Col>
                     </Row>
                 </Container>
-                {/* <Footer /> */}
             </section>
         </>
     );

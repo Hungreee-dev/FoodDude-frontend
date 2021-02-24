@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { NavLink, Link, useHistory } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown, Image, Badge } from 'react-bootstrap';
 import DropDownTitle from '../common/DropDownTitle';
@@ -25,7 +24,6 @@ function Header(props) {
     const { logout, currentUser, setCurrentUser, verifiedPhone } = useAuth();
     const history = useHistory();
     const [error, setError] = React.useState('');
-    //const userData=JSON.parse(localStorage.getItem('userData'))
 
     React.useEffect(() => {
         (async () => {
@@ -35,7 +33,6 @@ function Header(props) {
         })();
     }, []);
 
-    //   const [showSignOutModal,setSignOutModal]=React.useState(false)
     const setIsNavExpanded = () => {
         setNavExpanded(true);
     };
@@ -45,9 +42,7 @@ function Header(props) {
 
     const handleClick = (e) => {
         if (node.contains(e.target)) {
-            // if clicked inside menu do something
         } else {
-            // If clicked outside menu, close the navbar.
             setNavExpanded(false);
         }
     };
@@ -88,31 +83,9 @@ function Header(props) {
                                 <Nav.Link eventKey={0} as={NavLink} activeclassname="active" exact to="/">
                                     Home <span className="sr-only">(current)</span>
                                 </Nav.Link>
-                                {
-                                    //This is the Offers Nav-Link-- Commented Out
-                                    /* <Nav.Link eventKey={1} as={NavLink} activeclassname="active" to="/offers">
-             				<Icofont icon='sale-discount'/> Offers <Badge variant="danger">New</Badge>
-			            </Nav.Link> */
-                                }
-
                                 <Nav.Link eventKey={0} as={NavLink} activeclassname="active" exact to="/detail">
                                     Make an Order <span className="sr-only">(current)</span>
                                 </Nav.Link>
-                                {/* <NavDropdown title="Restaurants" alignRight className="border-0">
-							{ // This is the Listing Nav-Link Commented out
-							/* <NavDropdown.Item eventKey={2.1} as={NavLink} activeclassname="active" to="/listing">Listing</NavDropdown.Item> }
-			            	<NavDropdown.Item eventKey={2.2} as={NavLink} activeclassname="active" to="/detail">Detail + Cart</NavDropdown.Item>
-			            	{currentUser?<NavDropdown.Item eventKey={2.3} as={NavLink} activeclassname="active" to="/checkout">Checkout</NavDropdown.Item>:null}
-			            </NavDropdown> */}
-                                {/* <NavDropdown title="Pages" alignRight>
-			            	<NavDropdown.Item eventKey={3.1} as={NavLink} activeclassname="active" to="/track-order">Track Order</NavDropdown.Item>
-			            	<NavDropdown.Item eventKey={3.2} as={NavLink} activeclassname="active" to="/invoice">Invoice</NavDropdown.Item>
-			            	<NavDropdown.Item eventKey={3.3} as={NavLink} activeclassname="active" to="/login">Login</NavDropdown.Item>
-			            	<NavDropdown.Item eventKey={3.4} as={NavLink} activeclassname="active" to="/register">Register</NavDropdown.Item>
-			            	<NavDropdown.Item eventKey={3.5} as={NavLink} activeclassname="active" to="/404">404</NavDropdown.Item>
-			            	<NavDropdown.Item eventKey={3.6} as={NavLink} activeclassname="active" to="/extra">Extra</NavDropdown.Item>
-
-			            </NavDropdown> */}
                                 {currentUser ? (
                                     <NavDropdown
                                         alignRight
@@ -142,8 +115,6 @@ function Header(props) {
                                         >
                                             <Icofont icon="sale-discount" /> Offers
                                         </NavDropdown.Item>
-                                        {/* <NavDropdown.Item eventKey={4.3} as={NavLink} activeclassname="active" to="/myaccount/favourites"><Icofont icon='heart'/> Favourites</NavDropdown.Item>
-							<NavDropdown.Item eventKey={4.4} as={NavLink} activeclassname="active" to="/myaccount/payments"><Icofont icon='credit-card'/> Payments</NavDropdown.Item> */}
                                         <NavDropdown.Item
                                             eventKey={4.5}
                                             as={NavLink}
@@ -169,7 +140,6 @@ function Header(props) {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                {/* <SignOutModal show={showSignOutModal} onHide={hideSignOutModal}/> */}
             </div>
         </>
     );

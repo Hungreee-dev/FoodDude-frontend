@@ -33,9 +33,8 @@ function Offers(props) {
                     </Col>
 
                     {promoData.map((item) => {
-                        // console.log(item.Percentage);
                         var promotitle = 'Get ' + item.Percentage + '% off';
-                        // console.log(promoData);
+
                         return (
                             <Col md={6}>
                                 <CouponCard

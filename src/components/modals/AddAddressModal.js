@@ -87,23 +87,6 @@ export default function AddAddressModal(props) {
                                 <Form.Control type="number" placeholder="Pincode" ref={pincodeRef} />
                             </InputGroup>
                         </Form.Group>
-
-                        {/* <Form.Group className="mb-0 col-md-12">
-                   <Form.Label>Nickname</Form.Label>
-                   <ButtonToolbar>
-                      <ToggleButtonGroup className="d-flex w-100" type="radio" name="options" defaultValue={1}>
-    							    <ToggleButton variant='info' value={1}>
-    							      Home
-    							    </ToggleButton>
-    							    <ToggleButton variant='info' value={2}>
-    							      Work
-    							    </ToggleButton>
-    							    <ToggleButton variant='info' value={3}>
-    							      Other
-    							    </ToggleButton>
-        					    </ToggleButtonGroup>
-    						  </ButtonToolbar>
-                </Form.Group> */}
                     </div>
                 </Form>
             </Modal.Body>

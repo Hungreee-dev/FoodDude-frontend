@@ -12,16 +12,9 @@ function QuickBite(props) {
     const [quantity, setQuantity] = React.useState(cartItems.find((ele) => ele.name === props.title)?.quantity);
     const max = props.maxValue || 5;
     const min = props.minValue || 0;
-    // const show = props.show || true
     const price = props.price;
     const history = useHistory();
-    //   state = {
-    //     quantity: props.qty || 0,
-    //     show: props.show || true,
-    //     max:props.maxValue || 5,
-    //     min:props.minValue || 0
-    //   };
-    // }
+    
     useEffect(() => {
         setQuantity(cartItems.find((ele) => ele.name === props.title)?.quantity);
     }, [cartItems, props.title]);

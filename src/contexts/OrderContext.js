@@ -9,7 +9,6 @@ export function useOrder() {
 export function OrderProvider({ children }) {
     const [cartItems, setCartItems] = useState([]);
     const [total, setTotal] = useState(0);
-    // console.log('Cart Updated!', cartItems);
     const setCart = useCallback((items) => {
         console.log('Cart updated');
         setCartItems(items);

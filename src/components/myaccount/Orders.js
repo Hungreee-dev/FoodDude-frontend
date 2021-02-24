@@ -28,8 +28,6 @@ function Orders() {
                     });
 
                 if (result.data) {
-                    // console.log(Object.prototype.toString.call(result.data));
-                    //  console.log(result.data);
                     setOrderData(result.data);
                     setdataRecieved(true);
                     setLoading(false);
