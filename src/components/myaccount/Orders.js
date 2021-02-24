@@ -67,7 +67,7 @@ function Orders() {
                             address.state;
                     }
                     var Status = item.orderStatus;
-                    console.log(Status);
+
                     var orderproducts = '';
                     for (var i = 0; i < orderItem.length; i++) {
                         orderproducts += orderItem[i].name + 'x' + orderItem[i].quantity + ',';
