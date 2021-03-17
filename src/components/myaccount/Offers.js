@@ -33,10 +33,13 @@ function Offers(props) {
                     </Col>
 
                     {promoData.map((item) => {
+                        console.log(item.Percentage);
+                        var promotitle = "Get "+item.Percentage+ "% off";
+                        console.log(promoData);
                         return (
-                            <Col md={6}>
+                            <Col md={6}>                                
                                 <CouponCard
-                                    title="Get 50% OFF on your first osahan eat order"
+                                    title= {promotitle}
                                     logoImage="img/bank/1.png"
                                     subTitle={item.Description}
                                     copyBtnText="COPY CODE"

@@ -75,6 +75,7 @@ export function AuthProvider({ children }) {
         return auth.signInWithPhoneNumber(phoneNumber, verifier);
     }
 
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user != null && currentUser) {
@@ -83,6 +84,7 @@ export function AuthProvider({ children }) {
             }
             setLoading(false);
         });
+
 
         return unsubscribe;
     }, []);
