@@ -294,14 +294,18 @@ function Checkout(props) {
                         setapplyPromocode(promocodeString);
                         //here is changing the discount price
                         const amt = (parseInt(total) * percent) / 100;
+                        const pr = total-amt;
 
-                        setdiscountPrice(amt);
+                        setdiscountPrice(pr);
+                    }else{
+                        setLoading(false);
+                    setdiscountPrice(total);
+                    setPromocodeMssg({ message: 'Not Available' });
                     }
+                        
                 } catch (err) {
                     //restoring the total
-                    setLoading(false);
-                    setdiscountPrice(0);
-                    setPromocodeMssg({ message: 'Not Available' });
+                    
                 }
             };
             fetchData();
