@@ -13,7 +13,7 @@ function AboutUs(props) {
                                 class="blockquote blockquote-custom  p-5 shadow rounded"
                                 style={{ background: 'white' }}
                             >
-                                <SectionHeading heading="Refund/Cancellation Policy" subHeading="" />
+                                <SectionHeading heading="Terms of Service" subHeading="" />
                                 <div class="mb-0 mt-2" style={{ fontSize: '16px', color: 'black' }}>
                                     <div>
                                         <p>

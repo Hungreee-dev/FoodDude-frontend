@@ -3,20 +3,6 @@ import { Form, Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 function EditProfileModal(props) {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    // const onUpdateHandler = async()=>{
-    // 	await axios.post(
-    // 		`${BaseUrl2}/api/user/update-user`,
-    // 		{
-    // 			name: res.user.displayName,
-    // 			phone: res.user.phoneNumber,
-    // 			email: res.user.email,
-    // 			uid: res.user.uid,
-    // 		},
-    // 		{
-    // 			headers: { Authorization: token },
-    // 		}
-    // 	);
-    // }
     return (
         <Modal show={props.show} onHide={props.onHide} size="sm" centered>
             <Modal.Header closeButton={true}>

@@ -7,15 +7,17 @@ import * as serviceWorker from './serviceWorker';
 import SEO from './HOC/seo';
 
 ReactDOM.render(
-    <Router>
+    <>
         <SEO
             title="FoodDude"
             lang="en-US"
             description="Fooddude provides you the best food ranging from several cuisines from the best kitchens throughout the city. We assure you of satisfying your palette minus the food colours and unnecessary oil."
-            meta={[]}
+            meta={[{ property: 'title', content: 'fooddude' }]}
         />
-        <Route path="/" component={App} />
-    </Router>,
+        <Router>
+            <Route path="/" component={App} />
+        </Router>
+    </>,
     document.getElementById('root')
 );
 

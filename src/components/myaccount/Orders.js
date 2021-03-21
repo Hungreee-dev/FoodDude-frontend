@@ -28,26 +28,18 @@ function Orders() {
                     });
 
                 if (result.data) {
-                    // console.log(Object.prototype.toString.call(result.data));
-                    //  console.log(result.data);
                     setOrderData(result.data);
                     setdataRecieved(true);
                     setLoading(false);
-                    console.log(uid);
                 } else {
                     setLoading(false);
-                    console.log('error');
                 }
             };
             fetchData();
         } catch (err) {
             setLoading(false);
-            console.log(err);
         }
     }, [dataRecieved]);
-    {
-        console.log(dataRecieved);
-    }
 
     if (orderData !== null || orderData !== undefined || dataRecieved === true) {
         return (
@@ -75,7 +67,7 @@ function Orders() {
                             address.state;
                     }
                     var Status = item.orderStatus;
-                    console.log(Status);
+
                     var orderproducts = '';
                     for (var i = 0; i < orderItem.length; i++) {
                         orderproducts += orderItem[i].name + 'x' + orderItem[i].quantity + ',';

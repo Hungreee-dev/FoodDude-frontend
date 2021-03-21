@@ -18,7 +18,6 @@ function Addresses() {
 
     React.useEffect(() => {
         try {
-            console.log(uid);
             const fetchData = async () => {
                 const result = await axios.post(
                     `${BaseUrl2}/api/users/address/get-all`,
@@ -31,7 +30,6 @@ function Addresses() {
                 );
 
                 if (result.data) {
-                    console.log(result.data);
                     setAddressData(result.data);
                     setRecievedData(true);
                 } else {

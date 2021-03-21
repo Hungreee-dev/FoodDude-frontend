@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import {
@@ -18,8 +18,8 @@ import ChooseAddressCard from "./common/ChooseAddressCard";
 import CheckoutItem from "./common/CheckoutItem";
 import AddAddressModal from "./modals/AddAddressModal";
 import Icofont from "react-icofont";
-// import { useAuth } from '../contexts/AuthContext';
 import Spinner from "./Spinner/index";
+import { useAuth } from "../contexts/AuthContext";
 import { useOrder } from "../contexts/OrderContext";
 import { BaseUrl, BaseUrl2 } from "../BaseUrl";
 
@@ -40,14 +40,6 @@ function loadScript(src) {
 function Checkout(props) {
   const history = useHistory();
   const [addressModal, showAddressModal] = React.useState(false);
-
-  // const [recievedData, setRecievedData] = React.useState(false);
-  // const [addressId, setAddressId] = React.useState('');
-  // const [cartData, setCartData] = React.useState([]);
-  // const [totalPrice, total1] = React.useState(0);
-  // const [recievedData2, setRecievedData2] = React.useState(false);
-  // const [cartItem, setCartItem] = React.useState();
-  // const { cartUpdated, updateCart } = useAuth();
   const promocodeRef = React.useRef();
   const [promocodeMssg, setPromocodeMssg] = React.useState("");
   const [AddressData, setAddressData] = React.useState([]);
@@ -59,13 +51,77 @@ function Checkout(props) {
   const [checkingPromocode, setCheckingPromocode] = React.useState(false);
   const [cashOrder, setcashOrder] = useState(false);
   const [promoPercentage, setpromoPercentage] = useState(0);
-  const [discountPrice, setdiscountPrice] = useState(0);
   const [addressAlert, setAddressAlert] = useState(false);
   const [applyPromocode, setapplyPromocode] = useState("");
   const { cartItems, total, setCart } = useOrder();
+  const [discountPrice, setdiscountPrice] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { currentUser, logout } = useAuth();
 
-  //RAZORPAY CALL
+  const getQty = React.useCallback(
+    async ({ id, quantity, price }) => {
+      if (!currentUser) {
+        history.push("/login");
+        return;
+      } else {
+        try {
+          const userData = JSON.parse(localStorage.getItem("userData"));
+          const item = {
+            name: id,
+            quantity: quantity,
+            price: price,
+          };
+          setLoading(true);
+          await axios.post(
+            `${BaseUrl2}/api/users/cart/add`,
+            {
+              item: item,
+              uid: userData.uid,
+            },
+            {
+              headers: {
+                Authorization: userData.token,
+              },
+            }
+          );
+          let newdata = [...cartItems];
+          // console.log(newdata);
+          if (quantity === 0) {
+            newdata = newdata.filter((ele) => ele.name !== id);
+          } else {
+            const index = newdata.findIndex((ele) => ele.name === id);
+            if (index !== -1) {
+              const oldq = newdata[index].quantity;
+              newdata[index].quantity = quantity;
+              if (oldq < quantity) {
+              } else if (oldq > quantity) {
+              }
+            } else {
+              newdata.push(item);
+            }
+          }
+          setCart(newdata);
+
+          setOrderData((order) => ({
+            ...order,
+            cartItems: newdata,
+          }));
+          setLoading(false);
+        } catch (err) {
+          setLoading(false);
+          console.log(err.message);
+          if (err.message.includes("401")) {
+            setLoading(false);
+            alert(
+              "Cause you not authenticated or your token expired and your safety we logged you out!"
+            );
+            logout();
+          }
+        }
+      }
+    },
+    [setCart, setLoading, cartItems]
+  );
   async function displayRazorpay() {
     if (orderData.addressData === undefined) {
       setAddressAlert(true);
@@ -80,8 +136,8 @@ function Checkout(props) {
         alert("Razorpay SDK failed to load. Are you online?");
         return;
       }
-      const discount = total - discountPrice;
-      const totalAmount = discountPrice + 49;
+      const discount = discountPrice;
+      const totalAmount = total - discountPrice + 49;
       const data = await fetch(`${BaseUrl2}/api/payment/razorpay`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: token },
@@ -92,8 +148,6 @@ function Checkout(props) {
         }),
       }).then((t) => t.json());
       setLoading(false);
-
-      // console.log(data);
 
       const options = {
         key: process.env.REACT_APP_RAZORPAY_API_KEY,
@@ -106,7 +160,7 @@ function Checkout(props) {
         handler: async function (response) {
           const newdate = new Date();
           setLoading(true);
-          setCart([]);
+
           await axios
             .post(
               `${BaseUrl}/api/order/add`,
@@ -134,9 +188,6 @@ function Checkout(props) {
                 headers: { Authorization: token },
               }
             )
-            .then((t) => {
-              // console.log(t);
-            })
             .catch((err) => {
               console.log(err.response);
             });
@@ -153,6 +204,8 @@ function Checkout(props) {
             .catch((err) => {
               console.log(err.response);
             });
+          setCart([]);
+          setdiscountPrice(0);
           await axios
             .post(
               `${BaseUrl2}/api/users/add-order-id`,
@@ -169,6 +222,7 @@ function Checkout(props) {
             })
             .catch((err) => {
               console.log(err.response);
+              history.push("./thanks");
             });
           // console.log(response)
           // alert(response.razorpay_payment_id)
@@ -225,82 +279,12 @@ function Checkout(props) {
       console.log(err);
     }
   }, [updated]);
-
-  //CART CALL
-  React.useEffect(() => {
-    try {
-      if (uid) {
-        const fetchData = async () => {
-          const result = await axios.post(
-            `${BaseUrl2}/api/users/cart/get`,
-            {
-              uid: uid,
-            },
-            {
-              headers: { Authorization: token },
-            }
-          );
-
-          if (result.data) {
-            let tprice = 0;
-            setCart(result.data);
-            for (let item of result.data) {
-              tprice += item.quantity * item.price;
-
-              setdiscountPrice(tprice);
-            }
-
-            setOrderData((order) => ({
-              ...order,
-              cartItems: result.data,
-            }));
-            // setRecievedData2(true);
-          } else {
-            console.log("error");
-          }
-        };
-
-        fetchData();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  //UPDATING CART
-
-  // const ()=>{getQty} = async ({ id, quantity, price }) => {
-  //     const item = {
-  //         name: id,
-  //         quantity: quantity,
-  //         price: price,
-  //     };
-
-  //     const result = await axios.post(
-  //         `${BaseUrl2}/api/users/cart/add`,
-  //         {
-  //             item: item,
-  //             uid: uid,
-  //         },
-  //         {
-  //             headers: {
-  //                 Authorization: token,
-  //             },
-  //         }
-  //     );
-  //     if (result) {
-  //         updateCart();
-  //     }
-  // };
-
   //CHECK PROMOCODE
 
   React.useEffect(() => {
-    console.log("uid");
     if (checkingPromocode) {
       setpromoPercentage(0);
       setPromocodeMssg("");
-      //   console.log(uid)
       const promocodeString = promocodeRef.current.value;
       const fetchData = async () => {
         try {
@@ -309,7 +293,7 @@ function Checkout(props) {
             `${BaseUrl2}/api/promocode/check-promocode`,
             {
               uid: uid,
-              promocode: promocodeString,
+              promocode: promocodeString.toUpperCase(),
             },
             {
               headers: {
@@ -319,9 +303,6 @@ function Checkout(props) {
           );
           setLoading(false);
           setPromocodeMssg(result.data);
-          // console.log(result.data);
-          // //if Promocode is valid
-          console.log(result.data);
 
           if (result.data.error === false) {
             setLoading(false);
@@ -331,15 +312,15 @@ function Checkout(props) {
             //here is changing the discount price
             const amt = (parseInt(total) * percent) / 100;
             const pr = total - amt;
+
             setdiscountPrice(pr);
           } else {
-            //restoring the total
             setLoading(false);
             setdiscountPrice(total);
             setPromocodeMssg({ message: "Not Available" });
           }
         } catch (err) {
-          console.log(err);
+          //restoring the total
         }
       };
       fetchData();
@@ -351,8 +332,6 @@ function Checkout(props) {
 
   //for Hide and show Modal on click pay
   const cashorder = () => {
-    // console.log('addresss');
-    // console.log(orderData.addressData);
     if (orderData.addressData !== undefined) {
       setAddressAlert(false);
       setcashOrder(true);
@@ -366,12 +345,9 @@ function Checkout(props) {
     setAddressAlert(false);
   };
 
-  //For Cash Payment
   async function cashPay() {
-    console.log(uid);
-
-    const discount = total - discountPrice;
-    const totalAmount = discountPrice + 49;
+    const discount = discountPrice;
+    const totalAmount = total - discount + 49;
     try {
       setLoading(true);
       const resdata = await fetch(`${BaseUrl2}/api/payment/razorpay`, {
@@ -413,13 +389,6 @@ function Checkout(props) {
               headers: { Authorization: token },
             }
           )
-          .then((t) => {
-            // console.log(t.data);
-            // if (t) {
-            //     setLoading(true);
-            //     history.push('./thanks');
-            // }
-          })
           .catch((err) => {
             console.log(err.response);
           });
@@ -436,6 +405,7 @@ function Checkout(props) {
           )
           .then((res) => {
             setCart([]);
+            setdiscountPrice(0);
           })
           .catch((err) => {
             console.log(err.response);
@@ -452,6 +422,7 @@ function Checkout(props) {
             }
           )
           .then((res) => {
+            setLoading(false);
             history.push("./thanks");
           })
           .catch((err) => {
@@ -460,7 +431,6 @@ function Checkout(props) {
       } else {
       }
     } catch (err) {
-      console.log(err);
       setLoading(false);
     }
   }
@@ -469,7 +439,6 @@ function Checkout(props) {
     <>
       {loading && <Spinner />}
       <section className="offer-dedicated-body  pt-2 pb-2 food-background">
-        {/* <Header/> */}
         <AddAddressModal
           show={addressModal}
           onHide={hideAddressModal}
@@ -567,9 +536,8 @@ function Checkout(props) {
                         key={item.name}
                         qty={item.quantity}
                         show={true}
-                        getValue={() => {
-                          /*getQty*/
-                        }}
+                        rights={true}
+                        getValue={getQty}
                       />
                     );
                   })}
@@ -630,7 +598,9 @@ function Checkout(props) {
                   <hr />
                   <h6 className="font-weight-bold mb-0">
                     TO PAY{" "}
-                    <span className="float-right">₹{discountPrice + 49}</span>
+                    <span className="float-right">
+                      ₹{total - discountPrice + 49}
+                    </span>
                   </h6>
                 </div>
                 <Button
@@ -640,7 +610,7 @@ function Checkout(props) {
                   onClick={cashorder}
                 >
                   Cash On Delivery
-                  <Icofont icon="icofont-rupee" /> ₹{discountPrice + 49}{" "}
+                  <Icofont icon="icofont-rupee" /> ₹{total - discountPrice + 49}{" "}
                   <Icofont icon="long-arrow-right" />
                 </Button>
                 <Button
@@ -651,14 +621,10 @@ function Checkout(props) {
                   }}
                   className="btn btn-block btn-lg"
                 >
-                  Pay Now ₹{discountPrice + 49}
+                  Pay Now ₹{total - discountPrice + 49}
                   <Icofont icon="long-arrow-right" />
                 </Button>
               </div>
-
-              {/*
-						Cash Payment Confirmation modal and address Alert modal
-					*/}
               <Modal
                 id="cashModal"
                 show={cashOrder}
@@ -705,7 +671,6 @@ function Checkout(props) {
             </Col>
           </Row>
         </Container>
-        {/* <Footer /> */}
       </section>
     </>
   );

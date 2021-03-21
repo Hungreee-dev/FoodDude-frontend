@@ -5,29 +5,24 @@ import Icofont from 'react-icofont';
 
 function CheckoutItem(props) {
     const [quantity, setQuantity] = React.useState(props.qty);
-    // const max = props.maxValue || 5;
-    // const min = props.minValue || 0;
-    // const [show, setShow] = React.useState(props.show || true);
-    // const price = props.price;
+    const max = props.maxValue || 5;
+    const min = props.minValue || 0;
 
-    // const IncrementItem = () => {
-    //     if (quantity >= max) {
-    //     } else {
-    //         // setQuantity(quantity+1)
-    //         props.getValue({ id: props.id, quantity: quantity + 1, price: price });
-    //     }
-    // };
-    // const DecreaseItem = () => {
-    //     if (quantity <= min) {
-    //     } else {
-    //         // setQuantity(quantity-1)
-    //         props.getValue({ id: props.id, quantity: quantity - 1, price: price });
-    //     }
-    // };
+    const price = props.price;
 
-    // const ToggleClick = () => {
-    //     setShow(!show);
-    // };
+    const IncrementItem = () => {
+        if (quantity >= max) {
+        } else {
+            props.getValue({ id: props.id, quantity: quantity + 1, price: price });
+        }
+    };
+    const DecreaseItem = () => {
+        if (quantity <= min) {
+        } else {
+            props.getValue({ id: props.id, quantity: quantity - 1, price: price });
+        }
+    };
+
     React.useEffect(() => {
         setQuantity(props.qty);
     }, [setQuantity, props.qty]);
@@ -40,25 +35,29 @@ function CheckoutItem(props) {
                 {parseInt(props.price) * quantity}
             </p>
             <span className="count-number float-right">
-                {/* <Button
-                    disabled={props.diabled}
-                    variant="outline-secondary"
-                    onClick={DecreaseItem}
-                    className="btn-sm left dec"
-                >
-                    {' '}
-                    [{' '}
-                </Button> */}
+                {props.rights && (
+                    <Button
+                        disabled={props.diabled}
+                        variant="outline-secondary"
+                        onClick={DecreaseItem}
+                        className="btn-sm left dec"
+                    >
+                        {' '}
+                        -{' '}
+                    </Button>
+                )}
                 <input className="count-number-input" type="number" value={quantity} readOnly />
-                {/* <Button
-                    disabled={props.diabled}
-                    variant="outline-secondary"
-                    onClick={IncrementItem}
-                    className="btn-sm right inc"
-                >
-                    {' '}
-                    ]{' '}
-                </Button> */}
+                {props.rights && (
+                    <Button
+                        disabled={props.diabled}
+                        variant="outline-secondary"
+                        onClick={IncrementItem}
+                        className="btn-sm right inc"
+                    >
+                        {' '}
+                        +{' '}
+                    </Button>
+                )}
             </span>
             <div className="media">
                 <div className="mr-2">

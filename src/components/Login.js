@@ -68,7 +68,6 @@ function Login(props) {
             setLoading(true);
             const result = await login(emailRef.current.value, passwordRef.current.value);
             const token = await result.user.getIdToken();
-            // console.log(token)
             const res = await axios.post(
                 `${BaseUrl}/api/user/getDetails`,
                 {
@@ -123,7 +122,7 @@ function Login(props) {
             setCurrentUser(res.user);
             history.push('/');
         } catch (e) {
-            console.log(error.message);
+            setError('Failed to log in');
         }
     };
     const sendOTP = async () => {
@@ -150,8 +149,8 @@ function Login(props) {
                 history.push('/register');
             } else {
                 alert('OTP Limit reached or network error!', err);
-                console.log(err.body);
             }
+            setError('Failed to log in');
         }
     };
     const loginWithPhone = async () => {
@@ -167,9 +166,9 @@ function Login(props) {
                 token: token,
                 user: res.user,
             };
-            console.log(userData);
+
             await asyncLocalStorage.setItem('userData', JSON.stringify(userData));
-            console.log('Done');
+
             setUserData(userData);
             setCurrentUser(res.user);
             setWorking(false);

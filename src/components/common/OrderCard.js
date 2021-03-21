@@ -6,15 +6,15 @@ import Spinner from '../Spinner/index';
 import Icofont from 'react-icofont';
 import axios from 'axios';
 import { BaseUrl, BaseUrl2 } from '../../BaseUrl';
+import { useOrder } from '../../contexts/OrderContext';
 const { uid, token } = JSON.parse(localStorage.getItem('userData'));
 
 function OrderCard(props) {
     const history = useHistory();
     const [deliveryStatus, setDeliveryStatus] = useState('');
     const [loading, setLoading] = useState(false);
+    const { setCart } = useOrder();
     React.useEffect(() => {
-        console.log(props.deliveredDate);
-        console.log(typeof props.deliveredDate);
         if (props.deliveredDate === 0) setDeliveryStatus('Processing');
         else if (props.deliveredDate === 1) setDeliveryStatus('On the Way');
         else if (props.deliveredDate === 2) setDeliveryStatus('Delivered');
@@ -34,8 +34,6 @@ function OrderCard(props) {
             )
             .then(async (res) => {
                 if (res.success !== false) {
-                    console.log(res.data.items);
-
                     await axios
                         .post(
                             `${BaseUrl2}/api/users/cart/delete`,
@@ -67,9 +65,11 @@ function OrderCard(props) {
                             .catch((err) => {
                                 console.log(err);
                                 setLoading(false);
+                                alert('Something Fishy Happend Please reload!');
                             });
                     });
                     await Promise.all(allItems);
+                    setCart(res.data.items);
                     console.log('item has been inserted into cart');
                     setLoading(false);
                     history.push('../checkout');
@@ -139,6 +139,6 @@ OrderCard.propTypes = {
     orderProducts: PropTypes.string.isRequired,
     helpLink: PropTypes.string.isRequired,
     detailLink: PropTypes.string.isRequired,
-    orderTotal: PropTypes.string.isRequired,
+    orderTotal: PropTypes.number.isRequired,
 };
 export default OrderCard;

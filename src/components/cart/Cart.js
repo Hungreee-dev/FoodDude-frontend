@@ -27,88 +27,10 @@ const asyncLocalStorage = {
     },
 };
 export default function Cart(props) {
-    // const [cartData, setCartData] = React.useState([]);
     const { setUVP, userDat } = useAuth();
-    // const [totalPrice, setTotalPrice] = React.useState(0);
     const { cartItems, total, setCart } = useOrder();
     const [loading, setLoading] = useState(false);
     const { logout, currentUser } = useAuth();
-
-    // const getQty = React.useCallback(
-    //     async ({ id, quantity, price }) => {
-    //         try {
-    //             const userData = JSON.parse(localStorage.getItem('userData'));
-
-    //             const item = {
-    //                 name: id,
-    //                 quantity: quantity,
-    //                 price: price,
-    //             };
-    //             // console.log(item);
-    //             setLoading(true);
-    //             await axios.post(
-    //                 `${BaseUrl2}/api/users/cart/add`,
-    //                 {
-    //                     item: item,
-    //                     uid: userData.uid,
-    //                 },
-    //                 {
-    //                     headers: {
-    //                         Authorization: userData.token,
-    //                     },
-    //                 }
-    //             );
-    //             let newdata = [...cartItems];
-    //             // console.log(newdata);
-    //             if (quantity === 0) {
-    //                 newdata = newdata.filter((ele) => ele.name !== id);
-    //             } else {
-    //                 const index = newdata.findIndex((ele) => ele.name === id);
-    //                 if (index !== -1) {
-    //                     newdata[index].quantity = quantity;
-    //                 } else {
-    //                     newdata.push(item);
-    //                 }
-    //             }
-
-    //             setCart(newdata);
-    //             setLoading(false);
-    //         } catch (err) {
-    //             // console.log(err);
-    //             setLoading(false);
-    //             console.log(err.message);
-    //             if (err.message.includes('401')) {
-    //                 setLoading(false);
-    //                 alert('Cause you not authenticated or your token expired and your safety we logged you out!');
-    //                 logout();
-    //             }
-    //         }
-    //     },
-    //     [setCart, setLoading, cartItems]
-    // );
-
-    // const IncrementItem = (quantity, max, price) => {
-    //     if (!max) {
-    //         max = 5;
-    //     }
-    //     if (quantity >= max) {
-    //     } else {
-    //         // setQuantity(quantity+1)
-    //         console.log(quantity + 1);
-    //         getQty({ id: props.id, quantity: quantity + 1, price: price });
-    //     }
-    // };
-    // const DecreaseItem = (quantity, min, price) => {
-    //     if (!min) {
-    //         min = 0;
-    //     }
-    //     if (quantity <= min || 0) {
-    //     } else {
-    //         // setQuantity(quantity-1)
-    //         console.log(quantity - 1);
-    //         getQty({ id: props.id, quantity: quantity - 1, price: price });
-    //     }
-    // };
 
     React.useEffect(() => {
         const getUsr = async () => {
@@ -120,7 +42,6 @@ export default function Cart(props) {
                 const d = await asyncLocalStorage.getItem('userData');
                 userData = await JSON.parse(d);
             }
-            // console.log(userData);
             if (userData) {
                 try {
                     const result = await axios.post(
@@ -132,8 +53,6 @@ export default function Cart(props) {
                             headers: { Authorization: userData.token },
                         }
                     );
-                    // console.log(result);
-                    // console.log(result);
                     if (result === undefined || result.data === undefined) {
                         // console.log('error');
                         setLoading(false);

@@ -72,7 +72,11 @@ export default function EditAddressModal(props) {
                         <Form.Group className="col-md-12">
                             <Form.Label>City</Form.Label>
                             <InputGroup>
+<<<<<<< HEAD
                                 <Form.Control type="text" readOnly value="Bhubaneswar"  ref={cityRef} />
+=======
+                                <Form.Control type="text" readOnly value="Bhubaneswar" ref={cityRef} />
+>>>>>>> f4b0f440d84156b2641ce1966a162ab452c30d64
                             </InputGroup>
                         </Form.Group>
                         <Form.Group className="col-md-12">

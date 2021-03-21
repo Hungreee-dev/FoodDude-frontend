@@ -1,9 +1,0 @@
-<Button
-                                            disabled={sendingData}
-                                            onClick={() => {
-                                                auth.currentUser.linkWithPopup(phoneProvider);
-                                            }}
-                                            className="btn btn-primary btn-block btn-lg "
-                                        >
-                                            Link Phone
-                                        </Button>

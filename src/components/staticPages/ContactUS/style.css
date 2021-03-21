@@ -106,7 +106,7 @@
 
 .contact_card_direct_inputholder-2 > textarea{
     resize: none;
-    width: 100%;height: 200px;outline: none;
+    width: max-content;height: 200px;outline: none;
     border: none;
     background-color:#F2F2F2;padding:10px;
     margin: 8px 0;border-radius:8px;
@@ -154,6 +154,16 @@
     }
 }
 
+@media(max-width:400px){
+    .contact_card{
+        width: 100%;
+    }
+    .contact_card_details{
+        padding: 0;
+    }.contact_card_popups{
+        padding: 10px;
+    }
+}
 .contact_card_popups_socio{
     font-size: 24px;
     margin: 0 8px;

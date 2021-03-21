@@ -1,20 +1,10 @@
 import React from 'react';
-// import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
 import CheckoutItem from '../common/CheckoutItem';
 import Icofont from 'react-icofont';
-
-// import { BaseUrl2 } from '../../BaseUrl';
-// import { useAuth } from '../../contexts/AuthContext';
 import { useOrder } from '../../contexts/OrderContext';
-//import {BaseUrl} from '../BaseUrl'
 function Cart(props) {
-    // const [cartData, setCartData] = React.useState([]);
-    // const [totalPrice, setTotalPrice] = React.useState(0);
-    // const [recievedData, setRecievedData] = React.useState(false);
-    // const { cartUpdated, updateCart } = useAuth();
-    // const [cartItem, setCartItem] = React.useState();
     const { cartItems, total } = useOrder();
 
     return (
@@ -38,7 +28,7 @@ function Cart(props) {
                                     item.name.toLowerCase().includes('mutton')
                                 }
                                 show={true}
-                                diabled={true}
+                                rights={false}
                                 getValue={() => {}}
                                 key={item.name}
                             />
@@ -51,16 +41,12 @@ function Cart(props) {
                         Subtotal : <span className="text-danger">₹{total}</span>
                     </h6>
                     <p className="seven-color mb-1 text-right">Extra charges may apply</p>
-                    {/* <p className="text-black mb-0 text-right">You have saved $955 on the bill</p> */}
                 </div>
                 <Link to="/checkout" className="btn btn-success btn-block btn-lg">
                     Checkout
                     <Icofont icon="long-arrow-right" />
                 </Link>
                 <div className="pt-2"></div>
-                {/* <div className="alert alert-success" role="alert">
-      You have saved <strong>$1,884</strong> on the bill
-   </div> */}
                 <div className="pt-2"></div>
             </div>
         </>

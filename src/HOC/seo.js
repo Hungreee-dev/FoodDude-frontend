@@ -43,7 +43,23 @@ function SEO({ description, lang, meta, title }) {
                 },
                 {
                     property: `og:type`,
-                    content: `website`,
+                    content: `https://fooddude.in`,
+                },
+                {
+                    name: `twitter:card`,
+                    content: `foodude a food providing orgnisation in bhubnaeshwar.`,
+                },
+                {
+                    name: `twitter:creator`,
+                    content: `https://twitter.com/wefooddude`,
+                },
+                {
+                    name: `twitter:title`,
+                    content: title,
+                },
+                {
+                    name: `twitter:description`,
+                    content: description,
                 },
             ].concat(meta)}
         />

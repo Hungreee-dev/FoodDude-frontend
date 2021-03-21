@@ -1,10 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-// import { Link } from 'react-router-dom';
 import { Row, Col, Container, Tab, Image, Badge } from 'react-bootstrap';
 import ItemsCarousel from '../common/ItemsCarousel';
-// import GalleryCarousel from './common/GalleryCarousel';
-// import CheckoutItem from '../common/CheckoutItem';
 import BestSeller from '../common/BestSeller';
 import QuickBite from '../common/QuickBite';
 import Cart from './Cart';
@@ -37,14 +34,7 @@ function Detail(props) {
         }
     }, []);
 
-    const getQty = ({ id, quantity }) => {
-        //console.log(id);
-        //console.log(quantity);
-    };
-    // const getStarValue = ({value}) => {
-    // 	console.log(value);
-    // 	//console.log(quantity);
-    // }
+    const getQty = () => {};
 
     let MenuData = <></>;
     if (recievedData) {
