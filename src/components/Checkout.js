@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import {
@@ -41,6 +41,7 @@ function Checkout(props) {
   const history = useHistory();
   const [addressModal, showAddressModal] = React.useState(false);
   const promocodeRef = React.useRef();
+  const [promoApply, setpromoApply] = useState(false);
   const [promocodeMssg, setPromocodeMssg] = React.useState("");
   const [AddressData, setAddressData] = React.useState([]);
   const { uid, token, name, email, phone } = JSON.parse(
@@ -48,7 +49,6 @@ function Checkout(props) {
   );
   const [updated, isUpdated] = React.useState();
   const [orderData, setOrderData] = React.useState({});
-  const [checkingPromocode, setCheckingPromocode] = React.useState(false);
   const [cashOrder, setcashOrder] = useState(false);
   const [promoPercentage, setpromoPercentage] = useState(0);
   const [addressAlert, setAddressAlert] = useState(false);
@@ -57,6 +57,7 @@ function Checkout(props) {
   const [discountPrice, setdiscountPrice] = useState(0);
   const [loading, setLoading] = useState(false);
   const { currentUser, logout } = useAuth();
+  const [promoReturn, setpromoReturn] = useState(false);
 
   const getQty = React.useCallback(
     async ({ id, quantity, price }) => {
@@ -122,132 +123,171 @@ function Checkout(props) {
     },
     [setCart, setLoading, cartItems]
   );
+
+  async function onlinePayment() {
+    setLoading(true);
+
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      setLoading(false);
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+    const discount = discountPrice;
+    const totalAmount = total - discountPrice + 49;
+    const data = await fetch(`${BaseUrl2}/api/payment/razorpay`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: token },
+      body: JSON.stringify({
+        type: 1,
+        uid: uid,
+        price: totalAmount,
+      }),
+    }).then((t) => t.json());
+    setLoading(false);
+
+    const options = {
+      key: process.env.REACT_APP_RAZORPAY_API_KEY,
+      currency: data.currency,
+      amount: data.amount.toString(),
+      order_id: data.id,
+      name: "Food Order",
+      description: "Thank you for nothing. Please give us some money",
+      image: "/img/logo-fd-round.png",
+      handler: async function (response) {
+        const newdate = new Date();
+        setLoading(true);
+
+        await axios
+          .post(
+            `${BaseUrl}/api/order/add`,
+            {
+              userId: uid,
+              Address: orderData.addressData,
+              items: cartItems,
+              billing: {
+                baseprice: total,
+                discount: discount,
+                deliveryCharge: 49,
+                finalAmount: totalAmount,
+                promocode: applyPromocode,
+                orderTime: {
+                  timestamp: newdate.getTime(),
+                },
+                paymentMethod: "ONLINE",
+              },
+              orderStatus: 0,
+              paymentId: response.razorpay_payment_id,
+              id: response.razorpay_order_id,
+              RazorpaySignature: response.razorpay_signature,
+            },
+            {
+              headers: { Authorization: token },
+            }
+          )
+          .catch((err) => {
+            console.log(err.response);
+          });
+        await axios
+          .post(
+            `${BaseUrl2}/api/users/cart/delete`,
+            {
+              uid: uid,
+            },
+            {
+              headers: { Authorization: token },
+            }
+          )
+          .catch((err) => {
+            console.log(err.response);
+          });
+        setCart([]);
+        setdiscountPrice(0);
+        await axios
+          .post(
+            `${BaseUrl2}/api/users/add-order-id`,
+            {
+              uid: uid,
+              orderId: response.razorpay_order_id,
+            },
+            {
+              headers: { Authorization: token },
+            }
+          )
+          .then((t) => {
+            history.push("./thanks");
+          })
+          .catch((err) => {
+            console.log(err.response);
+            history.push("./thanks");
+          });
+        // console.log(response)
+        // alert(response.razorpay_payment_id)
+        // alert(response.razorpay_order_id)
+        // alert(response.razorpay_signature)
+      },
+
+      prefill: {
+        name: name,
+        email: email,
+        phone_number: phone,
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+
+    // document.getElementsByClassName("modal-close").addEventListener('click',()=>{
+    // 	console.log("cliked");
+    // })
+    paymentObject.on("payment.failed", function (response) {
+      // console.log(response);
+      setLoading(true);
+      history.push("./failed");
+      // console.log('Payment failed');
+    });
+  }
+
   async function displayRazorpay() {
     if (orderData.addressData === undefined) {
       setAddressAlert(true);
     } else {
-      setLoading(true);
-      const res = await loadScript(
-        "https://checkout.razorpay.com/v1/checkout.js"
-      );
-
-      if (!res) {
-        setLoading(false);
-        alert("Razorpay SDK failed to load. Are you online?");
-        return;
-      }
-      const discount = discountPrice;
-      const totalAmount = total - discountPrice + 49;
-      const data = await fetch(`${BaseUrl2}/api/payment/razorpay`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: token },
-        body: JSON.stringify({
-          type: 1,
-          uid: uid,
-          price: totalAmount,
-        }),
-      }).then((t) => t.json());
-      setLoading(false);
-
-      const options = {
-        key: process.env.REACT_APP_RAZORPAY_API_KEY,
-        currency: data.currency,
-        amount: data.amount.toString(),
-        order_id: data.id,
-        name: "Food Order",
-        description: "Thank you for nothing. Please give us some money",
-        image: "/img/logo-fd-round.png",
-        handler: async function (response) {
-          const newdate = new Date();
-          setLoading(true);
-
-          await axios
-            .post(
-              `${BaseUrl}/api/order/add`,
-              {
-                userId: uid,
-                Address: orderData.addressData,
-                items: orderData.cartItems,
-                billing: {
-                  baseprice: total,
-                  discount: discount,
-                  deliveryCharge: 49,
-                  finalAmount: totalAmount,
-                  promocode: applyPromocode,
-                  orderTime: {
-                    timestamp: newdate.getTime(),
-                  },
-                  paymentMethod: "ONLINE",
-                },
-                orderStatus: 0,
-                paymentId: response.razorpay_payment_id,
-                id: response.razorpay_order_id,
-                RazorpaySignature: response.razorpay_signature,
-              },
-              {
-                headers: { Authorization: token },
-              }
-            )
-            .catch((err) => {
-              console.log(err.response);
-            });
-          await axios
-            .post(
-              `${BaseUrl2}/api/users/cart/delete`,
-              {
-                uid: uid,
-              },
-              {
-                headers: { Authorization: token },
-              }
-            )
-            .catch((err) => {
-              console.log(err.response);
-            });
-          setCart([]);
-          setdiscountPrice(0);
-          await axios
-            .post(
-              `${BaseUrl2}/api/users/add-order-id`,
-              {
-                uid: uid,
-                orderId: response.razorpay_order_id,
-              },
-              {
-                headers: { Authorization: token },
-              }
-            )
-            .then((t) => {
-              history.push("./thanks");
-            })
-            .catch((err) => {
-              console.log(err.response);
-              history.push("./thanks");
-            });
-          // console.log(response)
-          // alert(response.razorpay_payment_id)
-          // alert(response.razorpay_order_id)
-          // alert(response.razorpay_signature)
-        },
-
-        prefill: {
-          name: name,
-          email: email,
-          phone_number: phone,
-        },
-      };
-
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-      // document.getElementsByClassName("modal-close").addEventListener('click',()=>{
-      // 	console.log("cliked");
-      // })
-      paymentObject.on("payment.failed", function (response) {
-        // console.log(response);
+      if (promoApply === true) {
         setLoading(true);
-        history.push("./failed");
-        // console.log('Payment failed');
-      });
+        const promocodeString = promocodeRef.current.value;
+        await axios
+          .post(
+            `${BaseUrl2}/api/promocode/avail-promocode`,
+            {
+              uid: uid,
+              promocode: promocodeString,
+            },
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          )
+          .then(async (res) => {
+            console.log(res);
+            console.log(res.data);
+
+            if (res.data.error === true) {
+              alert(res.data.message);
+              setdiscountPrice(0);
+              setpromoApply(false);
+              setPromocodeMssg({ message: "Not Available" });
+              setLoading(false);
+              setpromoReturn(true);
+            } else {
+              await onlinePayment();
+            }
+          });
+      } else {
+        await onlinePayment();
+      }
     }
   }
 
@@ -278,60 +318,63 @@ function Checkout(props) {
       setLoading(false);
       console.log(err);
     }
-  }, [updated]);
+  }, [updated, promoReturn]);
+
   //CHECK PROMOCODE
-
-  React.useEffect(() => {
-    if (checkingPromocode) {
-      setpromoPercentage(0);
-      setPromocodeMssg("");
-      const promocodeString = promocodeRef.current.value;
-      const fetchData = async () => {
-        try {
-          setLoading(true);
-          const result = await axios.post(
-            `${BaseUrl2}/api/promocode/check-promocode`,
-            {
-              uid: uid,
-              promocode: promocodeString.toUpperCase(),
+  const checkPromocode = () => {
+    setpromoPercentage(0);
+    setPromocodeMssg("");
+    const promocodeString = promocodeRef.current.value;
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const result = await axios.post(
+          `${BaseUrl2}/api/promocode/check-promocode`,
+          {
+            uid: uid,
+            promocode: promocodeString,
+          },
+          {
+            headers: {
+              Authorization: token,
             },
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
-          setLoading(false);
-          setPromocodeMssg(result.data);
-
-          if (result.data.error === false) {
-            setLoading(false);
-            const percent = result.data.promocode.Percentage;
-            setpromoPercentage(percent);
-            setapplyPromocode(promocodeString);
-            //here is changing the discount price
-            const amt = (parseInt(total) * percent) / 100;
-            const pr = total - amt;
-
-            setdiscountPrice(pr);
-          } else {
-            setLoading(false);
-            setdiscountPrice(total);
-            setPromocodeMssg({ message: "Not Available" });
           }
-        } catch (err) {
-          //restoring the total
+        );
+        setLoading(false);
+        setPromocodeMssg(result.data);
+
+        if (result.data.error === false) {
+          setLoading(false);
+          const percent = result.data.promocode.Percentage;
+          setpromoPercentage(percent);
+          setapplyPromocode(promocodeString);
+
+          //here is changing the discount price
+          const amt = (parseInt(total) * percent) / 100;
+          setpromoApply(true);
+          setdiscountPrice(amt);
+        } else {
+          setpromoApply(false);
+          setLoading(false);
+          setdiscountPrice(0);
+          setPromocodeMssg({ message: "Not Available" });
         }
-      };
-      fetchData();
-      setCheckingPromocode(false);
-    }
-  }, [checkingPromocode]);
+      } catch (err) {
+        setpromoApply(false);
+        setLoading(false);
+        //restoring the total
+        console.log(err);
+      }
+    };
+    fetchData();
+  };
 
   const hideAddressModal = () => showAddressModal(false);
 
   //for Hide and show Modal on click pay
-  const cashorder = () => {
+  const cashorder = async () => {
+    //applying the promocode here
+    console.log(uid);
     if (orderData.addressData !== undefined) {
       setAddressAlert(false);
       setcashOrder(true);
@@ -340,25 +383,31 @@ function Checkout(props) {
       setAddressAlert(true);
     }
   };
+
   const cancelcashOrder = () => {
     setcashOrder(false);
     setAddressAlert(false);
   };
 
-  async function cashPay() {
+  async function cashpayment() {
     const discount = discountPrice;
     const totalAmount = total - discount + 49;
+
     try {
       setLoading(true);
       const resdata = await fetch(`${BaseUrl2}/api/payment/razorpay`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: token },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
         body: JSON.stringify({
           type: 0,
           uid: uid,
           price: totalAmount,
         }),
       }).then((res) => res.json());
+
       setLoading(false);
       if (resdata.error === false) {
         setLoading(true);
@@ -370,7 +419,7 @@ function Checkout(props) {
             {
               userId: uid,
               Address: orderData.addressData,
-              items: orderData.cartItems,
+              items: cartItems,
               billing: {
                 baseprice: total,
                 discount: discount,
@@ -428,10 +477,46 @@ function Checkout(props) {
           .catch((err) => {
             console.log(err.response);
           });
-      } else {
       }
     } catch (err) {
       setLoading(false);
+    }
+  }
+
+  async function cashPay() {
+    if (promoApply === true) {
+      setLoading(true);
+      const promocodeString = promocodeRef.current.value;
+      await axios
+        .post(
+          `${BaseUrl2}/api/promocode/avail-promocode`,
+          {
+            uid: uid,
+            promocode: promocodeString,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then(async (res) => {
+          console.log(res);
+          console.log(res.data);
+
+          if (res.data.error === true) {
+            alert(res.data.message);
+            setdiscountPrice(0);
+            setpromoApply(false);
+            setPromocodeMssg({ message: "Not Available" });
+            setLoading(false);
+            setpromoReturn(true);
+          } else {
+            cashpayment();
+          }
+        });
+    } else {
+      cashpayment();
     }
   }
 
@@ -553,12 +638,10 @@ function Checkout(props) {
                       <Button
                         variant="primary"
                         type="button"
-                        onClick={() => {
-                          setCheckingPromocode(true);
-                        }}
+                        onClick={checkPromocode}
                         id="button-addon2"
                       >
-                        <Icofont icon="sale-discount" /> APPLY
+                        <Icofont icon="sale-discount" /> CHECK
                       </Button>
                     </InputGroup.Append>
                   </InputGroup>
@@ -574,7 +657,7 @@ function Checkout(props) {
                   <p className="mb-1">
                     Discount%{" "}
                     <span className="float-right text-dark">
-                      ₹{total * (promoPercentage / 100)}
+                      ₹{discountPrice}
                     </span>
                   </p>
                   <p className="mb-1">
@@ -603,10 +686,14 @@ function Checkout(props) {
                     </span>
                   </h6>
                 </div>
+                <h6 className="text-center text-white m-0 p-0">
+                  Apply Promocode And
+                </h6>
+                <br />
                 <Button
                   disabled={cartItems.length <= 0}
                   variant="warning"
-                  className="btn btn-block btn-lg"
+                  className="btn btn-block btn-lg mt-0"
                   onClick={cashorder}
                 >
                   Cash On Delivery
@@ -639,7 +726,7 @@ function Checkout(props) {
                 </Modal.Header>
                 <Modal.Body class="my-3 text-center">
                   <h4 class="mt-3 mb-2">
-                    Cash On Delivery ₹{discountPrice + 49}
+                    Cash On Delivery ₹{total - discountPrice + 49}
                   </h4>
                   <button
                     class="btn btn-success p-3 m-4 rounded-pill"
