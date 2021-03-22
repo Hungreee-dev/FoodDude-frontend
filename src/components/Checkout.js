@@ -641,7 +641,7 @@ function Checkout(props) {
                         onClick={checkPromocode}
                         id="button-addon2"
                       >
-                        <Icofont icon="sale-discount" /> CHECK
+                        <Icofont icon="sale-discount" /> APPLY
                       </Button>
                     </InputGroup.Append>
                   </InputGroup>
