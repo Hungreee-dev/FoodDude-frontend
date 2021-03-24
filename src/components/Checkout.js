@@ -58,7 +58,7 @@ function Checkout(props) {
   const [loading, setLoading] = useState(false);
   const { currentUser, logout } = useAuth();
   const [promoReturn, setpromoReturn] = useState(false);
-
+  const [promoApplying, setpromoApplying] = useState("none");
   const getQty = React.useCallback(
     async ({ id, quantity, price }) => {
       if (!currentUser) {
@@ -255,6 +255,7 @@ function Checkout(props) {
       setAddressAlert(true);
     } else {
       if (promoApply === true) {
+        setpromoApplying("block");
         setLoading(true);
         const promocodeString = promocodeRef.current.value;
         await axios
@@ -271,9 +272,7 @@ function Checkout(props) {
             }
           )
           .then(async (res) => {
-            console.log(res);
-            console.log(res.data);
-
+            setpromoApplying("none");
             if (res.data.error === true) {
               alert(res.data.message);
               setdiscountPrice(0);
@@ -374,7 +373,7 @@ function Checkout(props) {
   //for Hide and show Modal on click pay
   const cashorder = async () => {
     //applying the promocode here
-    console.log(uid);
+
     if (orderData.addressData !== undefined) {
       setAddressAlert(false);
       setcashOrder(true);
@@ -501,9 +500,6 @@ function Checkout(props) {
           }
         )
         .then(async (res) => {
-          console.log(res);
-          console.log(res.data);
-
           if (res.data.error === true) {
             alert(res.data.message);
             setdiscountPrice(0);
@@ -686,10 +682,19 @@ function Checkout(props) {
                     </span>
                   </h6>
                 </div>
-                <h6 className="text-center text-white m-0 p-0">
-                  Apply Promocode And
-                </h6>
-                <br />
+                <p className="mx-3 text-white text-center">
+                  Note : Promocode will apply a moment you start payment
+                  procedure
+                </p>
+                <p
+                  className="text-white   text-center p-0"
+                  style={{
+                    display: promoApplying,
+                    fontSize: "12px",
+                  }}
+                >
+                  Applying Promocode...
+                </p>
                 <Button
                   disabled={cartItems.length <= 0}
                   variant="warning"
